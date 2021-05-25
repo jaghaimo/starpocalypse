@@ -1,1 +1,13 @@
-{}
+{
+    "id": "starpocalypse",
+    "name": "Starsector Apocalypse",
+    "author": "Jaghaimo",
+    "utility": true,
+    "version": "1.0.0",
+    "description": "Starsector Apocalypse - fortresses and scarcity",
+    "gameVersion": "0.95a-RC15",
+    "modPlugin": "starpocalypse.StarpocalypseMod",
+    "jars": [
+        "starpocalypse.jar"
+    ]
+}
