@@ -19,12 +19,12 @@ public class MarketHardener {
     }
 
     private boolean canModify(MarketAPI market) {
-        return !market.isHidden();
+        return !market.isHidden() && !Factions.PLAYER.equals(market.getFactionId());
     }
 
-    private void addMissing(MarketAPI market, String industryId, String... upgrades) {
+    private void addMissing(MarketAPI market, String industryId, String... blockingIndustries) {
         boolean hasIndustry = market.hasIndustry(industryId);
-        for (String upgrade : upgrades) {
+        for (String upgrade : blockingIndustries) {
             hasIndustry = hasIndustry || market.hasIndustry(upgrade);
         }
         if (!hasIndustry) {
