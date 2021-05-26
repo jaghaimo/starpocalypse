@@ -27,7 +27,7 @@ public class MarketHardener {
         for (String upgrade : upgrades) {
             hasIndustry = hasIndustry || market.hasIndustry(upgrade);
         }
-        if (hasIndustry) {
+        if (!hasIndustry) {
             market.addIndustry(industryId);
         }
     }
