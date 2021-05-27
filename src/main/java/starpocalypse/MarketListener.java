@@ -87,6 +87,7 @@ public class MarketListener implements ColonyInteractionListener {
 
     private boolean canModify(SubmarketAPI submarket) {
         SubmarketPlugin plugin = submarket.getPlugin();
+        plugin.updateCargoPrePlayerInteraction();
         return plugin.isOpenMarket() || plugin.isBlackMarket();
     }
 
