@@ -15,18 +15,23 @@ public class Whitelist extends FileReader {
 
     private final Set<String> whitelist = new HashSet<>();
 
+    public Whitelist() {
+        load();
+    }
+
     public boolean has(String faction) {
         return whitelist.contains(faction);
     }
 
-    protected void load() throws JSONException, IOException {
+    @Override
+    protected void loadData() throws JSONException, IOException {
         JSONArray rawData = readCsv("faction", "whitelist.csv");
-        log.debug("Reading whitelist.csv:");
+        log.info("Reading whitelist.csv:");
         for (int i = 0; i < rawData.length(); i++) {
             JSONObject rawLine = rawData.getJSONObject(i);
             String station = rawLine.getString("faction");
             whitelist.add(station);
-            log.debug("> " + station);
+            log.info("> " + station);
         }
     }
 }

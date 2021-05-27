@@ -30,15 +30,15 @@ public class MarketHardenerListener implements EconomyTickListener {
                 log.info("> Skipping non-whitelisted market " + market.getName());
                 continue;
             }
-            if (market.isHidden()) {
-                log.info("> Skipping hidden market " + market.getName());
-                continue;
-            }
             addMissing(
                     market,
                     Industries.GROUNDDEFENSES,
                     Industries.GROUNDDEFENSES, Industries.HEAVYBATTERIES
             );
+            if (market.isHidden()) {
+                log.info("> Skipping hidden market " + market.getName());
+                continue;
+            }
             addMissing(
                     market,
                     Industries.PATROLHQ,

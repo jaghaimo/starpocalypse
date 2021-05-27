@@ -15,6 +15,10 @@ public class FactionStations extends FileReader {
 
     private Map<String, String> factionStations = new HashMap<>();
 
+    public FactionStations() {
+        load();
+    }
+
     public String get(String faction) {
         return factionStations.get(faction);
     }
@@ -24,15 +28,15 @@ public class FactionStations extends FileReader {
     }
 
     @Override
-    protected void load() throws JSONException, IOException {
+    protected void loadData() throws JSONException, IOException {
         JSONArray rawData = readCsv("faction", "factionStations.csv");
-        log.debug("Reading factionStations.csv:");
+        log.info("Reading factionStations.csv:");
         for (int i = 0; i < rawData.length(); i++) {
             JSONObject rawLine = rawData.getJSONObject(i);
             String faction = rawLine.getString("faction");
             String station = rawLine.getString("station");
             factionStations.put(faction, station);
-            log.debug("> " + faction + " gets " + station);
+            log.info("> " + faction + " gets " + station);
         }
     }
 }

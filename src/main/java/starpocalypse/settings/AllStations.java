@@ -15,18 +15,23 @@ public class AllStations extends FileReader {
 
     private final List<String> allStations = new LinkedList<>();
 
+    public AllStations() {
+        load();
+    }
+
     public String[] getAll() {
         return allStations.toArray(new String[0]);
     }
 
-    protected void load() throws JSONException, IOException {
+    @Override
+    protected void loadData() throws JSONException, IOException {
         JSONArray rawData = readCsv("stations", "allStations.csv");
-        log.debug("Reading allStations.csv:");
+        log.info("Reading allStations.csv:");
         for (int i = 0; i < rawData.length(); i++) {
             JSONObject rawLine = rawData.getJSONObject(i);
             String station = rawLine.getString("station");
             allStations.add(station);
-            log.debug("> " + station);
+            log.info("> " + station);
         }
     }
 }
