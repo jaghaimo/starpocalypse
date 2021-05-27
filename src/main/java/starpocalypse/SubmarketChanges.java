@@ -51,11 +51,11 @@ public class SubmarketChanges implements ColonyInteractionListener {
 
     private boolean canModify(MarketAPI market) {
         if (!whitelist.has(market.getFactionId())) {
-            log.info("> Ignoring non-whitelisted market");
+            log.info("> Skipping non-whitelisted market");
             return false;
         }
         if (market.isHidden()) {
-            log.info("> Ignoring hidden market");
+            log.info("> Skipping hidden market");
             return false;
         }
         return true;
@@ -70,7 +70,7 @@ public class SubmarketChanges implements ColonyInteractionListener {
 
     private void processSubmarket(SubmarketAPI submarket) {
         if (!canModify(submarket)) {
-            log.info(">> Ignoring submarket");
+            log.info(">> Skipping submarket");
             return;
         }
         log.info(">> Modifying submarket");
