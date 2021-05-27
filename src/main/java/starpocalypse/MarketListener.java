@@ -6,10 +6,11 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CargoStackAPI;
 import com.fs.starfarer.api.campaign.FleetDataAPI;
+import com.fs.starfarer.api.campaign.PlayerMarketTransaction;
 import com.fs.starfarer.api.campaign.SubmarketPlugin;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
-import com.fs.starfarer.api.campaign.listeners.SubmarketInteractionListener;
+import com.fs.starfarer.api.campaign.listeners.ColonyInteractionListener;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.DModManager;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
@@ -19,21 +20,32 @@ import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class SubmarketListener implements SubmarketInteractionListener {
+public class MarketListener implements ColonyInteractionListener {
 
-    public SubmarketListener() {
+    public MarketListener() {
         Global.getSector().getListenerManager().addListener(this, true);
     }
 
     @Override
-    public void reportPlayerOpenedSubmarket(SubmarketAPI submarket, SubmarketInteractionType type) {
-        MarketAPI market = submarket.getMarket();
+    public void reportPlayerOpenedMarket(MarketAPI market) {
         log.info("Processing market " + market.getName());
         if (!canModify(market)) {
             return;
 
         }
         processSubmarkets(market);
+    }
+
+    @Override
+    public void reportPlayerClosedMarket(MarketAPI market) {
+    }
+
+    @Override
+    public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {
+    }
+
+    @Override
+    public void reportPlayerMarketTransaction(PlayerMarketTransaction transaction) {
     }
 
     private void processSubmarkets(MarketAPI market) {
