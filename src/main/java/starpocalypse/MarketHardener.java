@@ -2,61 +2,66 @@ package starpocalypse;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
-import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
 
+import lombok.extern.log4j.Log4j;
+import starpocalypse.settings.AllStations;
+import starpocalypse.settings.FactionStations;
+
+@Log4j
 public class MarketHardener {
+
+    private AllStations allStations = new AllStations();
+    private FactionStations factionStations = new FactionStations();
 
     public MarketHardener() {
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
-            if (!canModify(market)) {
+            log.info("Processing " + market.getName());
+            if (market.isPlayerOwned()) {
+                log.info("> Skipping player market " + market.getName());
                 continue;
             }
-            addMissing(market, Industries.PATROLHQ);
-            addMissing(market, Industries.GROUNDDEFENSES, Industries.HEAVYBATTERIES);
+            addMissing(
+                    market,
+                    Industries.GROUNDDEFENSES,
+                    Industries.GROUNDDEFENSES, Industries.HEAVYBATTERIES
+            );
+            if (market.isHidden()) {
+                log.info("> Skipping hidden market " + market.getName());
+                continue;
+            }
+            addMissing(
+                    market,
+                    Industries.PATROLHQ,
+                    Industries.PATROLHQ, Industries.MILITARYBASE, Industries.HIGHCOMMAND
+            );
             addMissingStation(market);
         }
     }
 
-    private boolean canModify(MarketAPI market) {
-        return !market.isHidden() && !Factions.PLAYER.equals(market.getFactionId());
-    }
-
     private void addMissing(MarketAPI market, String industryId, String... blockingIndustries) {
-        boolean hasIndustry = market.hasIndustry(industryId);
-        for (String upgrade : blockingIndustries) {
-            hasIndustry = hasIndustry || market.hasIndustry(upgrade);
-        }
-        if (!hasIndustry) {
+        if (!hasIndustry(market, blockingIndustries)) {
+            log.info("> Adding " + industryId + " to " + market.getName());
             market.addIndustry(industryId);
         }
     }
 
     private void addMissingStation(MarketAPI market) {
-        String station = "";
-        String[] stations = {
-                Industries.ORBITALSTATION, Industries.BATTLESTATION, Industries.STARFORTRESS,
-                Industries.ORBITALSTATION_MID, Industries.BATTLESTATION_MID, Industries.STARFORTRESS_MID,
-                Industries.ORBITALSTATION_HIGH, Industries.BATTLESTATION_HIGH, Industries.STARFORTRESS_HIGH,
-        };
-        switch (market.getFactionId()) {
-        case Factions.HEGEMONY:
-        case Factions.LUDDIC_CHURCH:
-        case Factions.LUDDIC_PATH:
-        case Factions.PIRATES:
-            station = Industries.ORBITALSTATION;
-            break;
-        case Factions.DIKTAT:
-        case Factions.INDEPENDENT:
-        case Factions.PERSEAN:
-            station = Industries.ORBITALSTATION_MID;
-            break;
-        case Factions.TRITACHYON:
-            station = Industries.ORBITALSTATION_HIGH;
-            break;
+        String factionId = market.getFactionId();
+        if (!factionStations.has(factionId)) {
+            log.warn("> No station entry for " + factionId);
+            return;
         }
-        if (!station.isEmpty()) {
-            addMissing(market, station, stations);
+        addMissing(market, factionStations.get(factionId), allStations.getAll());
+    }
+
+    private boolean hasIndustry(MarketAPI market, String... blockingIndustries) {
+        for (String blocker : blockingIndustries) {
+            if (market.hasIndustry(blocker)) {
+                log.info("> Market " + market.getName() + " already has " + blocker);
+                return true;
+            }
         }
+        return false;
     }
 }
