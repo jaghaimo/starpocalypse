@@ -7,8 +7,9 @@ This minimod changes markets and submarkets work.
 
 ## Implementation details
 
-1. Ignore player owned markets altogether (do nothing).
-1. Add Ground Defenses to all non-player markets.
-1. Addtionally, add Orbiting Stations and Patrol HQ to all non-player, non-hidden markets that did not have them, or did not have any of their upgrades.
+1. Ignore player owned markets altogether (do nothing). This also means autonomous colonies from Nexerelin.
+1. Add Ground Defenses to all non-player markets, raider bases included.
+1. Addtionally, add Orbiting Station and Patrol HQ to all non-player, non-hidden markets that did not have them, or did not have any of their upgrades...
+1. And make sure that the above two are met throughout your playthrough.
 1. Remove all combat ships, weapons, and LPCs from open and black markets if it is not a pirate or luddic path market, and...
-1. Add all removed (if any) weapons and LPCs to Military Market, if there is one.
+1. Add all removed  weapons and LPCs to Military Market, if there is one.
