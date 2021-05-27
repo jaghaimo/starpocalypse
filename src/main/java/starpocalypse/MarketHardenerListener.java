@@ -2,23 +2,32 @@ package starpocalypse;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
+import com.fs.starfarer.api.campaign.listeners.EconomyTickListener;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
 
 import lombok.extern.log4j.Log4j;
 import starpocalypse.settings.AllStations;
 import starpocalypse.settings.FactionStations;
+import starpocalypse.settings.Whitelist;
 
 @Log4j
-public class MarketHardener {
+public class MarketHardenerListener implements EconomyTickListener {
 
     private AllStations allStations = new AllStations();
     private FactionStations factionStations = new FactionStations();
+    private Whitelist whitelist = new Whitelist();
 
-    public MarketHardener() {
+    public MarketHardenerListener() {
+        Global.getSector().getListenerManager().addListener(this, true);
+        reportEconomyTick(0);
+    }
+
+    @Override
+    public void reportEconomyTick(int iterIndex) {
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
             log.info("Processing " + market.getName());
-            if (market.isPlayerOwned()) {
-                log.info("> Skipping player market " + market.getName());
+            if (!whitelist.has(market.getFactionId())) {
+                log.info("> Skipping non-whitelisted market " + market.getName());
                 continue;
             }
             if (market.isHidden()) {
@@ -37,6 +46,10 @@ public class MarketHardener {
             );
             addMissingStation(market);
         }
+    }
+
+    @Override
+    public void reportEconomyMonthEnd() {
     }
 
     private void addMissing(MarketAPI market, String industryId, String... blockingIndustries) {
@@ -64,4 +77,5 @@ public class MarketHardener {
         }
         return false;
     }
+
 }

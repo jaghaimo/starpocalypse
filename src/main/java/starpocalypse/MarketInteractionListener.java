@@ -20,9 +20,9 @@ import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class MarketListener implements ColonyInteractionListener {
+public class MarketInteractionListener implements ColonyInteractionListener {
 
-    public MarketListener() {
+    public MarketInteractionListener() {
         Global.getSector().getListenerManager().addListener(this, true);
     }
 
