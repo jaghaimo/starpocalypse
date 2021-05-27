@@ -6,18 +6,18 @@ import com.fs.starfarer.api.campaign.listeners.EconomyTickListener;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
 
 import lombok.extern.log4j.Log4j;
-import starpocalypse.settings.AllStations;
-import starpocalypse.settings.FactionStations;
+import starpocalypse.settings.StationDatabase;
+import starpocalypse.settings.StationFaction;
 import starpocalypse.settings.Whitelist;
 
 @Log4j
-public class MarketHardenerListener implements EconomyTickListener {
+public class IndustryChanges implements EconomyTickListener {
 
-    private AllStations allStations = new AllStations();
-    private FactionStations factionStations = new FactionStations();
-    private Whitelist whitelist = new Whitelist();
+    private StationDatabase allStations = new StationDatabase();
+    private StationFaction factionStations = new StationFaction();
+    private Whitelist whitelist = new Whitelist("industryWhitelist.csv");
 
-    public MarketHardenerListener() {
+    public IndustryChanges() {
         Global.getSector().getListenerManager().addListener(this, true);
         reportEconomyTick(0);
     }
@@ -77,5 +77,4 @@ public class MarketHardenerListener implements EconomyTickListener {
         }
         return false;
     }
-
 }

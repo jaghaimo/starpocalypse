@@ -13,16 +13,18 @@ import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.campaign.listeners.ColonyInteractionListener;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.DModManager;
-import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import com.fs.starfarer.api.impl.campaign.ids.HullMods;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
 
 import lombok.extern.log4j.Log4j;
+import starpocalypse.settings.Whitelist;
 
 @Log4j
-public class MarketInteractionListener implements ColonyInteractionListener {
+public class SubmarketChanges implements ColonyInteractionListener {
 
-    public MarketInteractionListener() {
+    private Whitelist whitelist = new Whitelist("submarketWhitelist.csv");
+
+    public SubmarketChanges() {
         Global.getSector().getListenerManager().addListener(this, true);
     }
 
@@ -31,7 +33,6 @@ public class MarketInteractionListener implements ColonyInteractionListener {
         log.info("Processing market " + market.getName());
         if (!canModify(market)) {
             return;
-
         }
         processSubmarkets(market);
     }
@@ -66,20 +67,12 @@ public class MarketInteractionListener implements ColonyInteractionListener {
     }
 
     private boolean canModify(MarketAPI market) {
-        if (market.isPlayerOwned()) {
-            log.info("> Ignoring player market " + market.getName());
+        if (!whitelist.has(market.getFactionId())) {
+            log.info("> Ignoring non-whitelisted market " + market.getName());
             return false;
         }
         if (market.isHidden()) {
             log.info("> Ignoring hidden market " + market.getName());
-            return false;
-        }
-        if (Factions.PIRATES.equals(market.getFactionId())) {
-            log.info("> Ignoring pirate market " + market.getName());
-            return false;
-        }
-        if (Factions.LUDDIC_PATH.equals(market.getFactionId())) {
-            log.info("> Ignoring pather market " + market.getName());
             return false;
         }
         return true;

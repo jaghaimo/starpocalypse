@@ -9,15 +9,15 @@ import org.json.JSONException;
 
 public abstract class FileReader {
 
-    protected void load() {
+    protected void load(String file) {
         try {
-            loadData();
+            loadData(file);
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
     }
 
-    protected abstract void loadData() throws JSONException, IOException;
+    protected abstract void loadData(String file) throws JSONException, IOException;
 
     protected JSONArray readCsv(String column, String file) throws JSONException, IOException {
         return Global.getSettings().getMergedSpreadsheetDataForMod(

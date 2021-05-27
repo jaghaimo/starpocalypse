@@ -15,8 +15,8 @@ public class Whitelist extends FileReader {
 
     private final Set<String> whitelist = new HashSet<>();
 
-    public Whitelist() {
-        load();
+    public Whitelist(String file) {
+        load(file);
     }
 
     public boolean has(String faction) {
@@ -24,9 +24,9 @@ public class Whitelist extends FileReader {
     }
 
     @Override
-    protected void loadData() throws JSONException, IOException {
-        JSONArray rawData = readCsv("faction", "whitelist.csv");
-        log.info("Reading whitelist.csv:");
+    protected void loadData(String file) throws JSONException, IOException {
+        JSONArray rawData = readCsv("faction", file);
+        log.info("Reading " + file);
         for (int i = 0; i < rawData.length(); i++) {
             JSONObject rawLine = rawData.getJSONObject(i);
             String station = rawLine.getString("faction");

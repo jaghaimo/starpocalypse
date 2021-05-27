@@ -11,12 +11,12 @@ import org.json.JSONObject;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class AllStations extends FileReader {
+public class StationDatabase extends FileReader {
 
     private final List<String> allStations = new LinkedList<>();
 
-    public AllStations() {
-        load();
+    public StationDatabase() {
+        load("stationDatabase.csv");
     }
 
     public String[] getAll() {
@@ -24,9 +24,9 @@ public class AllStations extends FileReader {
     }
 
     @Override
-    protected void loadData() throws JSONException, IOException {
-        JSONArray rawData = readCsv("stations", "allStations.csv");
-        log.info("Reading allStations.csv:");
+    protected void loadData(String file) throws JSONException, IOException {
+        JSONArray rawData = readCsv("stations", file);
+        log.info("Reading " + file);
         for (int i = 0; i < rawData.length(); i++) {
             JSONObject rawLine = rawData.getJSONObject(i);
             String station = rawLine.getString("station");

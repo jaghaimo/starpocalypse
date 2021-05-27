@@ -11,12 +11,12 @@ import org.json.JSONObject;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class FactionStations extends FileReader {
+public class StationFaction extends FileReader {
 
     private Map<String, String> factionStations = new HashMap<>();
 
-    public FactionStations() {
-        load();
+    public StationFaction() {
+        load("factionStations.csv");
     }
 
     public String get(String faction) {
@@ -28,9 +28,9 @@ public class FactionStations extends FileReader {
     }
 
     @Override
-    protected void loadData() throws JSONException, IOException {
-        JSONArray rawData = readCsv("faction", "factionStations.csv");
-        log.info("Reading factionStations.csv:");
+    protected void loadData(String file) throws JSONException, IOException {
+        JSONArray rawData = readCsv("faction", file);
+        log.info("Reading " + file);
         for (int i = 0; i < rawData.length(); i++) {
             JSONObject rawLine = rawData.getJSONObject(i);
             String faction = rawLine.getString("faction");
