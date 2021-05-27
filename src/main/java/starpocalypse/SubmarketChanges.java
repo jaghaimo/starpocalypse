@@ -49,33 +49,34 @@ public class SubmarketChanges implements ColonyInteractionListener {
     public void reportPlayerMarketTransaction(PlayerMarketTransaction transaction) {
     }
 
+    private boolean canModify(MarketAPI market) {
+        if (!whitelist.has(market.getFactionId())) {
+            log.info("> Ignoring non-whitelisted market");
+            return false;
+        }
+        if (market.isHidden()) {
+            log.info("> Ignoring hidden market");
+            return false;
+        }
+        return true;
+    }
+
     private void processSubmarkets(MarketAPI market) {
         for (SubmarketAPI submarket : market.getSubmarketsCopy()) {
+            log.info("> Processing submarket " + submarket.getNameOneLine());
             processSubmarket(submarket);
         }
     }
 
     private void processSubmarket(SubmarketAPI submarket) {
         if (!canModify(submarket)) {
-            log.info("> Ignoring submarket " + submarket.getName());
+            log.info(">> Ignoring submarket");
             return;
         }
-        log.info("> Modifying submarket " + submarket.getNameOneLine());
+        log.info(">> Modifying submarket");
         SubmarketAPI militaryMarket = submarket.getMarket().getSubmarket(Submarkets.GENERIC_MILITARY);
         clearCargo(militaryMarket, submarket);
         clearShips(submarket);
-    }
-
-    private boolean canModify(MarketAPI market) {
-        if (!whitelist.has(market.getFactionId())) {
-            log.info("> Ignoring non-whitelisted market " + market.getName());
-            return false;
-        }
-        if (market.isHidden()) {
-            log.info("> Ignoring hidden market " + market.getName());
-            return false;
-        }
-        return true;
     }
 
     private boolean canModify(SubmarketAPI submarket) {
@@ -89,10 +90,10 @@ public class SubmarketChanges implements ColonyInteractionListener {
         for (CargoStackAPI stack : cargo.getStacksCopy()) {
             if (isInvalid(stack)) {
                 if (militaryMarket != null) {
-                    log.info("> Moving to military market " + stack.getDisplayName());
+                    log.info(">> Moving to military " + stack.getDisplayName());
                     militaryMarket.getCargo().addFromStack(stack);
                 } else {
-                    log.info("> Removing " + stack.getDisplayName());
+                    log.info(">> Removing " + stack.getDisplayName());
                 }
                 cargo.removeStack(stack);
             }
@@ -117,12 +118,12 @@ public class SubmarketChanges implements ColonyInteractionListener {
 
     private void removeOrBreak(FleetDataAPI ships, FleetMemberAPI ship) {
         if (isInvalid(ship)) {
-            log.info("> Removing " + ship.getHullSpec().getHullName());
+            log.info(">> Removing " + ship.getHullSpec().getHullName());
             ships.removeFleetMember(ship);
             return;
         }
         if (!ship.getVariant().isDHull()) {
-            log.info("> Damaging " + ship.getHullSpec().getHullName());
+            log.info(">> Damaging " + ship.getHullSpec().getHullName());
             DModManager.addDMods(ship, false, 2, new Random());
         }
     }

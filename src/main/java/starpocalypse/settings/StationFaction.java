@@ -16,7 +16,7 @@ public class StationFaction extends FileReader {
     private Map<String, String> factionStations = new HashMap<>();
 
     public StationFaction() {
-        load("factionStations.csv");
+        load("stationFaction.csv");
     }
 
     public String get(String faction) {
