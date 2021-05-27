@@ -61,7 +61,7 @@ public class IndustryChanges implements EconomyTickListener {
 
     private void addMissingStation(MarketAPI market) {
         String factionId = market.getFactionId();
-        if (!factionStations.has(factionId)) {
+        if (!factionStations.containsKey(factionId)) {
             log.warn("> No station entry for " + factionId);
             return;
         }

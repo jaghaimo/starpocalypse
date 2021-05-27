@@ -8,23 +8,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class StationFaction extends FileReader {
 
+    @Delegate
     private Map<String, String> factionStations = new HashMap<>();
 
     public StationFaction() {
         load("stationFaction.csv");
-    }
-
-    public String get(String faction) {
-        return factionStations.get(faction);
-    }
-
-    public boolean has(String faction) {
-        return factionStations.containsKey(faction);
     }
 
     @Override
@@ -35,7 +29,7 @@ public class StationFaction extends FileReader {
             JSONObject rawLine = rawData.getJSONObject(i);
             String faction = rawLine.getString("faction");
             String station = rawLine.getString("station");
-            factionStations.put(faction, station);
+            put(faction, station);
             log.info("> " + faction + " gets " + station);
         }
     }
