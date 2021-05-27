@@ -11,7 +11,7 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
     public void onGameLoad(boolean newGame) {
-        new MarketHardenerListener();
-        new MarketInteractionListener();
+        new IndustryChanges();
+        new SubmarketChanges();
     }
 }
