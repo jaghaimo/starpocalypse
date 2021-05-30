@@ -18,6 +18,8 @@ This minimod changes markets and submarkets work.
 
 ## Configuration
 
+All files can be found in `data/starpocalypse` folder.
+
 ### Industries
 
 No configuration file for industries exists yet.
@@ -36,7 +38,7 @@ Both faction and submarket files work as whitelist and accept: faction or submar
 
 #### Example
 
-Damage ships in markets belonging to all factions, but only in open market:
+Damage pristine ships found in the open market in markets belonging to all factions except the player:
 
 ```sh
 # shipDamageFaction.csv

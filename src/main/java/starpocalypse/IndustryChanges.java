@@ -62,6 +62,7 @@ public class IndustryChanges implements EconomyTickListener {
 
     private void process(MarketAPI market) {
         for (IndustryChanger changer : changers) {
+            log.info("Trying " + changer.getClass().getName());
             changer.change(market);
         }
     }
