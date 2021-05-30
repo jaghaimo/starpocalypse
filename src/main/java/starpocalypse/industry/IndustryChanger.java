@@ -11,7 +11,7 @@ public abstract class IndustryChanger {
 
     protected void addMissing(MarketAPI market, String industryId, String... blockingIndustries) {
         if (!hasIndustry(market, blockingIndustries)) {
-            log.info("> Adding " + industryId);
+            log.info("Adding " + industryId);
             market.addIndustry(industryId);
         }
     }
@@ -19,7 +19,7 @@ public abstract class IndustryChanger {
     protected boolean hasIndustry(MarketAPI market, String... blockingIndustries) {
         for (String blocker : blockingIndustries) {
             if (market.hasIndustry(blocker)) {
-                log.info("> Skipping already present " + blocker);
+                log.info("Skipping already present " + blocker);
                 return true;
             }
         }

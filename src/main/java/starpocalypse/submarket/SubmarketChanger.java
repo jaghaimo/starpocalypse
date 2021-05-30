@@ -23,7 +23,7 @@ public abstract class SubmarketChanger {
         if (allowedFactions.has(factionId)) {
             return true;
         }
-        log.info("> Skipping unknown faction " + factionId);
+        log.info("Skipping unknown faction " + factionId);
         return false;
     }
 
@@ -32,7 +32,7 @@ public abstract class SubmarketChanger {
         if (allowedSubmarkets.has(submarketId)) {
             return true;
         }
-        log.info("> Skipping unknown submarket " + submarketId);
+        log.info("Skipping unknown submarket " + submarketId);
         return false;
     }
 }

@@ -30,10 +30,10 @@ public class WeaponRemover extends SubmarketChanger {
                 continue;
             }
             if (militaryMarket != null) {
-                log.info("> Moving to military " + stack.getDisplayName());
+                log.info("Moving to military " + stack.getDisplayName());
                 militaryMarket.getCargo().addFromStack(stack);
             } else {
-                log.info("> Removing " + stack.getDisplayName());
+                log.info("Removing " + stack.getDisplayName());
             }
             cargo.removeStack(stack);
         }

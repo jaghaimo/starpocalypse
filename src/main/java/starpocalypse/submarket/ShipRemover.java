@@ -33,7 +33,7 @@ public class ShipRemover extends SubmarketChanger {
 
     private void clearShip(FleetDataAPI ships, FleetMemberAPI ship) {
         if (isInvalid(ship)) {
-            log.info(">> Removing " + ship.getHullSpec().getHullName());
+            log.info("Removing " + ship.getHullSpec().getHullName());
             ships.removeFleetMember(ship);
         }
     }

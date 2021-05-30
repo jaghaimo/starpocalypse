@@ -46,7 +46,7 @@ public class SubmarketChanges implements ColonyInteractionListener {
 
     private void processSubmarkets(MarketAPI market) {
         for (SubmarketAPI submarket : market.getSubmarketsCopy()) {
-            log.info("> Processing submarket " + submarket.getNameOneLine());
+            log.info("Processing submarket " + submarket.getNameOneLine());
             prepare(submarket);
             process(submarket);
         }

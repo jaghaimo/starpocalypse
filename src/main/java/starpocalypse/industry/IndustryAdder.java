@@ -20,7 +20,7 @@ public class IndustryAdder extends IndustryChanger {
     @Override
     public void change(MarketAPI market) {
         if (market.isHidden() && !allowForHidden) {
-            log.info("> Skipping hidden market");
+            log.info("Skipping hidden market");
         }
         addMissing(market, industryId, blockingIndustries);
     }

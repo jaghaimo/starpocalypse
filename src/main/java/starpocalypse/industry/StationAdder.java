@@ -15,11 +15,11 @@ public class StationAdder extends IndustryChanger {
     @Override
     public void change(MarketAPI market) {
         if (market.isHidden()) {
-            log.info("> Skipping hidden market");
+            log.info("Skipping hidden market");
         }
         String factionId = market.getFactionId();
         if (!factionStations.containsKey(factionId)) {
-            log.warn("> No station entry for " + factionId);
+            log.warn("No station entry for " + factionId);
             return;
         }
         addMissing(market, factionStations.get(factionId), stationDatabase.getAll());

@@ -14,6 +14,8 @@ import lombok.extern.log4j.Log4j;
 public class SimpleSet extends FileReader {
 
     private final Set<String> set = new HashSet<>();
+    private final static String ALL = "all";
+    private final static String NOT = "!";
 
     public SimpleSet(String column, String file) {
         load(column, file);
@@ -27,10 +29,10 @@ public class SimpleSet extends FileReader {
         if (set.contains(value)) {
             return true;
         }
-        if (set.contains("!" + value)) {
+        if (set.contains(NOT + value)) {
             return false;
         }
-        if (set.contains("*")) {
+        if (set.contains(ALL)) {
             return true;
         }
         return false;
