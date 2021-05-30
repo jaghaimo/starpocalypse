@@ -32,7 +32,7 @@ public class SimpleMap extends FileReader {
             String key = line.getString(column);
             String value = line.getString(field);
             map.put(key, value);
-            log.info("> " + key + " gets " + value);
+            log.info("> " + key + " = " + value);
         }
     }
 }
