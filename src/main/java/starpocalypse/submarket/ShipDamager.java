@@ -34,7 +34,7 @@ public class ShipDamager extends SubmarketChanger {
     private void damageShip(FleetMemberAPI ship) {
         if (!ship.getVariant().isDHull()) {
             log.info("Damaging " + ship.getHullSpec().getHullName());
-            DModManager.addDMods(ship, false, 2, new Random());
+            DModManager.addDMods(ship, false, 1, new Random());
         }
     }
 }

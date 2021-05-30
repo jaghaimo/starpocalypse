@@ -14,6 +14,7 @@ This minimod changes markets and submarkets work.
 1. And make sure that the above two are met throughout your playthrough (via a transient listener).
 1. Remove all combat ships, weapons, and LPCs from open and black markets if it is not a pirate or luddic path market, and...
 1. Add all removed weapons and LPCs back to Military Market, if there is one.
+1. Damage all pristine ships by putting one random d-mod on them.
 
 ## Configuration
 
