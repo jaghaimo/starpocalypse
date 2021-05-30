@@ -8,12 +8,28 @@ import com.fs.starfarer.api.impl.campaign.ids.Industries;
 import lombok.extern.log4j.Log4j;
 import starpocalypse.industry.IndustryAdder;
 import starpocalypse.industry.IndustryChanger;
+import starpocalypse.industry.MarketFixer;
 import starpocalypse.industry.StationAdder;
 
 @Log4j
 public class IndustryChanges implements EconomyTickListener {
 
     private IndustryChanger[] changers = {
+            new MarketFixer(
+                    Industries.GROUNDDEFENSES, Industries.HEAVYBATTERIES
+            ),
+            new MarketFixer(
+                    Industries.PATROLHQ, Industries.MILITARYBASE, Industries.HIGHCOMMAND
+            ),
+            new MarketFixer(
+                    Industries.ORBITALSTATION, Industries.BATTLESTATION, Industries.STARFORTRESS
+            ),
+            new MarketFixer(
+                    Industries.ORBITALSTATION_MID, Industries.BATTLESTATION_MID, Industries.STARFORTRESS_MID
+            ),
+            new MarketFixer(
+                    Industries.ORBITALSTATION_HIGH, Industries.BATTLESTATION_HIGH, Industries.STARFORTRESS_HIGH
+            ),
             new IndustryAdder(
                     Industries.GROUNDDEFENSES,
                     true,

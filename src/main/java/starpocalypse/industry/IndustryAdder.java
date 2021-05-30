@@ -18,11 +18,16 @@ public class IndustryAdder extends IndustryChanger {
     }
 
     @Override
-    public void change(MarketAPI market) {
+    protected boolean canChange(MarketAPI market) {
         if (market.isHidden() && !allowForHidden) {
             log.info("Skipping hidden market");
-            return;
+            return false;
         }
+        return true;
+    }
+
+    @Override
+    protected void changeImpl(MarketAPI market) {
         addMissing(market, industryId, blockingIndustries);
     }
 }

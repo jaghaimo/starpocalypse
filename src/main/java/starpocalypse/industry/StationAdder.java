@@ -13,16 +13,22 @@ public class StationAdder extends IndustryChanger {
     private final SimpleMap factionStations = new SimpleMap("faction", "station", "stationFactionMap.csv");
 
     @Override
-    public void change(MarketAPI market) {
+    protected boolean canChange(MarketAPI market) {
         if (market.isHidden()) {
             log.info("Skipping hidden market");
-            return;
+            return false;
         }
         String factionId = market.getFactionId();
         if (!factionStations.containsKey(factionId)) {
             log.warn("No station entry for " + factionId);
-            return;
+            return false;
         }
+        return true;
+    }
+
+    @Override
+    protected void changeImpl(MarketAPI market) {
+        String factionId = market.getFactionId();
         addMissing(market, factionStations.get(factionId), stationDatabase.getAll());
     }
 }
