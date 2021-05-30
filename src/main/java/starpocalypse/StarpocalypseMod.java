@@ -5,7 +5,7 @@ import com.fs.starfarer.api.BaseModPlugin;
 public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
-    public void onNewGameAfterProcGen() {
+    public void onNewGameAfterTimePass() {
         onGameLoad(true);
     }
 
