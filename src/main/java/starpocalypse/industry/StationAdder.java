@@ -16,6 +16,7 @@ public class StationAdder extends IndustryChanger {
     public void change(MarketAPI market) {
         if (market.isHidden()) {
             log.info("Skipping hidden market");
+            return;
         }
         String factionId = market.getFactionId();
         if (!factionStations.containsKey(factionId)) {

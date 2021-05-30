@@ -21,6 +21,7 @@ public class IndustryAdder extends IndustryChanger {
     public void change(MarketAPI market) {
         if (market.isHidden() && !allowForHidden) {
             log.info("Skipping hidden market");
+            return;
         }
         addMissing(market, industryId, blockingIndustries);
     }
