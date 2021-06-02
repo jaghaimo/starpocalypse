@@ -1,4 +1,4 @@
-package starpocalypse.settings;
+package starpocalypse.config;
 
 import java.io.IOException;
 
@@ -9,15 +9,15 @@ import org.json.JSONException;
 
 public abstract class FileReader {
 
-    protected void load(String file) {
+    protected void load(String column, String file) {
         try {
-            loadData(file);
+            loadData(column, file);
         } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
     }
 
-    protected abstract void loadData(String file) throws JSONException, IOException;
+    protected abstract void loadData(String column, String file) throws JSONException, IOException;
 
     protected JSONArray readCsv(String column, String file) throws JSONException, IOException {
         return Global.getSettings().getMergedSpreadsheetDataForMod(

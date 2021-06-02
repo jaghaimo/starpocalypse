@@ -6,16 +6,42 @@ import com.fs.starfarer.api.campaign.listeners.EconomyTickListener;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
 
 import lombok.extern.log4j.Log4j;
-import starpocalypse.settings.StationDatabase;
-import starpocalypse.settings.StationFaction;
-import starpocalypse.settings.Whitelist;
+import starpocalypse.industry.IndustryAdder;
+import starpocalypse.industry.IndustryChanger;
+import starpocalypse.industry.MarketFixer;
+import starpocalypse.industry.StationAdder;
 
 @Log4j
 public class IndustryChanges implements EconomyTickListener {
 
-    private StationDatabase allStations = new StationDatabase();
-    private StationFaction factionStations = new StationFaction();
-    private Whitelist whitelist = new Whitelist("industryWhitelist.csv");
+    private IndustryChanger[] changers = {
+            new MarketFixer(
+                    Industries.GROUNDDEFENSES, Industries.HEAVYBATTERIES
+            ),
+            new MarketFixer(
+                    Industries.PATROLHQ, Industries.MILITARYBASE, Industries.HIGHCOMMAND
+            ),
+            new MarketFixer(
+                    Industries.ORBITALSTATION, Industries.BATTLESTATION, Industries.STARFORTRESS
+            ),
+            new MarketFixer(
+                    Industries.ORBITALSTATION_MID, Industries.BATTLESTATION_MID, Industries.STARFORTRESS_MID
+            ),
+            new MarketFixer(
+                    Industries.ORBITALSTATION_HIGH, Industries.BATTLESTATION_HIGH, Industries.STARFORTRESS_HIGH
+            ),
+            new IndustryAdder(
+                    Industries.GROUNDDEFENSES,
+                    true,
+                    Industries.GROUNDDEFENSES, Industries.HEAVYBATTERIES
+            ),
+            new IndustryAdder(
+                    Industries.PATROLHQ,
+                    true,
+                    Industries.PATROLHQ, Industries.MILITARYBASE, Industries.HIGHCOMMAND
+            ),
+            new StationAdder()
+    };
 
     public IndustryChanges() {
         Global.getSector().getListenerManager().addListener(this, true);
@@ -26,25 +52,7 @@ public class IndustryChanges implements EconomyTickListener {
     public void reportEconomyTick(int iterIndex) {
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
             log.info("Processing " + market.getName());
-            if (!whitelist.has(market.getFactionId())) {
-                log.info("> Skipping non-whitelisted");
-                continue;
-            }
-            addMissing(
-                    market,
-                    Industries.GROUNDDEFENSES,
-                    Industries.GROUNDDEFENSES, Industries.HEAVYBATTERIES
-            );
-            if (market.isHidden()) {
-                log.info("> Skipping hidden market");
-                continue;
-            }
-            addMissing(
-                    market,
-                    Industries.PATROLHQ,
-                    Industries.PATROLHQ, Industries.MILITARYBASE, Industries.HIGHCOMMAND
-            );
-            addMissingStation(market);
+            process(market);
         }
     }
 
@@ -52,29 +60,10 @@ public class IndustryChanges implements EconomyTickListener {
     public void reportEconomyMonthEnd() {
     }
 
-    private void addMissing(MarketAPI market, String industryId, String... blockingIndustries) {
-        if (!hasIndustry(market, blockingIndustries)) {
-            log.info("> Adding " + industryId);
-            market.addIndustry(industryId);
+    private void process(MarketAPI market) {
+        for (IndustryChanger changer : changers) {
+            log.info("Trying " + changer.getClass().getName());
+            changer.change(market);
         }
-    }
-
-    private void addMissingStation(MarketAPI market) {
-        String factionId = market.getFactionId();
-        if (!factionStations.containsKey(factionId)) {
-            log.warn("> No station entry for " + factionId);
-            return;
-        }
-        addMissing(market, factionStations.get(factionId), allStations.getAll());
-    }
-
-    private boolean hasIndustry(MarketAPI market, String... blockingIndustries) {
-        for (String blocker : blockingIndustries) {
-            if (market.hasIndustry(blocker)) {
-                log.info("> Skipping already present " + blocker);
-                return true;
-            }
-        }
-        return false;
     }
 }
