@@ -3,6 +3,7 @@ package starpocalypse;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.listeners.EconomyTickListener;
+import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
 
 import lombok.extern.log4j.Log4j;
@@ -61,6 +62,10 @@ public class IndustryChanges implements EconomyTickListener {
     }
 
     private void process(MarketAPI market) {
+        if (Factions.PLAYER.equals(market.getFactionId())) {
+            log.info("Skipping player market");
+            return;
+        }
         for (IndustryChanger changer : changers) {
             log.info("Trying " + changer.getClass().getName());
             changer.change(market);
