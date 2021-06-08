@@ -5,8 +5,9 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class IndustryAdder extends IndustryChanger {
+public class IndustryAdder extends MarketChanger {
 
+    private final MarketHelper helper = new MarketHelper();
     private final String industryId;
     private final boolean allowForHidden;
     private final String[] blockingIndustries;
@@ -28,6 +29,6 @@ public class IndustryAdder extends IndustryChanger {
 
     @Override
     protected void changeImpl(MarketAPI market) {
-        addMissing(market, industryId, blockingIndustries);
+        helper.addMissing(market, industryId, blockingIndustries);
     }
 }
