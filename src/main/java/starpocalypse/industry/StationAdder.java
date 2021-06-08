@@ -7,8 +7,9 @@ import starpocalypse.config.SimpleMap;
 import starpocalypse.config.SimpleSet;
 
 @Log4j
-public class StationAdder extends IndustryChanger {
+public class StationAdder extends MarketChanger {
 
+    private final MarketHelper helper = new MarketHelper();
     private final SimpleSet stationDatabase = new SimpleSet("station", "stationDatabase.csv");
     private final SimpleMap factionStations = new SimpleMap("faction", "station", "stationFactionMap.csv");
 
@@ -29,6 +30,6 @@ public class StationAdder extends IndustryChanger {
     @Override
     protected void changeImpl(MarketAPI market) {
         String factionId = market.getFactionId();
-        addMissing(market, factionStations.get(factionId), stationDatabase.getAll());
+        helper.addMissing(market, factionStations.get(factionId), stationDatabase.getAll());
     }
 }

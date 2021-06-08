@@ -23,13 +23,13 @@ public class IndustryChanges implements EconomyTickListener {
                     Industries.PATROLHQ, Industries.MILITARYBASE, Industries.HIGHCOMMAND
             ),
             new MarketFixer(
-                    Industries.ORBITALSTATION, Industries.BATTLESTATION, Industries.STARFORTRESS
-            ),
-            new MarketFixer(
-                    Industries.ORBITALSTATION_MID, Industries.BATTLESTATION_MID, Industries.STARFORTRESS_MID
-            ),
-            new MarketFixer(
-                    Industries.ORBITALSTATION_HIGH, Industries.BATTLESTATION_HIGH, Industries.STARFORTRESS_HIGH
+                    new String[] {
+                            Industries.ORBITALSTATION, Industries.ORBITALSTATION_MID, Industries.ORBITALSTATION_HIGH
+                    },
+                    new String[] {
+                            Industries.BATTLESTATION, Industries.BATTLESTATION_MID, Industries.BATTLESTATION_HIGH,
+                            Industries.STARFORTRESS, Industries.STARFORTRESS_MID, Industries.STARFORTRESS_HIGH
+                    }
             ),
             new IndustryAdder(
                     Industries.GROUNDDEFENSES,
