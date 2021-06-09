@@ -4,6 +4,7 @@ import java.util.Random;
 
 import com.fs.starfarer.api.campaign.FleetDataAPI;
 import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
+import com.fs.starfarer.api.combat.ShipVariantAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.DModManager;
 
@@ -32,9 +33,11 @@ public class ShipDamager extends SubmarketChanger {
     }
 
     private void damageShip(FleetMemberAPI ship) {
-        if (!ship.getVariant().isDHull()) {
-            log.info("Damaging " + ship.getHullSpec().getHullName());
-            DModManager.addDMods(ship, false, 1, new Random());
+        String hullName = ship.getHullSpec().getHullName();
+        ShipVariantAPI variant = ship.getVariant();
+        if (DModManager.setDHull(variant)) {
+            log.info("Damaging " + hullName);
+            DModManager.addDMods(variant, true, 1, new Random());
         }
     }
 }
