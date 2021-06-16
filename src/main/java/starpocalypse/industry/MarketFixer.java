@@ -8,22 +8,22 @@ import lombok.extern.log4j.Log4j;
 public class MarketFixer implements IndustryChanger {
 
     private final MarketHelper helper = new MarketHelper();
-    private final String[] industryIds;
+    private final String[] removedIndustries;
     private final String[] blockingIndustries;
 
-    public MarketFixer(String industryId, String... blockingIndustries) {
-        this.industryIds = new String[] { industryId };
+    public MarketFixer(String removedInudstry, String... blockingIndustries) {
+        this.removedIndustries = new String[] { removedInudstry };
         this.blockingIndustries = blockingIndustries;
     }
 
-    public MarketFixer(String[] industryIds, String... blockingIndustries) {
-        this.industryIds = industryIds;
+    public MarketFixer(String[] removedIndustries, String... blockingIndustries) {
+        this.removedIndustries = removedIndustries;
         this.blockingIndustries = blockingIndustries;
     }
 
     @Override
     public void change(MarketAPI market) {
-        for (String industryId : industryIds) {
+        for (String industryId : removedIndustries) {
             if (canChange(market, industryId)) {
                 changeImpl(market, industryId);
             }

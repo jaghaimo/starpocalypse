@@ -1,6 +1,10 @@
 package starpocalypse.submarket;
 
+import com.fs.starfarer.api.campaign.CargoAPI;
+import com.fs.starfarer.api.campaign.CargoStackAPI;
+import com.fs.starfarer.api.campaign.FleetDataAPI;
 import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
+import com.fs.starfarer.api.fleet.FleetMemberAPI;
 
 import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleSet;
@@ -10,13 +14,24 @@ public abstract class SubmarketChanger {
 
     public void change(SubmarketAPI submarket) {
         if (canChange(submarket)) {
-            changeImpl(submarket);
+            CargoAPI cargo = submarket.getCargo();
+            for (CargoStackAPI stack : cargo.getStacksCopy()) {
+                changeCargo(submarket, cargo, stack);
+            }
+            FleetDataAPI ships = cargo.getMothballedShips();
+            for (FleetMemberAPI ship : ships.getMembersListCopy()) {
+                changeShips(submarket, ships, ship);
+            }
         }
     }
 
     protected abstract boolean canChange(SubmarketAPI submarket);
 
-    protected abstract void changeImpl(SubmarketAPI submarket);
+    protected abstract void changeCargo(SubmarketAPI submarket, CargoAPI cargo, CargoStackAPI stack);
+
+    protected abstract void changeShips(SubmarketAPI submarket, FleetDataAPI ships, FleetMemberAPI ship);
+
+    protected abstract void init(SubmarketAPI submarket);
 
     protected boolean acceptFaction(SubmarketAPI submarket, SimpleSet allowedFactions) {
         String factionId = submarket.getMarket().getFactionId();
@@ -34,5 +49,9 @@ public abstract class SubmarketChanger {
         }
         log.info("Skipping unknown submarket " + submarketId);
         return false;
+    }
+
+    protected SubmarketAPI getSubmarket(SubmarketAPI submarket, String submarketSpecId) {
+        return submarket.getMarket().getSubmarket(submarketSpecId);
     }
 }

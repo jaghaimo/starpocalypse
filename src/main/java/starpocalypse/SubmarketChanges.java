@@ -8,18 +8,18 @@ import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.campaign.listeners.ColonyInteractionListener;
 
 import lombok.extern.log4j.Log4j;
+import starpocalypse.submarket.MilitaryContraband;
+import starpocalypse.submarket.MilitaryRegulation;
 import starpocalypse.submarket.ShipDamager;
-import starpocalypse.submarket.ShipRemover;
 import starpocalypse.submarket.SubmarketChanger;
-import starpocalypse.submarket.WeaponRemover;
 
 @Log4j
 public class SubmarketChanges implements ColonyInteractionListener {
 
     private final SubmarketChanger[] changers = {
-            new WeaponRemover(),
-            new ShipRemover(),
-            new ShipDamager()
+            new MilitaryRegulation(),
+            new MilitaryContraband(),
+            new ShipDamager(),
     };
 
     public SubmarketChanges() {
@@ -38,6 +38,7 @@ public class SubmarketChanges implements ColonyInteractionListener {
 
     @Override
     public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {
+        // TODO: put process here, do not prepare?
     }
 
     @Override
