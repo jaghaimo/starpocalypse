@@ -33,12 +33,18 @@ public class MilitaryRegulation extends SubmarketChanger {
 
     @Override
     protected void changeCargo(SubmarketAPI submarket, CargoAPI cargo, CargoStackAPI stack) {
+        if (!isInvalid(stack)) {
+            return;
+        }
         cargo.removeStack(stack);
         addToMilitary(stack);
     }
 
     @Override
     protected void changeShips(SubmarketAPI submarket, FleetDataAPI ships, FleetMemberAPI ship) {
+        if (!isInvalid(ship)) {
+            return;
+        }
         ships.removeFleetMember(ship);
         addToMilitary(ship);
     }
@@ -52,9 +58,6 @@ public class MilitaryRegulation extends SubmarketChanger {
     }
 
     private void addToMilitary(CargoStackAPI stack) {
-        if (!isInvalid(stack)) {
-            return;
-        }
         if (militaryMarket == null) {
             log.info("Removing " + stack.getDisplayName());
         } else {
@@ -64,9 +67,6 @@ public class MilitaryRegulation extends SubmarketChanger {
     }
 
     private void addToMilitary(FleetMemberAPI ship) {
-        if (!isInvalid(ship)) {
-            return;
-        }
         String shipHullName = ship.getHullSpec().getHullName();
         if (militaryMarket == null) {
             log.info("Removing " + shipHullName);

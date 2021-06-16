@@ -38,7 +38,6 @@ public class SubmarketChanges implements ColonyInteractionListener {
 
     @Override
     public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {
-        // TODO: put process here, do not prepare?
     }
 
     @Override

@@ -13,6 +13,7 @@ import starpocalypse.config.SimpleSet;
 public abstract class SubmarketChanger {
 
     public void change(SubmarketAPI submarket) {
+        init(submarket);
         if (canChange(submarket)) {
             CargoAPI cargo = submarket.getCargo();
             for (CargoStackAPI stack : cargo.getStacksCopy()) {
