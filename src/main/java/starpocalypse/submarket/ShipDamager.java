@@ -2,6 +2,8 @@ package starpocalypse.submarket;
 
 import java.util.Random;
 
+import com.fs.starfarer.api.campaign.CargoAPI;
+import com.fs.starfarer.api.campaign.CargoStackAPI;
 import com.fs.starfarer.api.campaign.FleetDataAPI;
 import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.combat.ShipVariantAPI;
@@ -18,6 +20,10 @@ public class ShipDamager extends SubmarketChanger {
     private SimpleSet allowedSubmarkets = new SimpleSet("submarket", "shipDamageSubmarket.csv");
 
     @Override
+    protected void init(SubmarketAPI submarket) {
+    }
+
+    @Override
     protected boolean canChange(SubmarketAPI submarket) {
         boolean acceptFaction = acceptFaction(submarket, allowedFactions);
         boolean acceptSubmarket = acceptSubmarket(submarket, allowedSubmarkets);
@@ -25,14 +31,11 @@ public class ShipDamager extends SubmarketChanger {
     }
 
     @Override
-    protected void changeImpl(SubmarketAPI submarket) {
-        FleetDataAPI ships = submarket.getCargo().getMothballedShips();
-        for (FleetMemberAPI ship : ships.getMembersListCopy()) {
-            damageShip(ship);
-        }
+    protected void changeCargo(SubmarketAPI submarket, CargoAPI cargo, CargoStackAPI stack) {
     }
 
-    private void damageShip(FleetMemberAPI ship) {
+    @Override
+    protected void changeShips(SubmarketAPI submarket, FleetDataAPI ships, FleetMemberAPI ship) {
         String hullName = ship.getHullSpec().getHullName();
         ShipVariantAPI variant = ship.getVariant();
         if (DModManager.setDHull(variant)) {
