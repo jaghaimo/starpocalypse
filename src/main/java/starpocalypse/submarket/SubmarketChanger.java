@@ -19,10 +19,12 @@ public abstract class SubmarketChanger {
             for (CargoStackAPI stack : cargo.getStacksCopy()) {
                 changeCargo(submarket, cargo, stack);
             }
+            cargo.sort();
             FleetDataAPI ships = cargo.getMothballedShips();
             for (FleetMemberAPI ship : ships.getMembersListCopy()) {
                 changeShips(submarket, ships, ship);
             }
+            ships.sort();
         }
     }
 

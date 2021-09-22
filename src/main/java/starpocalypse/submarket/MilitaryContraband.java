@@ -16,30 +16,33 @@ public class MilitaryContraband extends MilitaryRegulation {
     private final SimpleMap stabilityCargoValues = new SimpleMap("stability", "cargo", "militaryContraband.csv");
     private final SimpleMap stabilityShipValues = new SimpleMap("stability", "ship", "militaryContraband.csv");
 
-    private SubmarketAPI militaryMarket;
-    private float stability;
+    private SubmarketAPI blackMarket;
+    private int stability;
     private String stabilityKey;
 
     @Override
     protected void init(SubmarketAPI submarket) {
-        militaryMarket = getSubmarket(submarket, Submarkets.GENERIC_MILITARY);
-        stability = submarket.getMarket().getStabilityValue();
+        blackMarket = getSubmarket(submarket, Submarkets.SUBMARKET_BLACK);
+        stability = (int) submarket.getMarket().getStabilityValue();
         stabilityKey = String.valueOf(stability);
     }
 
     @Override
     protected boolean canChange(SubmarketAPI submarket) {
-        boolean hasMilitaryMarket = militaryMarket != null;
-        boolean isBlackMarket = Submarkets.SUBMARKET_BLACK.equals(submarket.getSpecId());
-        return hasMilitaryMarket && isBlackMarket && super.canChange(submarket);
+        boolean hasBlackMarket = blackMarket != null;
+        boolean isMilitaryMarket = Submarkets.GENERIC_MILITARY.equals(submarket.getSpecId());
+        return hasBlackMarket && isMilitaryMarket;
     }
 
     @Override
     protected void changeCargo(SubmarketAPI submarket, CargoAPI cargo, CargoStackAPI stack) {
-        if (isInvalid(stack) && isAllowed(submarket, stack)) {
-            log.info("Moving contraband to military market " + stack.getDisplayName());
-            cargo.addFromStack(stack);
-            militaryMarket.getCargo().removeStack(stack);
+        if (!isInvalid(stack)) {
+            return;
+        }
+        if (isAllowed(submarket, stack)) {
+            log.info("Moving contraband to black market " + stack.getDisplayName());
+            cargo.removeStack(stack);
+            blackMarket.getCargo().addFromStack(stack);
         }
     }
 
@@ -49,14 +52,14 @@ public class MilitaryContraband extends MilitaryRegulation {
             return;
         }
         if (isAllowed(submarket, ship)) {
-            log.info("Moving contraband to military market " + ship.getHullSpec().getHullName());
-            ships.addFleetMember(ship);
-            militaryMarket.getCargo().getMothballedShips().removeFleetMember(ship);
+            log.info("Moving contraband to black market " + ship.getHullSpec().getHullName());
+            ships.removeFleetMember(ship);
+            blackMarket.getCargo().getMothballedShips().addFleetMember(ship);
         }
     }
 
     private boolean isAllowed(SubmarketAPI submarket, CargoStackAPI stack) {
-        return isAllowed(stabilityShipValues, stack.getBaseValuePerUnit());
+        return isAllowed(stabilityCargoValues, stack.getBaseValuePerUnit());
     }
 
     private boolean isAllowed(SubmarketAPI submarket, FleetMemberAPI ship) {
@@ -65,12 +68,12 @@ public class MilitaryContraband extends MilitaryRegulation {
 
     private boolean isAllowed(SimpleMap stabilityMap, float value) {
         if (stability <= 0) {
-            return false;
-        }
-        if (stability >= 10) {
             return true;
         }
-        float stabilityValue = Float.parseFloat(stabilityCargoValues.get(stabilityKey));
+        if (stability >= 10) {
+            return false;
+        }
+        float stabilityValue = Float.parseFloat(stabilityMap.get(stabilityKey));
         return value < stabilityValue;
     }
 }
