@@ -1,9 +1,21 @@
+# Local development files
 .classpath
 .gradle/
 .project
 .settings/
-.vscode/
-/*.jar
 /*.zip
 bin/
 build/
+gradle.properties
+# VSCode
+.vscode/**/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+# Local copies of mod structure (dev env)
+/*.jar
+/data
+/graphics
+/starpocalypse*
+/mod_info.json
