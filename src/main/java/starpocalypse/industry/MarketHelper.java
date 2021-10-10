@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class MarketHelper {
+
     public void addMissing(MarketAPI market, String industryId, String... blockingIndustries) {
         if (!hasIndustry(market, blockingIndustries)) {
             log.info("Adding " + industryId);
