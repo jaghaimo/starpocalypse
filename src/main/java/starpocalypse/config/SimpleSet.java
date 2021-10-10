@@ -41,12 +41,12 @@ public class SimpleSet extends FileReader {
     @Override
     protected void loadData(String column, String file) throws JSONException, IOException {
         JSONArray data = readCsv(column, file);
-        log.info("Reading " + file);
+        log.debug("Reading " + file);
         for (int i = 0; i < data.length(); i++) {
             JSONObject line = data.getJSONObject(i);
             String field = line.getString(column);
             set.add(field);
-            log.info("> " + field);
+            log.debug("> " + field);
         }
     }
 }

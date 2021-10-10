@@ -21,7 +21,7 @@ public class IndustryAdder extends MarketChanger {
     @Override
     protected boolean canChange(MarketAPI market) {
         if (market.isHidden() && !allowForHidden) {
-            log.info("Skipping hidden market");
+            log.debug("Skipping hidden market");
             return false;
         }
         return true;

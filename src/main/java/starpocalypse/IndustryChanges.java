@@ -69,7 +69,7 @@ public class IndustryChanges implements EconomyTickListener {
             return;
         }
         for (IndustryChanger changer : changers) {
-            log.info("Trying " + changer.getClass().getName());
+            log.debug("Trying " + changer.getClass().getName());
             changer.change(market);
         }
     }

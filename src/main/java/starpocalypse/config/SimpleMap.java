@@ -26,13 +26,13 @@ public class SimpleMap extends FileReader {
     @Override
     protected void loadData(String column, String file) throws JSONException, IOException {
         JSONArray data = readCsv(column, file);
-        log.info("Reading " + file);
+        log.debug("Reading " + file);
         for (int i = 0; i < data.length(); i++) {
             JSONObject line = data.getJSONObject(i);
             String key = line.getString(column);
             String value = line.getString(field);
             map.put(key, value);
-            log.info("> " + key + " = " + value);
+            log.debug("> " + key + " = " + value);
         }
     }
 }

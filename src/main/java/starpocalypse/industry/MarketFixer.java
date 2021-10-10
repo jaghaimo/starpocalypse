@@ -11,8 +11,8 @@ public class MarketFixer implements IndustryChanger {
     private final String[] removedIndustries;
     private final String[] blockingIndustries;
 
-    public MarketFixer(String removedInudstry, String... blockingIndustries) {
-        this.removedIndustries = new String[] { removedInudstry };
+    public MarketFixer(String removedIndustry, String... blockingIndustries) {
+        this.removedIndustries = new String[] { removedIndustry };
         this.blockingIndustries = blockingIndustries;
     }
 

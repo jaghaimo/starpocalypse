@@ -9,10 +9,10 @@ public class MarketHelper {
 
     public void addMissing(MarketAPI market, String industryId, String... blockingIndustries) {
         if (!hasIndustry(market, blockingIndustries)) {
-            log.info("Adding " + industryId);
+            log.info("Adding industry " + industryId);
             market.addIndustry(industryId);
         } else {
-            log.info("Skipping not needed " + industryId);
+            log.debug("Skipping not needed industry " + industryId);
         }
     }
 
