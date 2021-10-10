@@ -21,7 +21,7 @@ public class FakeNanoforge extends MarketChanger {
     protected void changeImpl(MarketAPI market) {
         log.info("Applying fake nanoforge bonus to " + market.getName());
         market.getStats().getDynamic().getMod(Stats.PRODUCTION_QUALITY_MOD).modifyFlat(
-                "nanoforge", ItemEffectsRepo.PRISTINE_NANOFORGE_QUALITY_BONUS, "starpocalypse"
+                "nanoforge", ItemEffectsRepo.PRISTINE_NANOFORGE_QUALITY_BONUS, ""
         );
     }
 }
