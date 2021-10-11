@@ -10,7 +10,7 @@ import lombok.extern.log4j.Log4j;
 import starpocalypse.industry.IndustryAdder;
 import starpocalypse.industry.IndustryChanger;
 import starpocalypse.industry.MarketFixer;
-import starpocalypse.industry.FakeNanoforge;
+import starpocalypse.industry.ItemRemover;
 import starpocalypse.industry.StationAdder;
 
 @Log4j
@@ -42,7 +42,7 @@ public class IndustryChanges implements EconomyTickListener {
                     true,
                     Industries.PATROLHQ, Industries.MILITARYBASE, Industries.HIGHCOMMAND
             ),
-            new FakeNanoforge(),
+            new ItemRemover(),
             new StationAdder()
     };
 
@@ -69,7 +69,6 @@ public class IndustryChanges implements EconomyTickListener {
             return;
         }
         for (IndustryChanger changer : changers) {
-            log.debug("Trying " + changer.getClass().getName());
             changer.change(market);
         }
     }

@@ -64,7 +64,6 @@ public class SubmarketChanges implements ColonyInteractionListener {
 
     private void process(SubmarketAPI submarket) {
         for (SubmarketChanger changer : changers) {
-            log.info("Trying " + changer.getClass().getName());
             changer.change(submarket);
         }
     }

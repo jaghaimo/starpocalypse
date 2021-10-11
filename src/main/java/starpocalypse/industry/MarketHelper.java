@@ -11,8 +11,6 @@ public class MarketHelper {
         if (!hasIndustry(market, blockingIndustries)) {
             log.info("Adding industry " + industryId);
             market.addIndustry(industryId);
-        } else {
-            log.debug("Skipping not needed industry " + industryId);
         }
     }
 
