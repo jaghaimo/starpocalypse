@@ -19,17 +19,16 @@ public class ItemRemover extends MarketChanger {
 
     @Override
     protected void changeImpl(MarketAPI market) {
-        String marketName = market.getName();
         for (Industry industry : market.getIndustries()) {
-            removeSpecialItemIfPreset(industry, marketName);
+            removeSpecialItemIfPreset(industry);
         }
     }
 
-    private void removeSpecialItemIfPreset(Industry industry, String marketName) {
+    private void removeSpecialItemIfPreset(Industry industry) {
         SpecialItemData item = industry.getSpecialItem();
         if (item == null) {
             return;
         }
-        log.info("Removing " + item.getId() + " from " + marketName);
+        log.info("Removing " + item.getId());
     }
 }
