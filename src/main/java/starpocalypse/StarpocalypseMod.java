@@ -9,7 +9,7 @@ import lombok.extern.log4j.Log4j;
 public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
-    public void onNewGameAfterTimePass() {
+    public void onNewGameAfterProcGen() {
         onGameLoad(true);
     }
 

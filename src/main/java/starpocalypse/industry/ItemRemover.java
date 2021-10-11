@@ -3,6 +3,8 @@ package starpocalypse.industry;
 import com.fs.starfarer.api.campaign.SpecialItemData;
 import com.fs.starfarer.api.campaign.econ.Industry;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
+import com.fs.starfarer.api.impl.campaign.econ.impl.InstallableItemEffect;
+import com.fs.starfarer.api.impl.campaign.econ.impl.ItemEffectsRepo;
 
 import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleSet;
@@ -20,15 +22,21 @@ public class ItemRemover extends MarketChanger {
     @Override
     protected void changeImpl(MarketAPI market) {
         for (Industry industry : market.getIndustries()) {
-            removeSpecialItemIfPreset(industry);
+            removeSpecialItemIfPresent(industry);
         }
     }
 
-    private void removeSpecialItemIfPreset(Industry industry) {
+    private void removeSpecialItemIfPresent(Industry industry) {
         SpecialItemData item = industry.getSpecialItem();
         if (item == null) {
             return;
         }
+        InstallableItemEffect itemEffect = ItemEffectsRepo.ITEM_EFFECTS.get(item.getId());
+        if (itemEffect == null) {
+            return;
+        }
         log.info("Removing " + item.getId());
+        itemEffect.unapply(industry);
+        industry.setSpecialItem(null);
     }
 }
