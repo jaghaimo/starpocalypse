@@ -12,11 +12,12 @@ import starpocalypse.config.SimpleSet;
 @Log4j
 public class ItemRemover extends MarketChanger {
 
-    private final SimpleSet faction = new SimpleSet("faction", "itemRemover.csv");
+    private final SimpleSet factions = new SimpleSet("faction", "itemRemoverFaction.csv");
+    private final SimpleSet items = new SimpleSet("item", "itemRemoverItem.csv");
 
     @Override
     protected boolean canChange(MarketAPI market) {
-        return faction.has(market.getFactionId());
+        return factions.has(market.getFactionId());
     }
 
     @Override
@@ -28,15 +29,21 @@ public class ItemRemover extends MarketChanger {
 
     private void removeSpecialItemIfPresent(Industry industry) {
         SpecialItemData item = industry.getSpecialItem();
-        if (item == null) {
-            return;
-        }
-        InstallableItemEffect itemEffect = ItemEffectsRepo.ITEM_EFFECTS.get(item.getId());
-        if (itemEffect == null) {
+        if (!canRemove(item)) {
             return;
         }
         log.info("Removing " + item.getId());
-        itemEffect.unapply(industry);
+        InstallableItemEffect itemEffect = ItemEffectsRepo.ITEM_EFFECTS.get(item.getId());
+        if (itemEffect != null) {
+            itemEffect.unapply(industry);
+        }
         industry.setSpecialItem(null);
+    }
+
+    private boolean canRemove(SpecialItemData item) {
+        if (item == null) {
+            return false;
+        }
+        return items.has(item.getId());
     }
 }
