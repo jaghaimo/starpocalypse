@@ -12,9 +12,10 @@ This minimod makes the following changes to the campaign layer of Starsector:
 
 **Engagement Module**
 
-1. All non-blacklisted factions are considered for reputation adjustment.
-1. Maximum reputation adjustment is 1 (both increase or decrease) for factions that hate the owner of the fleet you have beaten.
-1. Additionally, commissioned faction gets adjusted 3 times faster.
+1. All non-blacklisted factions, and only player-won engagements are considered for reputation adjustment.
+1. Reputation adjustment is based on relationship between faction being adjusted and owner of the fleet you have beaten.
+1. Maximum reputation adjustment is 1 for factions that are vengeful (or -1 for factions that are cooperative) to the owner of the fleet you have beaten.
+1. For commissioned faction the max adjustment is 3 (or -3).
 
 **Industry Module**
 
