@@ -1,6 +1,6 @@
 # Starpocalypse
 
-This minimod changes how markets and submarkets work:
+This minimod makes the following changes to the campaign layer of Starsector:
 
 1. Weapons and combat ships are scarce and highly regulated. As such, only Military Markets sell weapons, LPCs, and combat ships. Open Markets and Black Markets still sell civilian grade ships, albeit of inferior quality.
 1. Contraband can happen, and when stability is low, some weapons and ships will show up in the Black Market.
