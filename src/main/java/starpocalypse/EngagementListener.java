@@ -6,8 +6,8 @@ import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.combat.EngagementResultAPI;
 import com.fs.starfarer.api.util.Misc;
 
-import org.apache.log4j.Level;
 import lombok.extern.log4j.Log4j;
+import starpocalypse.config.SimpleSet;
 
 @Log4j
 public class EngagementListener extends BaseCampaignEventListener {
@@ -16,22 +16,16 @@ public class EngagementListener extends BaseCampaignEventListener {
     // (beaten reputation at adjusted faction is -1.0). Negative sign to give
     // a positive increase to the player.
     public static float ADJUSTMENT_FACTOR = -100f;
-
     // Commissioned faction relationship changes faster. Mind your manners.
     public static float COMMISSIONED_MULT = 3f;
-
     // Minimal absolute adjustment to consider.
     public static float MIN_ADJUSTMENT = 0.001f;
 
-    // Never adjust these factions.
-    public static String BLACKLIST[] = { "derelict", "knights_of_ludd", "lions_guard", "mercenary", "neutral", "omega",
-            "player", "poor", "remnant", "scavengers", "sleeper" };
+    public SimpleSet factionBlacklist = new SimpleSet("faction", "engagementBlacklist.csv");
 
     public EngagementListener() {
         super(false);
         Global.getSector().addTransientListener(this);
-        // Change to DEBUG for verbose logging
-        log.setLevel(Level.DEBUG);
     }
 
     @Override
@@ -57,21 +51,21 @@ public class EngagementListener extends BaseCampaignEventListener {
     private void adjustReputation(FactionAPI beatenFaction, FactionAPI consideredFaction) {
         float delta = getAdjustmentDelta(consideredFaction, beatenFaction);
         if (Math.abs(delta) < MIN_ADJUSTMENT) {
-            log.debug("Skipping faction " + consideredFaction.getId() + " due to small rep change");
+            log.debug("Skipping " + consideredFaction.getId() + " due to small rep change");
             return;
         }
         FactionAPI playerFaction = Global.getSector().getPlayerFaction();
-        log.info("Adjusting faction " + consideredFaction.getId() + " rep by " + String.valueOf(delta));
+        log.info("Adjusting " + consideredFaction.getId() + " rep by " + String.valueOf(delta));
         playerFaction.adjustRelationship(consideredFaction.getId(), delta);
     }
 
     private boolean canAdjust(FactionAPI faction, FactionAPI beatenFaction) {
         if (isBlacklisted(faction)) {
-            log.debug("Skipping blacklisted faction " + faction.getId());
+            log.debug("Skipping blacklisted " + faction.getId());
             return false;
         }
         if (isFaction(faction, beatenFaction)) {
-            log.debug("Skipping involved faction " + faction.getId());
+            log.debug("Skipping involved " + faction.getId());
             return false;
         }
         return true;
@@ -81,19 +75,14 @@ public class EngagementListener extends BaseCampaignEventListener {
         float delta = consideredFaction.getRelationship(beatenFaction.getId()) / ADJUSTMENT_FACTOR;
         FactionAPI commissionedFaction = Misc.getCommissionFaction();
         if (isFaction(consideredFaction, commissionedFaction)) {
-            log.debug("Increasing rep change for commissioned faction " + consideredFaction.getId());
+            log.debug("Commissioned rep increase for " + consideredFaction.getId());
             delta *= COMMISSIONED_MULT;
         }
         return delta;
     }
 
     private boolean isBlacklisted(FactionAPI faction) {
-        for (String blacklistedFactionId : BLACKLIST) {
-            if (blacklistedFactionId.equals(faction.getId())) {
-                return true;
-            }
-        }
-        return false;
+        return factionBlacklist.has(faction.getId());
     }
 
     private boolean isFaction(FactionAPI factionA, FactionAPI factionB) {
