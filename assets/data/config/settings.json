@@ -1,0 +1,5 @@
+{
+    "starpocalypseEngagementModule": true, # Adjusts reputation with other factions based on combat engagements
+    "starpocalypseIndustryModule": true, # Adds stations, patrol hqs, ground defences
+    "starpocalypseSubmarketModule": true # Damages all ships, removes weapons and combat ships, allows contraband
+}
