@@ -7,8 +7,17 @@ This minimod makes the following changes to the campaign layer of Starsector:
 1. Lawless factions like pirates and pathers do not submit to this rule of law. You can still find weapons and combat ships at their bases (both core and raider).
 1. Factions are armed to the teeth. Any non-hidden market has at least an orbiting station, ground defences, and patrol HQ. Hidden bases (pirates and pathers raider bases) only get ground defences.
 1. Your actions have consequences. When defeating a fleet your reputation with seemingly unrelated factions changes as well. Enemies of your enemy start to like you a bit, while their friends, less.
+1. There is no such thing as a free lunch. Nobody gets random Nanoforges or Synchrotrons around. Not even your best modded faction.
 
 ## Implementation details
+
+**Procgen Module**
+
+1. Controls special item (like Nanoforge or Synchrotron) removal.
+1. Does this at 3 stages - on new game, after economy load, and after time pass.
+
+On a rare occasion it could miss markets from mods that add special items after time pass, which can happen if the mod loads after this mod.
+There is one final removal pass at the end of the first month of the player game (31 March 206) provided the game has not been reloaded.
 
 **Engagement Module**
 
@@ -26,7 +35,6 @@ This minimod makes the following changes to the campaign layer of Starsector:
 
 **Submarket Module**
 
-1. Remove all special items (e.g. synchrotrons, nanoforges, AI cores) from industries of non-player factions (one-off, on New Game only).
 1. Remove all combat ships, weapons, and LPCs from open and black markets if it is not a pirate or luddic path market, and...
 1. Add all removed weapons and LPCs back to Military Market, if there is one.
 1. But when stability is low, some of them leak back to Black Market.
@@ -34,7 +42,13 @@ This minimod makes the following changes to the campaign layer of Starsector:
 
 ## Configuration
 
-All files can be found in `data/starpocalypse` folder. Mods can apply changes and merges to default values by shipping the same folder with their version of CSV files.
+All files can be found in `data/starpocalypse` folder.
+Mods can apply changes and merges to default values by shipping the same folder with their version of CSV files.
+
+**Procgen Module**
+
+The list of factions affected by item removal rules are found in `itemRemoverFactions.csv`.
+The list of items removed can be found in `itemRemoverItems.csv`.
 
 **Engagement Module**
 
@@ -43,8 +57,6 @@ The blacklist file `engagementBlacklist.csv` controls which factions will NOT ad
 **Industry Module**
 
 No configuration file for industries exists yet.
-
-The list of factions affected by item removal rules are found in `itemRemover.csv`.
 
 Two files regulate station additions (`station*.csv`): faction map which points which station tech to use depending on faction, and database file that is needed to prevent stations being added multiple times.
 

@@ -5,6 +5,9 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
+/**
+ * Fixes markets by removing industries if any of the blocking industries exist.
+ */
 public class MarketFixer implements IndustryChanger {
 
     private final MarketHelper helper = new MarketHelper();
@@ -16,7 +19,7 @@ public class MarketFixer implements IndustryChanger {
         this.blockingIndustries = blockingIndustries;
     }
 
-    public MarketFixer(String[] removedIndustries, String... blockingIndustries) {
+    public MarketFixer(String[] removedIndustries, String[] blockingIndustries) {
         this.removedIndustries = removedIndustries;
         this.blockingIndustries = blockingIndustries;
     }

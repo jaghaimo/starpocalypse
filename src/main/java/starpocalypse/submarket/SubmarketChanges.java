@@ -1,4 +1,4 @@
-package starpocalypse;
+package starpocalypse.submarket;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,27 +13,20 @@ import com.fs.starfarer.api.campaign.listeners.ColonyInteractionListener;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
 
 import lombok.extern.log4j.Log4j;
-import starpocalypse.submarket.MilitaryContraband;
-import starpocalypse.submarket.MilitaryRegulation;
-import starpocalypse.submarket.ShipDamager;
-import starpocalypse.submarket.SubmarketChanger;
 
 @Log4j
 public class SubmarketChanges implements ColonyInteractionListener {
 
-    private final SubmarketChanger[] changers = {
-            new MilitaryRegulation(),
-            new MilitaryContraband(),
-            new ShipDamager(),
-    };
+    private final SubmarketChanger[] changers;
 
-    public SubmarketChanges() {
+    public SubmarketChanges(SubmarketChanger[] submarketChangers) {
+        changers = submarketChangers;
         Global.getSector().getListenerManager().addListener(this, true);
     }
 
     @Override
     public void reportPlayerOpenedMarket(MarketAPI market) {
-        log.info("Processing market " + market.getName());
+        log.debug("Processing market " + market.getName());
         processSubmarkets(market);
     }
 
@@ -51,7 +44,7 @@ public class SubmarketChanges implements ColonyInteractionListener {
 
     private void processSubmarkets(MarketAPI market) {
         for (SubmarketAPI submarket : getSortedSubmarkets(market)) {
-            log.info("Processing submarket " + submarket.getNameOneLine());
+            log.debug("Processing submarket " + submarket.getNameOneLine());
             prepare(submarket);
             process(submarket);
         }

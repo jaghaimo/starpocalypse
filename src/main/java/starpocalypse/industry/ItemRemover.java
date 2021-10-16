@@ -32,7 +32,7 @@ public class ItemRemover extends MarketChanger {
         if (!canRemove(item)) {
             return;
         }
-        log.info("Removing " + item.getId());
+        log.info("Removing item " + item.getId());
         InstallableItemEffect itemEffect = ItemEffectsRepo.ITEM_EFFECTS.get(item.getId());
         if (itemEffect != null) {
             itemEffect.unapply(industry);
