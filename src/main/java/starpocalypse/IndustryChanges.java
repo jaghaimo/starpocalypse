@@ -16,7 +16,7 @@ import starpocalypse.industry.StationAdder;
 @Log4j
 public class IndustryChanges implements EconomyTickListener {
 
-    private IndustryChanger[] changers = {
+    protected IndustryChanger[] changers = {
             new MarketFixer(
                     Industries.GROUNDDEFENSES, Industries.HEAVYBATTERIES
             ),

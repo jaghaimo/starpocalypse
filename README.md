@@ -20,12 +20,13 @@ This minimod makes the following changes to the campaign layer of Starsector:
 **Industry Module**
 
 1. Ignore player owned markets altogether (do nothing). This also means autonomous colonies from Nexerelin.
-1. Add Ground Defenses to all non-player markets, raider bases included.
+1. Add Ground Defences to all non-player markets, raider bases included.
 1. Additionally, add Orbiting Station and Patrol HQ to all non-player, non-hidden markets that did not have them, or did not have any of their upgrades...
 1. And make sure that the above two are met throughout your playthrough (via a transient listener).
 
 **Submarket Module**
 
+1. Remove all special items (e.g. synchrotrons, nanoforges, AI cores) from industries of non-player factions (one-off, on New Game only).
 1. Remove all combat ships, weapons, and LPCs from open and black markets if it is not a pirate or luddic path market, and...
 1. Add all removed weapons and LPCs back to Military Market, if there is one.
 1. But when stability is low, some of them leak back to Black Market.
@@ -43,7 +44,9 @@ The blacklist file `engagementBlacklist.csv` controls which factions will NOT ad
 
 No configuration file for industries exists yet.
 
-Two files regulate station additions: faction map which points which station tech to use depending on faction, and database file that is needed to prevent stations being added multiple times.
+The list of factions affected by item removal rules are found in `itemRemover.csv`.
+
+Two files regulate station additions (`station*.csv`): faction map which points which station tech to use depending on faction, and database file that is needed to prevent stations being added multiple times.
 
 When using mods that add new stations, it is generally a good idea to add them all to the database even if you do not plan to use them in the faction map.
 
@@ -52,6 +55,6 @@ When using mods that add new stations, it is generally a good idea to add them a
 Decision which factions and submarkets of that faction are regulated is made via `militaryRegulation*.csv` files.
 Same submarkets and factions can additionally have contraband applied - see `militaryContraband.csv` for details.
 
-Ship damager accepts faction and submarket, and is applied to all ships; see `shipDamange*.csv`.
+Ship damager accepts faction and submarket, and is applied to all ships; see `shipDamage*.csv`.
 
 Both faction and submarket files work as whitelist and accept: faction or submarket (allow) id, negated faction or submarket id (disallow), "all" keyword (allow all except negated).

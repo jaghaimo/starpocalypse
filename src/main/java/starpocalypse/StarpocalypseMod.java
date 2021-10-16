@@ -10,6 +10,11 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
     public void onNewGameAfterProcGen() {
+        new ProcgenChanges();
+    }
+
+    @Override
+    public void onNewGameAfterEconomyLoad() {
         onGameLoad(true);
     }
 
