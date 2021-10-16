@@ -13,7 +13,7 @@ This minimod makes the following changes to the campaign layer of Starsector:
 
 **Procgen Module**
 
-1. Controls special item (like Nanoforge or Synchrotron) removal.
+1. Controls special item (like Nanoforge or Synchrotron) removal during procedural generation (new game).
 1. Does this at 3 stages - on new game, after economy load, and after time pass.
 
 On a rare occasion it could miss markets from mods that add special items after time pass, which can happen if the mod loads after this mod.
@@ -21,7 +21,7 @@ There is one final removal pass at the end of the first month of the player game
 
 **Engagement Module**
 
-1. All non-blacklisted factions, and only player-won engagements are considered for reputation adjustment.
+1. Any non-blacklisted factions, and only player-won engagements are considered for reputation adjustment.
 1. Reputation adjustment is based on relationship between faction being adjusted and owner of the fleet you have beaten.
 1. Maximum reputation adjustment is 1 for factions that are vengeful (or -1 for factions that are cooperative) to the owner of the fleet you have beaten.
 1. For commissioned faction the max adjustment is 3 (or -3).
@@ -30,7 +30,7 @@ There is one final removal pass at the end of the first month of the player game
 
 1. Ignore player owned markets altogether (do nothing). This also means autonomous colonies from Nexerelin.
 1. Add Ground Defences to all non-player markets, raider bases included.
-1. Additionally, add Orbiting Station and Patrol HQ to all non-player, non-hidden markets that did not have them, or did not have any of their upgrades...
+1. Additionally, add Orbital Station and Patrol HQ to all non-player, non-hidden markets that did not have them, or did not have any of their upgrades...
 1. And make sure that the above two are met throughout your playthrough (via a transient listener).
 
 **Submarket Module**

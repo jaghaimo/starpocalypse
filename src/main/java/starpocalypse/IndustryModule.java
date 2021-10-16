@@ -22,14 +22,11 @@ public class IndustryModule {
             ),
             new MarketFixer(
                     new String[] {
-                            Industries.ORBITALSTATION, Industries.ORBITALSTATION_MID,
-                            Industries.ORBITALSTATION_HIGH
+                            Industries.ORBITALSTATION, Industries.ORBITALSTATION_MID, Industries.ORBITALSTATION_HIGH
                     },
                     new String[] {
-                            Industries.BATTLESTATION, Industries.BATTLESTATION_MID,
-                            Industries.BATTLESTATION_HIGH,
-                            Industries.STARFORTRESS, Industries.STARFORTRESS_MID,
-                            Industries.STARFORTRESS_HIGH
+                            Industries.BATTLESTATION, Industries.BATTLESTATION_MID, Industries.BATTLESTATION_HIGH,
+                            Industries.STARFORTRESS, Industries.STARFORTRESS_MID, Industries.STARFORTRESS_HIGH
                     }
             ),
             new IndustryAdder(
@@ -39,7 +36,7 @@ public class IndustryModule {
             ),
             new IndustryAdder(
                     Industries.PATROLHQ,
-                    true,
+                    false,
                     Industries.PATROLHQ, Industries.MILITARYBASE, Industries.HIGHCOMMAND
             ),
             new StationAdder()
