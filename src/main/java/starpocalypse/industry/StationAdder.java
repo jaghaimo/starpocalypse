@@ -16,6 +16,7 @@ public class StationAdder extends MarketChanger {
     @Override
     protected boolean canChange(MarketAPI market) {
         if (market.isHidden()) {
+            log.debug("Skipping hidden market");
             return false;
         }
         String factionId = market.getFactionId();

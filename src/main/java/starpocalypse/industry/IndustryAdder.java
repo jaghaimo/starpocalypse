@@ -2,6 +2,9 @@ package starpocalypse.industry;
 
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 
+import lombok.extern.log4j.Log4j;
+
+@Log4j
 public class IndustryAdder extends MarketChanger {
 
     private final MarketHelper helper = new MarketHelper();
@@ -18,6 +21,7 @@ public class IndustryAdder extends MarketChanger {
     @Override
     protected boolean canChange(MarketAPI market) {
         if (market.isHidden() && !allowForHidden) {
+            log.debug("Skipping hidden market");
             return false;
         }
         return true;
