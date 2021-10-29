@@ -3,19 +3,18 @@ package starpocalypse.config;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
+import lombok.experimental.Delegate;
+import lombok.extern.log4j.Log4j;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import lombok.experimental.Delegate;
-import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class SimpleMap extends FileReader {
 
     @Delegate
     private final Map<String, String> map = new HashMap<>();
+
     private final String field;
 
     public SimpleMap(String column, String field, String file) {

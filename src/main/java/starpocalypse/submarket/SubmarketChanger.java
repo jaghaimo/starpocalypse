@@ -5,7 +5,6 @@ import com.fs.starfarer.api.campaign.CargoStackAPI;
 import com.fs.starfarer.api.campaign.FleetDataAPI;
 import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
-
 import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleSet;
 

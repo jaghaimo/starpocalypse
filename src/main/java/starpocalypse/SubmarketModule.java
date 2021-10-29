@@ -1,7 +1,6 @@
 package starpocalypse;
 
 import com.fs.starfarer.api.Global;
-
 import lombok.extern.log4j.Log4j;
 import starpocalypse.submarket.MilitaryContraband;
 import starpocalypse.submarket.MilitaryRegulation;
@@ -12,10 +11,10 @@ import starpocalypse.submarket.SubmarketChanges;
 @Log4j
 public class SubmarketModule {
 
-    private final static SubmarketChanger[] changers = {
-            new MilitaryRegulation(),
-            new MilitaryContraband(),
-            new ShipDamager(),
+    private static final SubmarketChanger[] changers = {
+        new MilitaryRegulation(),
+        new MilitaryContraband(),
+        new ShipDamager(),
     };
 
     public static void init() {

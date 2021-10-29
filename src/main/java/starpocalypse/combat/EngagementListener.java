@@ -5,7 +5,6 @@ import com.fs.starfarer.api.campaign.BaseCampaignEventListener;
 import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.combat.EngagementResultAPI;
 import com.fs.starfarer.api.util.Misc;
-
 import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleSet;
 

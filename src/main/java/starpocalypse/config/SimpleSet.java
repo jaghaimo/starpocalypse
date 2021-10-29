@@ -3,19 +3,17 @@ package starpocalypse.config;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
-
+import lombok.extern.log4j.Log4j;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class SimpleSet extends FileReader {
 
     private final Set<String> set = new HashSet<>();
-    private final static String ALL = "all";
-    private final static String NOT = "!";
+    private static final String ALL = "all";
+    private static final String NOT = "!";
 
     public SimpleSet(String column, String file) {
         load(column, file);

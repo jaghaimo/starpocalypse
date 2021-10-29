@@ -7,7 +7,6 @@ import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.HullMods;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
-
 import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleSet;
 

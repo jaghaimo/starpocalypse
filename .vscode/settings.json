@@ -1,4 +1,6 @@
 {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "java.configuration.updateBuildConfiguration": "automatic",
-    "java.format.settings.url": "./eclipse-formatter.xml"
+    "prettier.printWidth": 120,
+    "prettier.tabWidth": 4
 }

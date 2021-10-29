@@ -13,5 +13,4 @@ public abstract class MarketChanger implements IndustryChanger {
     protected abstract boolean canChange(MarketAPI market);
 
     protected abstract void changeImpl(MarketAPI market);
-
 }
