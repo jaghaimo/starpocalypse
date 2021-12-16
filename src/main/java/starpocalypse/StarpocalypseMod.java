@@ -2,6 +2,7 @@ package starpocalypse;
 
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
+import starpocalypse.blackmarket.BlackMarketListener;
 
 public class StarpocalypseMod extends BaseModPlugin {
 
@@ -30,6 +31,7 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
     public void onGameLoad(boolean newGame) {
+        new BlackMarketListener();
         EngagementModule.init(hasEngagement);
         IndustryModule.init(hasIndustry);
         PlayerModule.init((hasPlayer && newGame) || hasPlayerForce);
