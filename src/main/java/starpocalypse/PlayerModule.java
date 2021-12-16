@@ -10,7 +10,7 @@ public class PlayerModule extends ShipDamager {
     public static void init(boolean isEnabled) {
         if (isEnabled) {
             PlayerModule module = new PlayerModule();
-            List<FleetMemberAPI> members = Global.getSector().getPlayerFleet().getMembersWithFightersCopy();
+            List<FleetMemberAPI> members = Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy();
             module.damageShips(members);
         }
     }
