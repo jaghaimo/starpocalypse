@@ -23,11 +23,10 @@ public class SubmarketModule {
     };
 
     public static void init() {
-        if (!hasSubmarket) {
-            return;
+        if (hasSubmarket) {
+            log.info("Enabling submarket module");
+            new SubmarketListener(changers);
         }
-        log.info("Enabling submarket module");
-        new SubmarketListener(changers);
     }
 
     public static void enableShyBlackMarket() {

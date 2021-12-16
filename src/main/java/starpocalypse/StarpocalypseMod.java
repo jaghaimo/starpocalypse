@@ -16,7 +16,7 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
     public void onNewGameAfterTimePass() {
-        onGameLoad(true);
+        NewGameModule.init(true);
     }
 
     @Override
