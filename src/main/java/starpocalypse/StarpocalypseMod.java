@@ -6,12 +6,12 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
     public void onNewGameAfterProcGen() {
-        ProcgenModule.init(true);
+        NewGameModule.init(true);
     }
 
     @Override
     public void onNewGameAfterEconomyLoad() {
-        ProcgenModule.init(true);
+        NewGameModule.init(true);
     }
 
     @Override
@@ -23,8 +23,7 @@ public class StarpocalypseMod extends BaseModPlugin {
     public void onGameLoad(boolean newGame) {
         EngagementModule.init();
         IndustryModule.init();
-        PlayerModule.initPlayer(newGame);
-        ProcgenModule.init(newGame);
+        NewGameModule.init(newGame);
         SubmarketModule.init();
     }
 }
