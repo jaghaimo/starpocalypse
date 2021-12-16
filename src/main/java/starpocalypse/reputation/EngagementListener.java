@@ -1,4 +1,4 @@
-package starpocalypse.combat;
+package starpocalypse.reputation;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.BaseCampaignEventListener;

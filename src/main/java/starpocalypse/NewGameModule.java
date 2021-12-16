@@ -16,9 +16,12 @@ public class NewGameModule extends ShipDamager {
      */
     public static void init(boolean newGame) {
         boolean hasNewGame = Global.getSettings().getBoolean("starpocalypseNewGameModule");
+        if (!hasNewGame) {
+            return;
+        }
         boolean hasNewGameForce = Global.getSettings().getBoolean("starpocalypseNewGameModuleForce");
         boolean hasNewGamePlayer = Global.getSettings().getBoolean("starpocalypseNewGameModuleDamageStartingFleet");
-        if (hasNewGame && (newGame || hasNewGameForce)) {
+        if (newGame || hasNewGameForce) {
             log.info("Enabling new game module");
             new NewGameListener();
         }

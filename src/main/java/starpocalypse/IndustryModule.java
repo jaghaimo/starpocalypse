@@ -34,14 +34,19 @@ public class IndustryModule {
             Industries.MILITARYBASE,
             Industries.HIGHCOMMAND
         ),
-        new StationAdder(),
     };
 
     public static void init() {
         boolean hasIndustry = Global.getSettings().getBoolean("starpocalypseIndustryModule");
-        if (hasIndustry) {
-            log.info("Enabling industry module");
-            new IndustryListener(changers);
+        if (!hasIndustry) {
+            return;
+        }
+        log.info("Enabling industry module");
+        new IndustryListener(changers);
+        boolean hasIndustryStation = Global.getSettings().getBoolean("starpocalypseIndustryModuleStations");
+        if (hasIndustryStation) {
+            log.info("Enabling station adder component");
+            new IndustryListener(new StationAdder());
         }
     }
 }

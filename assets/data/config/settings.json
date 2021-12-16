@@ -1,19 +1,21 @@
 {
-    ## ENCOUNTER MODULE
-    # Adjusts reputation with other factions based on combat engagements
-    "starpocalypseEngagementModule": true,
-
     ## INDUSTRY MODULE
-    # Adds stations, patrol hqs, and ground defences as required
+    # Adds defined industries (e.g. patrol hqs and ground defences) to eligible markets
     "starpocalypseIndustryModule": true,
+    # Adds stations (tier 1) to eligible markets 
+    "starpocalypseIndustryModuleStations": true,
 
     ## NEW GAME MODULE
     # Confiscates goodies like nanoforges when starting a new game
     "starpocalypseNewGameModule": true,
-    # Damage starting fleet, can be enabled without new game module
+    # Damage starting fleet
     "starpocalypseNewGameModuleDamageStartingFleet": true,
     # Force new game module to run on existing save (on game load) - turn on, load, save, turn off
     "starpocalypseNewGameModuleForce": false,
+
+    ## REPUTATION MODULE
+    # Adjusts reputation with other factions based on combat engagements
+    "starpocalypseReputationModule": true,
 
     ## SUBMARKET MODULE
     # Damages all ships, removes weapons and combat ships, allows contraband
