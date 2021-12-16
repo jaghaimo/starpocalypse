@@ -1,6 +1,5 @@
 {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "java.configuration.updateBuildConfiguration": "automatic",
-    "prettier.printWidth": 120,
-    "prettier.tabWidth": 4
+    "editor.formatOnSave": true,
+    "java.configuration.updateBuildConfiguration": "automatic"
 }

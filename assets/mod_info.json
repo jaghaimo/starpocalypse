@@ -5,7 +5,7 @@
   "utility": true,
   "version": "1.5.0",
   "description": "More apocalyptic settings for Starsector universe",
-  "gameVersion": "0.95a-RC15",
+  "gameVersion": "0.95.1a-RC5",
   "modPlugin": "starpocalypse.StarpocalypseMod",
   "jars": ["starpocalypse.jar"]
 }
