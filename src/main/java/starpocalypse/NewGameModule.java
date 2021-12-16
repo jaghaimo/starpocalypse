@@ -27,13 +27,12 @@ public class NewGameModule extends ShipDamager {
         }
         if (hasNewGamePlayer && (newGame || hasNewGameForce)) {
             log.info("Damaging player fleet");
-            NewGameModule module = new NewGameModule();
-            List<FleetMemberAPI> members = Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy();
-            module.damageShips(members);
+            (new NewGameModule()).damageShips();
         }
     }
 
-    private void damageShips(List<FleetMemberAPI> members) {
+    private void damageShips() {
+        List<FleetMemberAPI> members = Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy();
         for (FleetMemberAPI member : members) {
             changeShips(null, null, member);
         }
