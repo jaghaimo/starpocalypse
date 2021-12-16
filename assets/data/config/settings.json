@@ -1,15 +1,19 @@
 {
+    ## MODULES ##
     # Adjusts reputation with other factions based on combat engagements
     "starpocalypseEngagementModule": true,
-
     # Adds stations, patrol hqs, ground defences
     "starpocalypseIndustryModule": true,
-   
+    # Damage player fleet (on new game)
+    "starpocalypsePlayerModule": true,
     # Confiscates goodies like nanoforges at procgen time (on new game)
     "starpocalypseProcgenModule": true,
-    # Force procgen module to run on existing games (on game load)
-    "starpocalypseProcgenModuleForce": false,
-
     # Damages all ships, removes weapons and combat ships, allows contraband
-    "starpocalypseSubmarketModule": true
+    "starpocalypseSubmarketModule": true,
+
+    ## CATCH-UP FUNCTIONALITY - on game load - turn on, load, save, turn off ##
+    # Force player module to rum on existing save
+    "starpocalypsePlayerModuleForce": false,
+    # Force procgen module to run on existing save
+    "starpocalypseProcgenModuleForce": false,
 }

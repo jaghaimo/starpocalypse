@@ -7,6 +7,8 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     private final boolean hasEngagement = Global.getSettings().getBoolean("starpocalypseEngagementModule");
     private final boolean hasIndustry = Global.getSettings().getBoolean("starpocalypseIndustryModule");
+    private final boolean hasPlayer = Global.getSettings().getBoolean("starpocalypsePlayerModule");
+    private final boolean hasPlayerForce = Global.getSettings().getBoolean("starpocalypsePlayerModuleForce");
     private final boolean hasProcGen = Global.getSettings().getBoolean("starpocalypseProcgenModule");
     private final boolean hasProcGenForce = Global.getSettings().getBoolean("starpocalypseProcgenModuleForce");
     private final boolean hasSubmarket = Global.getSettings().getBoolean("starpocalypseSubmarketModule");
@@ -30,7 +32,8 @@ public class StarpocalypseMod extends BaseModPlugin {
     public void onGameLoad(boolean newGame) {
         EngagementModule.init(hasEngagement);
         IndustryModule.init(hasIndustry);
-        ProcgenModule.init(hasProcGen || hasProcGenForce);
+        PlayerModule.init((hasPlayer && newGame) || hasPlayerForce);
+        ProcgenModule.init((hasProcGen && newGame) || hasProcGenForce);
         SubmarketModule.init(hasSubmarket);
     }
 }
