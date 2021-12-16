@@ -1,7 +1,6 @@
 package starpocalypse;
 
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
-
 import lombok.extern.log4j.Log4j;
 import starpocalypse.industry.IndustryAdder;
 import starpocalypse.industry.IndustryChanger;

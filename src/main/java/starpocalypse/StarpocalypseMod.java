@@ -4,7 +4,7 @@ import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
 
 public class StarpocalypseMod extends BaseModPlugin {
-    
+
     private final boolean hasEngagement = Global.getSettings().getBoolean("starpocalypseEngagementModule");
     private final boolean hasIndustry = Global.getSettings().getBoolean("starpocalypseIndustryModule");
     private final boolean hasProcGen = Global.getSettings().getBoolean("starpocalypseProcgenModule");
