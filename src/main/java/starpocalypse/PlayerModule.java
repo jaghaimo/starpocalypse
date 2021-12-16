@@ -9,8 +9,10 @@ import starpocalypse.submarket.ShipDamager;
 @Log4j
 public class PlayerModule extends ShipDamager {
 
-    public static void init(boolean isEnabled) {
-        if (isEnabled) {
+    public static void initPlayer(boolean newGame) {
+        boolean hasPlayer = Global.getSettings().getBoolean("starpocalypsePlayerModule");
+        boolean hasPlayerForce = Global.getSettings().getBoolean("starpocalypsePlayerModuleForce");
+        if ((hasPlayer && newGame) || hasPlayerForce) {
             log.info("Enabling player module");
             PlayerModule module = new PlayerModule();
             List<FleetMemberAPI> members = Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy();

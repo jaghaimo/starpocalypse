@@ -1,4 +1,4 @@
-package starpocalypse.blackmarket;
+package starpocalypse.submarket;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.PlayerMarketTransaction;
@@ -11,12 +11,12 @@ import java.util.Map;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class BlackMarketListener implements ColonyInteractionListener {
+public class ShyBlackMarketListener implements ColonyInteractionListener {
 
     private final String SHY_BLACK_MARKET = "shy_black_market";
     private final Map<MarketAPI, SubmarketAPI> marketToSubmarket = new LinkedHashMap<>();
 
-    public BlackMarketListener() {
+    public ShyBlackMarketListener() {
         Global.getSector().getListenerManager().addListener(this, true);
     }
 

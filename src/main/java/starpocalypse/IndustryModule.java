@@ -1,5 +1,6 @@
 package starpocalypse;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
 import lombok.extern.log4j.Log4j;
 import starpocalypse.industry.IndustryAdder;
@@ -36,8 +37,9 @@ public class IndustryModule {
         new StationAdder(),
     };
 
-    public static void init(boolean isEnabled) {
-        if (isEnabled) {
+    public static void init() {
+        boolean hasIndustry = Global.getSettings().getBoolean("starpocalypseIndustryModule");
+        if (hasIndustry) {
             log.info("Enabling industry module");
             new IndustryListener(changers);
         }

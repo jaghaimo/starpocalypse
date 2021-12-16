@@ -1,4 +1,4 @@
-package starpocalypse.blackmarket;
+package starpocalypse.submarket;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CoreUIAPI;
