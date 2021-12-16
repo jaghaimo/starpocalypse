@@ -4,21 +4,22 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.listeners.EconomyTickListener;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
+
 import lombok.extern.log4j.Log4j;
 
 @Log4j
 /**
  * Changes to market industries are enforced periodically (every economy tick).
  */
-public class IndustryChanges implements EconomyTickListener {
+public class IndustryListener implements EconomyTickListener {
 
     protected final IndustryChanger[] changers;
 
-    public IndustryChanges(IndustryChanger industryChanger) {
+    public IndustryListener(IndustryChanger industryChanger) {
         this(new IndustryChanger[] { industryChanger });
     }
 
-    public IndustryChanges(IndustryChanger[] industryChangers) {
+    public IndustryListener(IndustryChanger[] industryChangers) {
         changers = industryChangers;
         Global.getSector().getListenerManager().addListener(this, true);
         reportEconomyTick(0);

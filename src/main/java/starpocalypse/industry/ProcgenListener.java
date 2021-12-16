@@ -5,9 +5,9 @@ import com.fs.starfarer.api.Global;
 /**
  * One off changes to industries during procedural generation.
  */
-public class ProcgenChanges extends IndustryChanges {
+public class ProcgenListener extends IndustryListener {
 
-    public ProcgenChanges() {
+    public ProcgenListener() {
         super(new ItemRemover());
     }
 

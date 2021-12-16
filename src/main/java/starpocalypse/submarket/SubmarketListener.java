@@ -1,5 +1,9 @@
 package starpocalypse.submarket;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.PlayerMarketTransaction;
 import com.fs.starfarer.api.campaign.SubmarketPlugin;
@@ -7,32 +11,31 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.campaign.listeners.ColonyInteractionListener;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class SubmarketChanges implements ColonyInteractionListener {
+public class SubmarketListener implements ColonyInteractionListener {
 
     private final SubmarketChanger[] changers;
 
-    public SubmarketChanges(SubmarketChanger[] submarketChangers) {
+    public SubmarketListener(SubmarketChanger[] submarketChangers) {
         changers = submarketChangers;
         Global.getSector().getListenerManager().addListener(this, true);
     }
 
     @Override
     public void reportPlayerOpenedMarket(MarketAPI market) {
-        log.debug("Processing market " + market.getName());
-        processSubmarkets(market);
     }
 
     @Override
     public void reportPlayerClosedMarket(MarketAPI market) {}
 
     @Override
-    public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {}
+    public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {
+        log.debug("Processing market " + market.getName());
+        processSubmarkets(market);
+    }
 
     @Override
     public void reportPlayerMarketTransaction(PlayerMarketTransaction transaction) {}

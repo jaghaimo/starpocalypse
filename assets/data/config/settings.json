@@ -1,6 +1,15 @@
 {
-    "starpocalypseEngagementModule": true, # Adjusts reputation with other factions based on combat engagements
-    "starpocalypseIndustryModule": true, # Adds stations, patrol hqs, ground defences
-    "starpocalypseProcgenModule": true # Confiscates goodies like handed nanoforges at procgen time (on new game)
-    "starpocalypseSubmarketModule": true # Damages all ships, removes weapons and combat ships, allows contraband
+    # Adjusts reputation with other factions based on combat engagements
+    "starpocalypseEngagementModule": true,
+
+    # Adds stations, patrol hqs, ground defences
+    "starpocalypseIndustryModule": true,
+   
+    # Confiscates goodies like nanoforges at procgen time (on new game)
+    "starpocalypseProcgenModule": true,
+    # Force procgen module to run on existing games (on game load)
+    "starpocalypseProcgenModuleForce": false,
+
+    # Damages all ships, removes weapons and combat ships, allows contraband
+    "starpocalypseSubmarketModule": true
 }
