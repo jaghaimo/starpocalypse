@@ -30,7 +30,7 @@ public class SubmarketListener implements ColonyInteractionListener {
 
     @Override
     public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {
-        log.debug("Processing market " + market.getName());
+        log.info("Processing market " + market.getName());
         processSubmarkets(market);
     }
 
@@ -39,7 +39,7 @@ public class SubmarketListener implements ColonyInteractionListener {
 
     private void processSubmarkets(MarketAPI market) {
         for (SubmarketAPI submarket : getSortedSubmarkets(market)) {
-            log.debug("Processing submarket " + submarket.getNameOneLine());
+            log.info("Processing submarket " + submarket.getNameOneLine());
             prepare(submarket);
             process(submarket);
         }
@@ -52,7 +52,7 @@ public class SubmarketListener implements ColonyInteractionListener {
 
     private void process(SubmarketAPI submarket) {
         for (SubmarketChanger changer : changers) {
-            log.debug("Trying " + changer.getClass().getName());
+            log.info("Trying " + changer.getClass().getSimpleName());
             changer.change(submarket);
         }
     }

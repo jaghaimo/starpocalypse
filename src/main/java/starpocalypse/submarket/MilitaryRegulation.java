@@ -36,7 +36,7 @@ public class MilitaryRegulation extends SubmarketChanger {
             return;
         }
         cargo.removeStack(stack);
-        addToMilitary(stack);
+        removeOrAddToMilitary(stack);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class MilitaryRegulation extends SubmarketChanger {
             return;
         }
         ships.removeFleetMember(ship);
-        addToMilitary(ship);
+        removeOrAddToMilitary(ship);
     }
 
     protected boolean isInvalid(CargoStackAPI stack) {
@@ -56,7 +56,7 @@ public class MilitaryRegulation extends SubmarketChanger {
         return !fleetMember.getVariant().hasHullMod(HullMods.CIVGRADE);
     }
 
-    private void addToMilitary(CargoStackAPI stack) {
+    private void removeOrAddToMilitary(CargoStackAPI stack) {
         if (militaryMarket == null) {
             log.info("Removing " + stack.getDisplayName());
         } else {
@@ -65,7 +65,7 @@ public class MilitaryRegulation extends SubmarketChanger {
         }
     }
 
-    private void addToMilitary(FleetMemberAPI ship) {
+    private void removeOrAddToMilitary(FleetMemberAPI ship) {
         String shipHullName = ship.getHullSpec().getHullName();
         if (militaryMarket == null) {
             log.info("Removing " + shipHullName);
