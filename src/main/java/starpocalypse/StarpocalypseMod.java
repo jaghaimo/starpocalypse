@@ -23,6 +23,7 @@ public class StarpocalypseMod extends BaseModPlugin {
     public void onGameLoad(boolean newGame) {
         IndustryModule.init();
         NewGameModule.init(newGame);
+        NewGameModule.damageShips(newGame);
         ReputationModule.init();
         SubmarketModule.init();
     }

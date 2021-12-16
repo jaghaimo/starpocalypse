@@ -10,21 +10,28 @@ import starpocalypse.submarket.ShipDamager;
 @Log4j
 public class NewGameModule extends ShipDamager {
 
+    private static final boolean hasNewGame = Global.getSettings().getBoolean("starpocalypseNewGameModule");
+    private static final boolean hasNewGameForce = Global.getSettings().getBoolean("starpocalypseNewGameModuleForce");
+
     /**
      * Gets called multiple times, as mods could add markets at different stages,
      * e.g. on new game, after economy is loaded, or after time pass.
      */
     public static void init(boolean newGame) {
-        boolean hasNewGame = Global.getSettings().getBoolean("starpocalypseNewGameModule");
         if (!hasNewGame) {
             return;
         }
-        boolean hasNewGameForce = Global.getSettings().getBoolean("starpocalypseNewGameModuleForce");
-        boolean hasNewGamePlayer = Global.getSettings().getBoolean("starpocalypseNewGameModuleDamageStartingFleet");
         if (newGame || hasNewGameForce) {
             log.info("Enabling new game module");
             new NewGameListener();
         }
+    }
+
+    public static void damageShips(boolean newGame) {
+        if (!hasNewGame) {
+            return;
+        }
+        boolean hasNewGamePlayer = Global.getSettings().getBoolean("starpocalypseNewGameModuleDamageStartingFleet");
         if (hasNewGamePlayer && (newGame || hasNewGameForce)) {
             log.info("Damaging player fleet");
             (new NewGameModule()).damageShips();
