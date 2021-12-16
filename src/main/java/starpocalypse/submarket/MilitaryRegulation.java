@@ -49,7 +49,7 @@ public class MilitaryRegulation extends SubmarketChanger {
     }
 
     protected boolean isInvalid(CargoStackAPI stack) {
-        return stack.isMarineStack() || stack.isWeaponStack() || stack.isFighterWingStack();
+        return stack.isModSpecStack() || stack.isMarineStack() || stack.isWeaponStack() || stack.isFighterWingStack();
     }
 
     protected boolean isInvalid(FleetMemberAPI fleetMember) {
