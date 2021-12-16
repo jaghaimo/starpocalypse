@@ -13,7 +13,7 @@ import starpocalypse.industry.StationAdder;
 public class IndustryModule {
 
     private static final boolean hasIndustry = Global.getSettings().getBoolean("starpocalypseIndustryModule");
-    private static final boolean hasIndustryStation = Global
+    private static final boolean hasIndustryStationAdder = Global
         .getSettings()
         .getBoolean("starpocalypseIndustryModuleStations");
     private static final IndustryChanger[] changers = {
@@ -48,7 +48,7 @@ public class IndustryModule {
     }
 
     public static void enableStationAdder() {
-        if (hasIndustry && hasIndustryStation) {
+        if (hasIndustry && hasIndustryStationAdder) {
             log.info("Enabling station adder component");
             new IndustryListener(new StationAdder());
         }

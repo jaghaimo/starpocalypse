@@ -13,7 +13,7 @@ import starpocalypse.submarket.SubmarketListener;
 public class SubmarketModule {
 
     private static final boolean hasSubmarket = Global.getSettings().getBoolean("starpocalypseSubmarketModule");
-    private static final boolean hasShyBlackMarket = Global
+    private static final boolean hasSubmarketShyBlackMarket = Global
         .getSettings()
         .getBoolean("starpocalypseSubmarketModuleShyBlackMarket");
     private static final SubmarketChanger[] changers = {
@@ -30,7 +30,7 @@ public class SubmarketModule {
     }
 
     public static void enableShyBlackMarket() {
-        if (hasShyBlackMarket) {
+        if (hasSubmarketShyBlackMarket) {
             log.info("Enabling shy black market component");
             new ShyBlackMarketListener();
         }
