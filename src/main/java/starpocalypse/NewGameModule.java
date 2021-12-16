@@ -12,27 +12,23 @@ public class NewGameModule extends ShipDamager {
 
     private static final boolean hasNewGame = Global.getSettings().getBoolean("starpocalypseNewGameModule");
     private static final boolean hasNewGameForce = Global.getSettings().getBoolean("starpocalypseNewGameModuleForce");
+    private static final boolean hasNewGamePlayer = Global
+        .getSettings()
+        .getBoolean("starpocalypseNewGameModuleDamageStartingFleet");
 
     /**
      * Gets called multiple times, as mods could add markets at different stages,
      * e.g. on new game, after economy is loaded, or after time pass.
      */
     public static void init(boolean newGame) {
-        if (!hasNewGame) {
-            return;
-        }
-        if (newGame || hasNewGameForce) {
+        if (isEnabled(newGame)) {
             log.info("Enabling new game module");
             new NewGameListener();
         }
     }
 
     public static void damageShips(boolean newGame) {
-        if (!hasNewGame) {
-            return;
-        }
-        boolean hasNewGamePlayer = Global.getSettings().getBoolean("starpocalypseNewGameModuleDamageStartingFleet");
-        if (hasNewGamePlayer && (newGame || hasNewGameForce)) {
+        if (isEnabled(newGame) && hasNewGamePlayer) {
             log.info("Damaging player fleet");
             (new NewGameModule()).damageShips();
         }
@@ -43,5 +39,9 @@ public class NewGameModule extends ShipDamager {
         for (FleetMemberAPI member : members) {
             changeShips(null, null, member);
         }
+    }
+
+    private static boolean isEnabled(boolean newGame) {
+        return hasNewGame && (newGame || hasNewGameForce);
     }
 }
