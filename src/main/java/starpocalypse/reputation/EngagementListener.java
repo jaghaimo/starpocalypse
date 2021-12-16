@@ -20,7 +20,7 @@ public class EngagementListener extends BaseCampaignEventListener {
     // Minimal absolute adjustment to consider.
     public static float MIN_ADJUSTMENT = 0.001f;
 
-    public SimpleSet factionBlacklist = new SimpleSet("faction", "engagementBlacklist.csv");
+    public SimpleSet factionBlacklist = new SimpleSet("faction", "reputationBlacklist.csv");
 
     public EngagementListener() {
         super(false);

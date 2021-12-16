@@ -20,6 +20,14 @@ This mod makes the following changes to the campaign layer of Starsector:
 
 ## Implementation details
 
+**Industry Module**
+
+1. Ignore player owned markets altogether (do nothing). This also means autonomous colonies from Nexerelin.
+1. Add Ground Defences to all non-player markets, raider bases included.
+1. Additionally, add Orbital Station and Patrol HQ to all non-player, non-hidden markets that did not have them, or did
+   not have any of their upgrades...
+1. And make sure that the above two are met throughout your playthrough (via a transient listener).
+
 **New Game Module**
 
 Main module:
@@ -37,21 +45,13 @@ Starting fleet component:
 
 1. Ensure every starting ship has at least one d-mod.
 
-**Engagement Module**
+**Reputation Module**
 
 1. Any non-blacklisted factions, and only player-won engagements are considered for reputation adjustment.
 1. Reputation adjustment is based on relationship between faction being adjusted and owner of the fleet you have beaten.
 1. Maximum reputation adjustment is 1 for factions that are vengeful (or -1 for factions that are cooperative) to the
    owner of the fleet you have beaten.
 1. For commissioned faction the max adjustment is +/-3.
-
-**Industry Module**
-
-1. Ignore player owned markets altogether (do nothing). This also means autonomous colonies from Nexerelin.
-1. Add Ground Defences to all non-player markets, raider bases included.
-1. Additionally, add Orbital Station and Patrol HQ to all non-player, non-hidden markets that did not have them, or did
-   not have any of their upgrades...
-1. And make sure that the above two are met throughout your playthrough (via a transient listener).
 
 **Submarket Module**
 
@@ -73,15 +73,6 @@ Every module can be disabled at will, see `data/config/settings.json`.
 All files can be found in `data/starpocalypse` folder.
 Mods can apply changes and merges to default values by shipping the same folder with their version of CSV files.
 
-**New Game Module**
-
-The list of factions affected by item removal rules are found in `itemRemoverFactions.csv`.
-The list of items removed can be found in `itemRemoverItems.csv`.
-
-**Engagement Module**
-
-The blacklist file `engagementBlacklist.csv` controls which factions will NOT adjust their reputation of the player.
-
 **Industry Module**
 
 No configuration file for industries exists yet.
@@ -91,6 +82,15 @@ faction, and database file that is needed to prevent stations being added multip
 
 When using mods that add new stations, it is generally a good idea to add them all to the database even if you do not
 plan to use them in the faction map.
+
+**New Game Module**
+
+The list of factions affected by item removal rules are found in `itemRemoverFactions.csv`.
+The list of items removed can be found in `itemRemoverItems.csv`.
+
+**Reputation Module**
+
+The blacklist file `reputationBlacklist.csv` controls which factions will NOT adjust their reputation of the player.
 
 **Submarket Module**
 

@@ -8,9 +8,9 @@ import starpocalypse.reputation.EngagementListener;
 public class ReputationModule {
 
     public static void init() {
-        boolean hasEngagement = Global.getSettings().getBoolean("starpocalypseReputationModule");
-        if (hasEngagement) {
-            log.info("Enabling combat module");
+        boolean hasReputation = Global.getSettings().getBoolean("starpocalypseReputationModule");
+        if (hasReputation) {
+            log.info("Enabling reputation module");
             new EngagementListener();
         }
     }
