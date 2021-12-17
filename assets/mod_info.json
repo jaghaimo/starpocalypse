@@ -4,8 +4,10 @@
     "author": "Jaghaimo",
     "utility": true,
     "version": "2.0.0",
-    "description": "More apocalyptic settings for Starsector universe",
+    "description": "More apocalyptic settings for Starsector",
     "gameVersion": "0.95.1a-RC5",
     "modPlugin": "starpocalypse.StarpocalypseMod",
-    "jars": ["starpocalypse.jar"]
+    "jars": [
+        "starpocalypse.jar"
+    ]
 }
