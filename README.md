@@ -8,15 +8,17 @@ This mod makes the following changes to the campaign layer of Starsector:
    weapons and combat ships at their bases (both core and raider).
 1. There are no pristine ships any more, everything has at least one d-mod. Including starting fleet.
 1. Access to any Black Market is much more difficult. Officials will prevent you from trading on the Black Market. If
-   they can find you that is. As such, transponder has to be off in order to trade on the Black Market.
+   they can find you, that is. As such, the transponder has to be off in order to trade on the Black Market.
 1. Contraband can happen, and when stability is low, some weapons and ships "disappear" from Military Market and
    "magically" show up in the Black Market instead.
 1. Factions are armed to the teeth. Any non-hidden market has at least an orbiting station, ground defences, and patrol
    HQ. Hidden bases (pirates and pathers raider bases) only get ground defences.
-1. Your actions have consequences. When defeating a fleet your reputation with seemingly unrelated factions changes as
+1. Your actions have consequences. When defeating a fleet, your reputation with seemingly unrelated factions changes as
    well. Enemies of your enemy start to like you a bit, while their friends, less.
 1. There is no such thing as a free lunch. Nobody gets a random Nanoforges or Synchrotrons around. Not even your
    favourite modded faction.
+
+Most of these changes are optional, and can be disabled via `data/config/settings.json`.
 
 ## Implementation details
 
