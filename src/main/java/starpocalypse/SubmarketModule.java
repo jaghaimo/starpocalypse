@@ -12,6 +12,10 @@ import starpocalypse.submarket.SubmarketListener;
 @Log4j
 public class SubmarketModule {
 
+    private static final boolean hasSubmarket = Global.getSettings().getBoolean("starpocalypseSubmarketModule");
+    private static final boolean hasSubmarketShyBlackMarket = Global
+        .getSettings()
+        .getBoolean("starpocalypseSubmarketModuleShyBlackMarket");
     private static final SubmarketChanger[] changers = {
         new MilitaryRegulation(),
         new MilitaryContraband(),
@@ -19,14 +23,14 @@ public class SubmarketModule {
     };
 
     public static void init() {
-        boolean hasSubmarket = Global.getSettings().getBoolean("starpocalypseSubmarketModule");
-        if (!hasSubmarket) {
-            return;
+        if (hasSubmarket) {
+            log.info("Enabling submarket module");
+            new SubmarketListener(changers);
         }
-        log.info("Enabling submarket module");
-        new SubmarketListener(changers);
-        boolean hasShyBlackMarket = Global.getSettings().getBoolean("starpocalypseSubmarketModuleShyBlackMarket");
-        if (hasShyBlackMarket) {
+    }
+
+    public static void enableShyBlackMarket() {
+        if (hasSubmarketShyBlackMarket) {
             log.info("Enabling shy black market component");
             new ShyBlackMarketListener();
         }

@@ -12,6 +12,10 @@ import starpocalypse.industry.StationAdder;
 @Log4j
 public class IndustryModule {
 
+    private static final boolean hasIndustry = Global.getSettings().getBoolean("starpocalypseIndustryModule");
+    private static final boolean hasIndustryStationAdder = Global
+        .getSettings()
+        .getBoolean("starpocalypseIndustryModuleStations");
     private static final IndustryChanger[] changers = {
         new MarketFixer(Industries.GROUNDDEFENSES, Industries.HEAVYBATTERIES),
         new MarketFixer(Industries.PATROLHQ, Industries.MILITARYBASE, Industries.HIGHCOMMAND),
@@ -37,14 +41,14 @@ public class IndustryModule {
     };
 
     public static void init() {
-        boolean hasIndustry = Global.getSettings().getBoolean("starpocalypseIndustryModule");
-        if (!hasIndustry) {
-            return;
+        if (hasIndustry) {
+            log.info("Enabling industry module");
+            new IndustryListener(changers);
         }
-        log.info("Enabling industry module");
-        new IndustryListener(changers);
-        boolean hasIndustryStation = Global.getSettings().getBoolean("starpocalypseIndustryModuleStations");
-        if (hasIndustryStation) {
+    }
+
+    public static void enableStationAdder() {
+        if (hasIndustry && hasIndustryStationAdder) {
             log.info("Enabling station adder component");
             new IndustryListener(new StationAdder());
         }
