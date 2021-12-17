@@ -1,5 +1,25 @@
 {
-    "starpocalypseEngagementModule": true, # Adjusts reputation with other factions based on combat engagements
-    "starpocalypseIndustryModule": true, # Adds stations, patrol hqs, ground defences
-    "starpocalypseSubmarketModule": true # Damages all ships, removes weapons and combat ships, allows contraband
+    ## INDUSTRY MODULE
+    # Adds defined industries (e.g. patrol hqs and ground defences) to eligible markets
+    "starpocalypseIndustryModule": true,
+    # Adds stations (tier 1) to eligible markets 
+    "starpocalypseIndustryModuleStations": true,
+
+    ## NEW GAME MODULE
+    # Confiscates goodies like nanoforges when starting a new game
+    "starpocalypseNewGameModule": true,
+    # Damage starting fleet
+    "starpocalypseNewGameModuleDamageStartingFleet": true,
+    # Force new game module to run on existing save (on game load) - turn on, load, save, turn off
+    "starpocalypseNewGameModuleForce": false,
+
+    ## REPUTATION MODULE
+    # Adjusts reputation with other factions based on combat engagements
+    "starpocalypseReputationModule": true,
+
+    ## SUBMARKET MODULE
+    # Damages all ships, removes weapons and combat ships, allows contraband
+    "starpocalypseSubmarketModule": true,
+    # Disallow black market access with active transponder
+    "starpocalypseSubmarketModuleShyBlackMarket": true
 }

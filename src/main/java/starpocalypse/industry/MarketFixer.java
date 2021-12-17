@@ -1,22 +1,24 @@
 package starpocalypse.industry;
 
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
-
 import lombok.extern.log4j.Log4j;
 
 @Log4j
+/**
+ * Fixes markets by removing industries if any of the blocking industries exist.
+ */
 public class MarketFixer implements IndustryChanger {
 
     private final MarketHelper helper = new MarketHelper();
     private final String[] removedIndustries;
     private final String[] blockingIndustries;
 
-    public MarketFixer(String removedInudstry, String... blockingIndustries) {
-        this.removedIndustries = new String[] { removedInudstry };
+    public MarketFixer(String removedIndustry, String... blockingIndustries) {
+        this.removedIndustries = new String[] { removedIndustry };
         this.blockingIndustries = blockingIndustries;
     }
 
-    public MarketFixer(String[] removedIndustries, String... blockingIndustries) {
+    public MarketFixer(String[] removedIndustries, String[] blockingIndustries) {
         this.removedIndustries = removedIndustries;
         this.blockingIndustries = blockingIndustries;
     }

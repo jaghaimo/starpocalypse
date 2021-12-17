@@ -1,7 +1,6 @@
 package starpocalypse.industry;
 
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
-
 import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleMap;
 import starpocalypse.config.SimpleSet;
@@ -16,7 +15,7 @@ public class StationAdder extends MarketChanger {
     @Override
     protected boolean canChange(MarketAPI market) {
         if (market.isHidden()) {
-            log.info("Skipping hidden market");
+            log.debug("Skipping hidden market");
             return false;
         }
         String factionId = market.getFactionId();

@@ -1,7 +1,5 @@
 package starpocalypse.submarket;
 
-import java.util.Random;
-
 import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CargoStackAPI;
 import com.fs.starfarer.api.campaign.FleetDataAPI;
@@ -9,7 +7,7 @@ import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.combat.ShipVariantAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.DModManager;
-
+import java.util.Random;
 import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleSet;
 
@@ -20,8 +18,7 @@ public class ShipDamager extends SubmarketChanger {
     private SimpleSet allowedSubmarkets = new SimpleSet("submarket", "shipDamageSubmarket.csv");
 
     @Override
-    protected void init(SubmarketAPI submarket) {
-    }
+    protected void init(SubmarketAPI submarket) {}
 
     @Override
     protected boolean canChange(SubmarketAPI submarket) {
@@ -31,8 +28,7 @@ public class ShipDamager extends SubmarketChanger {
     }
 
     @Override
-    protected void changeCargo(SubmarketAPI submarket, CargoAPI cargo, CargoStackAPI stack) {
-    }
+    protected void changeCargo(SubmarketAPI submarket, CargoAPI cargo, CargoStackAPI stack) {}
 
     @Override
     protected void changeShips(SubmarketAPI submarket, FleetDataAPI ships, FleetMemberAPI ship) {

@@ -1,11 +1,10 @@
-package starpocalypse;
+package starpocalypse.reputation;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.BaseCampaignEventListener;
 import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.combat.EngagementResultAPI;
 import com.fs.starfarer.api.util.Misc;
-
 import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleSet;
 
@@ -21,7 +20,7 @@ public class EngagementListener extends BaseCampaignEventListener {
     // Minimal absolute adjustment to consider.
     public static float MIN_ADJUSTMENT = 0.001f;
 
-    public SimpleSet factionBlacklist = new SimpleSet("faction", "engagementBlacklist.csv");
+    public SimpleSet factionBlacklist = new SimpleSet("faction", "reputationBlacklist.csv");
 
     public EngagementListener() {
         super(false);

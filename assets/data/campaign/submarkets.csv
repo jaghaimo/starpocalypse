@@ -1,0 +1,5 @@
+id,name,faction,desc,script,icon,order
+shy_black_market,"Black
+Market",pirates,"The black market. Anything and everything can be bought or sold, and there are no tariffs. More goods are available when stability is low.
+
+Black market transactions with active transponder instantly catch the eye of authorities. All trades have to be carried out with the transponder turned off.",starpocalypse.submarket.ShyBlackMarketPlugin,graphics/factions/black_market.png,999

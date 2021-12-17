@@ -1,43 +1,32 @@
 package starpocalypse;
 
 import com.fs.starfarer.api.BaseModPlugin;
-import com.fs.starfarer.api.Global;
 
-import lombok.extern.log4j.Log4j;
-
-@Log4j
 public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
+    public void onNewGameAfterProcGen() {
+        NewGameModule.init(true);
+    }
+
+    @Override
+    public void onNewGameAfterEconomyLoad() {
+        NewGameModule.init(true);
+    }
+
+    @Override
     public void onNewGameAfterTimePass() {
-        onGameLoad(true);
+        NewGameModule.init(true);
     }
 
     @Override
     public void onGameLoad(boolean newGame) {
-        initEngagementModule();
-        initIndustryModule();
-        initSubmarketModule();
-    }
-
-    private void initEngagementModule() {
-        if (Global.getSettings().getBoolean("starpocalypseEngagementModule")) {
-            log.info("Enabling engagement module");
-            new EngagementListener();
-        }
-    }
-
-    private void initIndustryModule() {
-        if (Global.getSettings().getBoolean("starpocalypseIndustryModule")) {
-            log.info("Enabling industry module");
-            new IndustryChanges();
-        }
-    }
-
-    private void initSubmarketModule() {
-        if (Global.getSettings().getBoolean("starpocalypseSubmarketModule")) {
-            log.info("Enabling submarket module");
-            new SubmarketChanges();
-        }
+        IndustryModule.init();
+        IndustryModule.enableStationAdder();
+        NewGameModule.init(newGame);
+        NewGameModule.damageShips(newGame);
+        ReputationModule.init();
+        SubmarketModule.init();
+        SubmarketModule.enableShyBlackMarket();
     }
 }

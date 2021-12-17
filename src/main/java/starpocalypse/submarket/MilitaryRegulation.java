@@ -7,7 +7,6 @@ import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.HullMods;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
-
 import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleSet;
 
@@ -37,7 +36,7 @@ public class MilitaryRegulation extends SubmarketChanger {
             return;
         }
         cargo.removeStack(stack);
-        addToMilitary(stack);
+        removeOrAddToMilitary(stack);
     }
 
     @Override
@@ -46,18 +45,18 @@ public class MilitaryRegulation extends SubmarketChanger {
             return;
         }
         ships.removeFleetMember(ship);
-        addToMilitary(ship);
+        removeOrAddToMilitary(ship);
     }
 
     protected boolean isInvalid(CargoStackAPI stack) {
-        return stack.isWeaponStack() || stack.isFighterWingStack();
+        return stack.isModSpecStack() || stack.isMarineStack() || stack.isWeaponStack() || stack.isFighterWingStack();
     }
 
     protected boolean isInvalid(FleetMemberAPI fleetMember) {
         return !fleetMember.getVariant().hasHullMod(HullMods.CIVGRADE);
     }
 
-    private void addToMilitary(CargoStackAPI stack) {
+    private void removeOrAddToMilitary(CargoStackAPI stack) {
         if (militaryMarket == null) {
             log.info("Removing " + stack.getDisplayName());
         } else {
@@ -66,7 +65,7 @@ public class MilitaryRegulation extends SubmarketChanger {
         }
     }
 
-    private void addToMilitary(FleetMemberAPI ship) {
+    private void removeOrAddToMilitary(FleetMemberAPI ship) {
         String shipHullName = ship.getHullSpec().getHullName();
         if (militaryMarket == null) {
             log.info("Removing " + shipHullName);

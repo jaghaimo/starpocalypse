@@ -5,11 +5,8 @@ import com.fs.starfarer.api.campaign.CargoStackAPI;
 import com.fs.starfarer.api.campaign.FleetDataAPI;
 import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
-
-import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleSet;
 
-@Log4j
 public abstract class SubmarketChanger {
 
     public void change(SubmarketAPI submarket) {
@@ -41,7 +38,6 @@ public abstract class SubmarketChanger {
         if (allowedFactions.has(factionId)) {
             return true;
         }
-        log.info("Skipping unknown faction " + factionId);
         return false;
     }
 
@@ -50,7 +46,6 @@ public abstract class SubmarketChanger {
         if (allowedSubmarkets.has(submarketId)) {
             return true;
         }
-        log.info("Skipping unknown submarket " + submarketId);
         return false;
     }
 
