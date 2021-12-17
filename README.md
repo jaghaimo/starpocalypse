@@ -4,8 +4,8 @@ This mod makes the following changes to the campaign layer of Starsector:
 
 1. Weapons and combat ships are scarce and highly regulated. As such, only Military Markets (and those pesky Black
    Markets) sell weapons, LPCs, and combat ships. Open Markets still sell civilian grade ships.
-1. Lawless factions (like pirates and pathers) do not submit to this rule of law. You can still find weapons and combat
-   ships at their bases (both core and raider).
+1. Lawless factions (e.g. pirates and pathers) and independents do not submit to this rule of law. You can still find
+   weapons and combat ships at their bases (both core and raider).
 1. There are no pristine ships any more, everything has at least one d-mod. Including starting fleet.
 1. Access to any Black Market is much more difficult. Officials will prevent you from trading on the Black Market. If
    they can find you that is. As such, transponder has to be off in order to trade on the Black Market.
