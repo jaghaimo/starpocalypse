@@ -24,15 +24,18 @@ public class SubmarketListener implements ColonyInteractionListener {
 
     @Override
     public void reportPlayerOpenedMarket(MarketAPI market) {
-        log.info("Processing market " + market.getName());
-        processSubmarkets(market);
+        // This is a workaround for https://fractalsoftworks.com/forum/index.php?topic=23252.0
+        reportPlayerOpenedMarketAndCargoUpdated(market);
     }
 
     @Override
     public void reportPlayerClosedMarket(MarketAPI market) {}
 
     @Override
-    public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {}
+    public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {
+        log.info("Processing market " + market.getName());
+        processSubmarkets(market);
+    }
 
     @Override
     public void reportPlayerMarketTransaction(PlayerMarketTransaction transaction) {}
