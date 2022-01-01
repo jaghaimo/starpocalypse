@@ -48,5 +48,4 @@ public class MilitaryContraband extends MilitaryRegulation {
             blackMarket.getCargo().getMothballedShips().addFleetMember(ship);
         }
     }
-
 }

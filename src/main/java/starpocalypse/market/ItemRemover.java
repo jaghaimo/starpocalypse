@@ -1,4 +1,4 @@
-package starpocalypse.industry;
+package starpocalypse.market;
 
 import com.fs.starfarer.api.campaign.SpecialItemData;
 import com.fs.starfarer.api.campaign.econ.Industry;

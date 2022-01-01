@@ -21,8 +21,8 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
     public void onGameLoad(boolean newGame) {
-        IndustryModule.init();
-        IndustryModule.enableStationAdder();
+        MarketModule.init();
+        MarketModule.enableStationAdder();
         NewGameModule.init(newGame);
         NewGameModule.damageShips(newGame);
         ReputationModule.init();

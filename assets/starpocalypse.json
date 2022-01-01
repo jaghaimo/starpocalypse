@@ -1,0 +1,25 @@
+{
+    # Buying or selling marines, weapons, LPCs, or combat ships is illegal unless you are commisioned with the owner
+    # of the market. You will see the items, but they will be unpurchasabe.
+    "militaryRegulations": true,
+    # Depending on the stability, some regulated items can be bought. The lower the stabiity the more expensive
+    # items and ships become purchasable. Requires military regulations to work.
+    "militaryContraband": true,
+    # After winning an egagement, the enemies of the beaten fleet will have a slighly better reputation of you.
+    # Their allies will dislike you slighly more though.
+    "combatAdjustedReputation": true,
+    # Replaces raidable items with built-in market conditions. Same bonus, just prevents easy access to colony items.
+    "buildInSpecialItems": true,
+    # Adds a tier 1 station to all non-hidden markets that do not have a station.
+    "addStations": true,
+    # Add extra structures to eligible markets (Ground Defenses and Patrol HQ).
+    "addExtraStructures": true,
+    # Damage pristine ships that the player can buy.
+    "addDmodsInSubmarkets": true,
+    # Damage pristine ships in player's starting fleet.
+    "addDmodsToStartingFleet": true,
+    # Configure min and max of d-mods each should should have. Ships with less than min d-mods will roll a new number
+    # of d-mods, and missing number of d-mods will be added. Ships with more that min (and more than max) are ignored.
+    "minimumDmods": 2,
+    "maximumDmods": 4,
+}

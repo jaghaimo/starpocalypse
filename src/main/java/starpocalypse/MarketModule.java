@@ -3,19 +3,19 @@ package starpocalypse;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
 import lombok.extern.log4j.Log4j;
-import starpocalypse.industry.IndustryAdder;
-import starpocalypse.industry.IndustryChanger;
-import starpocalypse.industry.IndustryListener;
-import starpocalypse.industry.MarketFixer;
-import starpocalypse.industry.StationAdder;
+import starpocalypse.market.IndustryAdder;
+import starpocalypse.market.IndustryChanger;
+import starpocalypse.market.MarketFixer;
+import starpocalypse.market.MarketListener;
+import starpocalypse.market.StationAdder;
 
 @Log4j
-public class IndustryModule {
+public class MarketModule {
 
-    private static final boolean hasIndustry = Global.getSettings().getBoolean("starpocalypseIndustryModule");
-    private static final boolean hasIndustryStationAdder = Global
+    private static final boolean hasMarket = Global.getSettings().getBoolean("starpocalypseMarketModule");
+    private static final boolean hasMarketStationAdder = Global
         .getSettings()
-        .getBoolean("starpocalypseIndustryModuleStations");
+        .getBoolean("starpocalypseMarketModuleStations");
     private static final IndustryChanger[] changers = {
         new MarketFixer(Industries.GROUNDDEFENSES, Industries.HEAVYBATTERIES),
         new MarketFixer(Industries.PATROLHQ, Industries.MILITARYBASE, Industries.HIGHCOMMAND),
@@ -41,16 +41,16 @@ public class IndustryModule {
     };
 
     public static void init() {
-        if (hasIndustry) {
+        if (hasMarket) {
             log.info("Enabling industry module");
-            new IndustryListener(changers);
+            new MarketListener(changers);
         }
     }
 
     public static void enableStationAdder() {
-        if (hasIndustry && hasIndustryStationAdder) {
+        if (hasMarket && hasMarketStationAdder) {
             log.info("Enabling station adder component");
-            new IndustryListener(new StationAdder());
+            new MarketListener(new StationAdder());
         }
     }
 }

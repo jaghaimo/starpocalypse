@@ -118,5 +118,4 @@ public class MilitaryRegulation extends SubmarketChanger {
             militaryMarket.getCargo().getMothballedShips().addFleetMember(ship);
         }
     }
-
 }

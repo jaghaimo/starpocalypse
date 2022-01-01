@@ -4,7 +4,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import java.util.List;
 import lombok.extern.log4j.Log4j;
-import starpocalypse.industry.NewGameListener;
+import starpocalypse.market.NewGameListener;
 import starpocalypse.submarket.ShipDamager;
 
 @Log4j
