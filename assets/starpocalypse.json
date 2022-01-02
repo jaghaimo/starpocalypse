@@ -1,25 +1,34 @@
 {
+    ## D-MODS FOR ALL
+    # Damage pristine ships that the player can buy.
+    "addDmodsToShipsInSubmarkets": true,
+    # Damage pristine ships in player's starting fleet.
+    "addDmodsToPlayerStartingFleet": true,
+    # Configure min and max of d-mods each should have. Ships with less than min d-mods will roll a new number of
+    # d-mods, and missing number of d-mods will be added. Ships with more that min (and more than max) are ignored.
+    # Used by both options above.
+    "minimumDmods": 2,
+    "maximumDmods": 4,
+
+    ## MILITARY REGULATIONS AND CONTRABAND
     # Buying or selling marines, weapons, LPCs, or combat ships is illegal unless you are commisioned with the owner
-    # of the market. You will see the items, but they will be unpurchasabe.
+    # of the market. All affected items and ships are moved to Military Market (if present) or removed.
     "militaryRegulations": true,
-    # Depending on the stability, some regulated items can be bought. The lower the stabiity the more expensive
-    # items and ships become purchasable. Requires military regulations to work.
+    # Depending on the stability, some regulated items "magically" appear in the Black Market. The lower the stabiity
+    # the bigger pool of items and ships gets leaked. Requires military regulations to work.
     "militaryContraband": true,
-    # After winning an egagement, the enemies of the beaten fleet will have a slighly better reputation of you.
-    # Their allies will dislike you slighly more though.
-    "combatAdjustedReputation": true,
-    # Replaces raidable items with built-in market conditions. Same bonus, just prevents easy access to colony items.
-    "buildInSpecialItems": true,
+
+
+    ## BETTER MARKET DEFENCES
     # Adds a tier 1 station to all non-hidden markets that do not have a station.
     "addStations": true,
     # Add extra structures to eligible markets (Ground Defenses and Patrol HQ).
     "addExtraStructures": true,
-    # Damage pristine ships that the player can buy.
-    "addDmodsInSubmarkets": true,
-    # Damage pristine ships in player's starting fleet.
-    "addDmodsToStartingFleet": true,
-    # Configure min and max of d-mods each should should have. Ships with less than min d-mods will roll a new number
-    # of d-mods, and missing number of d-mods will be added. Ships with more that min (and more than max) are ignored.
-    "minimumDmods": 2,
-    "maximumDmods": 4,
+
+    ## OTHER
+    # After winning an egagement, the enemies of the beaten fleet will have a slighly better reputation of you.
+    # Their allies will dislike you slighly more though.
+    "combatAdjustedReputation": true,
+    # Raiding for special items instantly shatters player reputation with the owner of the item.
+    "hostilityForSpecialItemRaid": true,
 }
