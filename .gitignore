@@ -15,7 +15,6 @@ node_modules/
 !.vscode/launch.json
 !.vscode/extensions.json
 # Local copies of mod structure (dev env)
-/*.jar
 /data
 /graphics
 /settings
