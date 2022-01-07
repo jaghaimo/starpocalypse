@@ -16,6 +16,10 @@ public class RaidListener implements ColonyPlayerHostileActListener {
 
     private final SimpleSet protectedItems = new SimpleSet("item", "raidProtectorItem");
 
+    public static void register() {
+        Global.getSector().getListenerManager().addListener(new RaidListener(), true);
+    }
+
     @Override
     public void reportRaidForValuablesFinishedBeforeCargoShown(
         InteractionDialogAPI dialog,

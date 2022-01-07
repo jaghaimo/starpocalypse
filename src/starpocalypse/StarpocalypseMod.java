@@ -8,6 +8,7 @@ import starpocalypse.market.IndustryAdder;
 import starpocalypse.market.MarketListener;
 import starpocalypse.market.StationAdder;
 import starpocalypse.reputation.EngagementListener;
+import starpocalypse.reputation.RaidListener;
 import starpocalypse.submarket.MilitaryContraband;
 import starpocalypse.submarket.MilitaryRegulation;
 import starpocalypse.submarket.ShipDamager;
@@ -66,7 +67,13 @@ public class StarpocalypseMod extends BaseModPlugin {
         militaryRegulations(listener);
         militaryContraband(listener);
         combatAdjustedReputation();
-        // hostilityForSpecialItemRaid();
+        hostilityForSpecialItemRaid();
+    }
+
+    private void hostilityForSpecialItemRaid() {
+        if (settings.optBoolean("hostilityForSpecialItemRaid", true)) {
+            RaidListener.register();
+        }
     }
 
     private void combatAdjustedReputation() {
