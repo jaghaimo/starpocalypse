@@ -6,14 +6,14 @@
     "addDmodsToPlayerStartingFleet": true,
     # Configure min and max of d-mods each should have. Ships with less than min d-mods will roll a new number of
     # d-mods, and missing number of d-mods will be added. Ships with more that min (and more than max) are ignored.
-    # Used by both options above.
+    # Used by both options above. Minimum is always at least 1, and maximum at most 5.
     "minimumDmods": 2,
     "maximumDmods": 4,
 
     ## MILITARY REGULATIONS AND CONTRABAND
     # Buying or selling marines, weapons, LPCs, or combat ships is illegal unless you are commisioned with the owner
     # of the market. All affected items and ships are moved to Military Market (if present) or removed.
-    "militaryRegulations": true,
+    "militaryRegulation": true,
     # Depending on the stability, some regulated items "magically" appear in the Black Market. The lower the stabiity
     # the bigger pool of items and ships gets leaked. Requires military regulations to work.
     "militaryContraband": true,
@@ -22,8 +22,9 @@
     ## BETTER MARKET DEFENCES
     # Adds a tier 1 station to all non-hidden markets that do not have a station.
     "addStations": true,
-    # Add extra structures to eligible markets (Ground Defenses and Patrol HQ).
-    "addExtraStructures": true,
+    # Add extra structures to eligible markets (Ground Defenses to all markets and Patrol HQ to core markets).
+    "addGroundDefenses": true,
+    "addPatrolHq": true,
 
     ## OTHER
     # After winning an egagement, the enemies of the beaten fleet will have a slighly better reputation of you.

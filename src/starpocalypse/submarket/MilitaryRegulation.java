@@ -4,11 +4,11 @@ import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CargoStackAPI;
 import com.fs.starfarer.api.campaign.FleetDataAPI;
 import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
+import com.fs.starfarer.api.combat.ShipHullSpecAPI.ShipTypeHints;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.HullMods;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
 import lombok.extern.log4j.Log4j;
-import starpocalypse.config.SimpleMap;
 import starpocalypse.config.SimpleSet;
 
 @Log4j
@@ -16,10 +16,7 @@ public class MilitaryRegulation extends SubmarketChanger {
 
     private final SimpleSet allowedFactions = new SimpleSet("faction", "militaryRegulationFaction.csv");
     private final SimpleSet allowedSubmarkets = new SimpleSet("submarket", "militaryRegulationSubmarket.csv");
-    private final SimpleMap stabilityCargoValues = new SimpleMap("stability", "cargo", "militaryContraband.csv");
-    private final SimpleMap stabilityShipValues = new SimpleMap("stability", "ship", "militaryContraband.csv");
-    private final SimpleSet contrabandWhitelist = new SimpleSet("whitelist", "contrabandWhitelist.csv");
-    private final SimpleSet contrabandBlacklist = new SimpleSet("blacklist", "contrabandBlacklist.csv");
+    private final SimpleSet blacklist = new SimpleSet("blacklist", "militaryRegulationBlacklist.csv");
 
     private SubmarketAPI militaryMarket;
     protected int stability;
@@ -41,75 +38,58 @@ public class MilitaryRegulation extends SubmarketChanger {
 
     @Override
     protected void changeCargo(SubmarketAPI submarket, CargoAPI cargo, CargoStackAPI stack) {
-        if (!isInvalid(stack) || isWhitelisted(stack) || isAllowed(submarket, stack)) {
+        if (!isInvalid(stack)) {
             return;
         }
         cargo.removeStack(stack);
-        removeOrAddToMilitary(stack);
+        addToMilitary(stack);
     }
 
     @Override
     protected void changeShips(SubmarketAPI submarket, FleetDataAPI ships, FleetMemberAPI ship) {
-        if (!isInvalid(ship) || isWhitelisted(ship) || isAllowed(submarket, ship)) {
+        if (!isInvalid(ship)) {
             return;
         }
         ships.removeFleetMember(ship);
-        removeOrAddToMilitary(ship);
+        addToMilitary(ship);
     }
 
     protected boolean isInvalid(CargoStackAPI stack) {
-        return isBlacklisted(stack) || stack.isModSpecStack() || stack.isWeaponStack() || stack.isFighterWingStack();
+        if (isBlacklisted(stack)) {
+            return false;
+        }
+        return stack.isModSpecStack() || stack.isWeaponStack() || stack.isFighterWingStack();
     }
 
     protected boolean isInvalid(FleetMemberAPI fleetMember) {
-        return isBlacklisted(fleetMember) || !fleetMember.getVariant().hasHullMod(HullMods.CIVGRADE);
-    }
-
-    protected boolean isAllowed(SubmarketAPI submarket, CargoStackAPI stack) {
-        return isAllowed(stabilityCargoValues, stack.getBaseValuePerUnit());
-    }
-
-    protected boolean isAllowed(SubmarketAPI submarket, FleetMemberAPI ship) {
-        return isAllowed(stabilityShipValues, ship.getBaseValue());
-    }
-
-    protected boolean isAllowed(SimpleMap stabilityMap, float value) {
-        if (stability <= 0) {
-            return true;
-        }
-        if (stability >= 10) {
+        if (isBlacklisted(fleetMember)) {
             return false;
         }
-        float stabilityValue = Float.parseFloat(stabilityMap.get(stabilityKey));
-        return value < stabilityValue;
-    }
-
-    protected boolean isWhitelisted(CargoStackAPI stack) {
-        return contrabandWhitelist.has(stack.getDisplayName());
-    }
-
-    protected boolean isWhitelisted(FleetMemberAPI ship) {
-        return contrabandWhitelist.has(ship.getHullSpec().getBaseHullId());
+        return !(
+            fleetMember.getVariant().hasHullMod(HullMods.CIVGRADE) ||
+            fleetMember.getVariant().getHints().contains(ShipTypeHints.CIVILIAN)
+        );
     }
 
     protected boolean isBlacklisted(CargoStackAPI stack) {
-        return contrabandBlacklist.has(stack.getDisplayName());
+        return blacklist.has(stack.getDisplayName());
     }
 
     protected boolean isBlacklisted(FleetMemberAPI ship) {
-        return contrabandBlacklist.has(ship.getHullSpec().getBaseHullId());
+        return blacklist.has(ship.getHullSpec().getBaseHullId());
     }
 
-    private void removeOrAddToMilitary(CargoStackAPI stack) {
+    private void addToMilitary(CargoStackAPI stack) {
+        String stackName = stack.getDisplayName();
         if (militaryMarket == null) {
-            log.info("Removing " + stack.getDisplayName());
+            log.info("Removing " + stackName);
         } else {
-            log.info("Moving to military " + stack.getDisplayName());
+            log.info("Moving to military " + stackName);
             militaryMarket.getCargo().addFromStack(stack);
         }
     }
 
-    private void removeOrAddToMilitary(FleetMemberAPI ship) {
+    private void addToMilitary(FleetMemberAPI ship) {
         String shipHullName = ship.getHullSpec().getHullName();
         if (militaryMarket == null) {
             log.info("Removing " + shipHullName);

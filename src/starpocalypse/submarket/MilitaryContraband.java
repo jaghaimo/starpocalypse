@@ -7,11 +7,14 @@ import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
 import lombok.extern.log4j.Log4j;
+import starpocalypse.config.SimpleMap;
 
 @Log4j
 public class MilitaryContraband extends MilitaryRegulation {
 
     private SubmarketAPI blackMarket;
+    private final SimpleMap stabilityCargoValues = new SimpleMap("stability", "cargo", "militaryContrabandPool.csv");
+    private final SimpleMap stabilityShipValues = new SimpleMap("stability", "ship", "militaryContrabandPool.csv");
 
     @Override
     protected void init(SubmarketAPI submarket) {
@@ -27,7 +30,7 @@ public class MilitaryContraband extends MilitaryRegulation {
 
     @Override
     protected void changeCargo(SubmarketAPI submarket, CargoAPI cargo, CargoStackAPI stack) {
-        if (!isInvalid(stack) || isWhitelisted(stack)) {
+        if (!isInvalid(stack)) {
             return;
         }
         if (isAllowed(submarket, stack)) {
@@ -38,8 +41,8 @@ public class MilitaryContraband extends MilitaryRegulation {
     }
 
     @Override
-    public void changeShips(SubmarketAPI submarket, FleetDataAPI ships, FleetMemberAPI ship) {
-        if (!isInvalid(ship) || isWhitelisted(ship)) {
+    protected void changeShips(SubmarketAPI submarket, FleetDataAPI ships, FleetMemberAPI ship) {
+        if (!isInvalid(ship)) {
             return;
         }
         if (isAllowed(submarket, ship)) {
@@ -47,5 +50,24 @@ public class MilitaryContraband extends MilitaryRegulation {
             ships.removeFleetMember(ship);
             blackMarket.getCargo().getMothballedShips().addFleetMember(ship);
         }
+    }
+
+    private boolean isAllowed(SubmarketAPI submarket, CargoStackAPI stack) {
+        return isAllowed(stabilityCargoValues, stack.getBaseValuePerUnit());
+    }
+
+    private boolean isAllowed(SubmarketAPI submarket, FleetMemberAPI ship) {
+        return isAllowed(stabilityShipValues, ship.getBaseValue());
+    }
+
+    private boolean isAllowed(SimpleMap stabilityMap, float value) {
+        if (stability <= 0) {
+            return true;
+        }
+        if (stability >= 10) {
+            return false;
+        }
+        float stabilityValue = Float.parseFloat(stabilityMap.get(stabilityKey));
+        return value < stabilityValue;
     }
 }
