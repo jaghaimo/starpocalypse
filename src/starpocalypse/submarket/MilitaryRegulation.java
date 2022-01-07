@@ -16,7 +16,7 @@ public class MilitaryRegulation extends SubmarketChanger {
 
     private final SimpleSet allowedFactions = new SimpleSet("faction", "militaryRegulationFaction.csv");
     private final SimpleSet allowedSubmarkets = new SimpleSet("submarket", "militaryRegulationSubmarket.csv");
-    private final SimpleSet blacklist = new SimpleSet("blacklist", "militaryRegulationBlacklist.csv");
+    private final SimpleSet blacklist = new SimpleSet("idOrName", "militaryRegulationBlacklist.csv");
 
     private SubmarketAPI militaryMarket;
 

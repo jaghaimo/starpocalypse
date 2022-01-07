@@ -26,14 +26,14 @@ public class StarpocalypseMod extends BaseModPlugin {
     @Override
     public void onNewGameAfterTimePass() {
         MarketListener listener = new MarketListener();
-        addDmodsToPlayerStartingFleet();
+        addDmodsToStartingFleet();
         addGroundDefences(listener);
         addPatrolHq(listener);
         addStations(listener);
     }
 
-    private void addDmodsToPlayerStartingFleet() {
-        if (settings.optBoolean("addDmodsToPlayerStartingFleet", true)) {
+    private void addDmodsToStartingFleet() {
+        if (settings.optBoolean("addDmodsToStartingFleet", true)) {
             StartingFleetDamager.apply(settings);
         }
     }
@@ -90,8 +90,8 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     private void addDmodsToShipsInSubmarkets(SubmarketListener listener) {
         if (settings.optBoolean("addDmodsToShipsInSubmarkets", true)) {
-            int minDmods = settings.optInt("minimalDmods", 2);
-            int maxDmods = settings.optInt("maximalDmods", 4);
+            int minDmods = settings.optInt("minimumDmods", 2);
+            int maxDmods = settings.optInt("maximumDmods", 4);
             listener.add(new ShipDamager(minDmods, maxDmods));
         }
     }

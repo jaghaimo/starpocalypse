@@ -14,7 +14,7 @@ import starpocalypse.config.SimpleSet;
 
 public class RaidListener implements ColonyPlayerHostileActListener {
 
-    private final SimpleSet protectedItems = new SimpleSet("item", "raidProtectorItem");
+    private final SimpleSet protectedItems = new SimpleSet("item", "raidProtectorItem.csv");
 
     public static void register() {
         Global.getSector().getListenerManager().addListener(new RaidListener(), true);

@@ -19,8 +19,8 @@ public class StartingFleetDamager extends ShipDamager {
     }
 
     public static void apply(JSONObject settings) {
-        int minDmods = settings.optInt("minimalDmods", 2);
-        int maxDmods = settings.optInt("maximalDmods", 4);
+        int minDmods = settings.optInt("minimumDmods", 2);
+        int maxDmods = settings.optInt("maximumDmods", 4);
         log.info(String.format("Damaging starting fleet with %d to %d d-mods", minDmods, maxDmods));
         new StartingFleetDamager(minDmods, maxDmods);
     }
