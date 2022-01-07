@@ -22,15 +22,17 @@ public class SubmarketListener implements ColonyInteractionListener {
 
     @Override
     public void reportPlayerOpenedMarket(MarketAPI market) {
-        log.info("Processing market " + market.getName());
-        processSubmarkets(market);
+        reportPlayerOpenedMarketAndCargoUpdated(market);
     }
 
     @Override
     public void reportPlayerClosedMarket(MarketAPI market) {}
 
     @Override
-    public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {}
+    public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {
+        log.info("Processing market " + market.getName());
+        processSubmarkets(market);
+    }
 
     @Override
     public void reportPlayerMarketTransaction(PlayerMarketTransaction transaction) {}
@@ -44,7 +46,6 @@ public class SubmarketListener implements ColonyInteractionListener {
     private void process(SubmarketAPI submarket) {
         BaseSubmarketPlugin plugin = getPlugin(submarket);
         if (plugin == null) {
-            log.warn("Skipping incompatible plugin for submarket " + submarket.getNameOneLine());
             return;
         }
         if (!plugin.okToUpdateShipsAndWeapons()) {
@@ -63,7 +64,9 @@ public class SubmarketListener implements ColonyInteractionListener {
         SubmarketPlugin plugin = submarket.getPlugin();
         try {
             return (BaseSubmarketPlugin) plugin;
-        } catch (ClassCastException exception) {}
+        } catch (ClassCastException exception) {
+            log.warn("Skipping incompatible plugin for submarket " + submarket.getNameOneLine());
+        }
         return null;
     }
 
