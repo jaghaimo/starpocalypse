@@ -26,10 +26,16 @@ public class StarpocalypseMod extends BaseModPlugin {
     @Override
     public void onNewGameAfterTimePass() {
         MarketListener listener = new MarketListener();
+        addDmodsToPlayerStartingFleet();
         addGroundDefences(listener);
         addPatrolHq(listener);
         addStations(listener);
-        // addDmodsToPlayerStartingFleet();
+    }
+
+    private void addDmodsToPlayerStartingFleet() {
+        if (settings.optBoolean("addDmodsToPlayerStartingFleet", true)) {
+            StartingFleetDamager.apply(settings);
+        }
     }
 
     private void addGroundDefences(MarketListener listener) {

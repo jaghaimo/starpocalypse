@@ -40,13 +40,9 @@ public class ShipDamager extends SubmarketChanger {
         ShipVariantAPI variant = ship.getVariant();
         if (DModManager.setDHull(variant)) {
             log.info("Damaging " + hullName);
-            addDmods(variant, minDmods, maxDmods);
+            Random random = new Random();
+            int numberOfDmods = random.nextInt(maxDmods - minDmods) + minDmods;
+            DModManager.addDMods(variant, true, numberOfDmods, random);
         }
-    }
-
-    protected void addDmods(ShipVariantAPI variant, int minDmods, int maxDmods) {
-        Random random = new Random();
-        int numberOfDmods = random.nextInt(maxDmods - minDmods) + minDmods;
-        DModManager.addDMods(variant, true, numberOfDmods, new Random());
     }
 }
