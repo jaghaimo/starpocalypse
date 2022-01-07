@@ -8,13 +8,18 @@ import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
 import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleMap;
+import starpocalypse.config.SimpleSet;
 
 @Log4j
 public class MilitaryContraband extends MilitaryRegulation {
 
-    private SubmarketAPI blackMarket;
     private final SimpleMap stabilityCargoValues = new SimpleMap("stability", "cargo", "militaryContrabandPool.csv");
     private final SimpleMap stabilityShipValues = new SimpleMap("stability", "ship", "militaryContrabandPool.csv");
+    private final SimpleSet blacklist = new SimpleSet("blacklist", "militaryRegulationBlacklist.csv");
+
+    private SubmarketAPI blackMarket;
+    private int stability;
+    private String stabilityKey;
 
     @Override
     protected void init(SubmarketAPI submarket) {
@@ -25,7 +30,9 @@ public class MilitaryContraband extends MilitaryRegulation {
 
     @Override
     protected boolean canChange(SubmarketAPI submarket) {
-        return blackMarket != null;
+        boolean hasBlackMarket = blackMarket != null;
+        boolean isMilitaryMarket = Submarkets.GENERIC_MILITARY.equals(submarket.getSpecId());
+        return hasBlackMarket && isMilitaryMarket;
     }
 
     @Override
@@ -53,10 +60,16 @@ public class MilitaryContraband extends MilitaryRegulation {
     }
 
     private boolean isAllowed(SubmarketAPI submarket, CargoStackAPI stack) {
+        if (isBlacklisted(blacklist, stack)) {
+            return false;
+        }
         return isAllowed(stabilityCargoValues, stack.getBaseValuePerUnit());
     }
 
     private boolean isAllowed(SubmarketAPI submarket, FleetMemberAPI ship) {
+        if (isBlacklisted(blacklist, ship)) {
+            return false;
+        }
         return isAllowed(stabilityShipValues, ship.getBaseValue());
     }
 

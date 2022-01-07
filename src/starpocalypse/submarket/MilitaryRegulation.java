@@ -19,14 +19,10 @@ public class MilitaryRegulation extends SubmarketChanger {
     private final SimpleSet blacklist = new SimpleSet("blacklist", "militaryRegulationBlacklist.csv");
 
     private SubmarketAPI militaryMarket;
-    protected int stability;
-    protected String stabilityKey;
 
     @Override
     protected void init(SubmarketAPI submarket) {
         militaryMarket = getSubmarket(submarket, Submarkets.GENERIC_MILITARY);
-        stability = (int) submarket.getMarket().getStabilityValue();
-        stabilityKey = String.valueOf(stability);
     }
 
     @Override
@@ -55,14 +51,14 @@ public class MilitaryRegulation extends SubmarketChanger {
     }
 
     protected boolean isInvalid(CargoStackAPI stack) {
-        if (isBlacklisted(stack)) {
+        if (isBlacklisted(blacklist, stack)) {
             return false;
         }
         return stack.isModSpecStack() || stack.isWeaponStack() || stack.isFighterWingStack();
     }
 
     protected boolean isInvalid(FleetMemberAPI fleetMember) {
-        if (isBlacklisted(fleetMember)) {
+        if (isBlacklisted(blacklist, fleetMember)) {
             return false;
         }
         return !(
@@ -71,11 +67,11 @@ public class MilitaryRegulation extends SubmarketChanger {
         );
     }
 
-    protected boolean isBlacklisted(CargoStackAPI stack) {
+    protected boolean isBlacklisted(SimpleSet blacklist, CargoStackAPI stack) {
         return blacklist.has(stack.getDisplayName());
     }
 
-    protected boolean isBlacklisted(FleetMemberAPI ship) {
+    protected boolean isBlacklisted(SimpleSet blacklist, FleetMemberAPI ship) {
         return blacklist.has(ship.getHullSpec().getBaseHullId());
     }
 
