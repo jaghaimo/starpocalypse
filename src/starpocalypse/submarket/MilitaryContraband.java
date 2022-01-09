@@ -15,7 +15,7 @@ public class MilitaryContraband extends MilitaryRegulation {
 
     private final SimpleMap stabilityCargoValues = new SimpleMap("stability", "cargo", "militaryContrabandPool.csv");
     private final SimpleMap stabilityShipValues = new SimpleMap("stability", "ship", "militaryContrabandPool.csv");
-    private final SimpleSet blacklist = new SimpleSet("idOrName", "militaryRegulationBlacklist.csv");
+    private final SimpleSet blacklist = new SimpleSet("name", "militaryContrabandBlacklist.csv");
 
     private SubmarketAPI blackMarket;
     private int stability;

@@ -16,7 +16,7 @@ public class MilitaryRegulation extends SubmarketChanger {
 
     private final SimpleSet allowedFactions = new SimpleSet("faction", "militaryRegulationFaction.csv");
     private final SimpleSet allowedSubmarkets = new SimpleSet("submarket", "militaryRegulationSubmarket.csv");
-    private final SimpleSet blacklist = new SimpleSet("idOrName", "militaryRegulationBlacklist.csv");
+    private final SimpleSet blacklist = new SimpleSet("name", "militaryRegulationBlacklist.csv");
 
     private SubmarketAPI militaryMarket;
 
@@ -72,7 +72,7 @@ public class MilitaryRegulation extends SubmarketChanger {
     }
 
     protected boolean isBlacklisted(SimpleSet blacklist, FleetMemberAPI ship) {
-        return blacklist.has(ship.getHullSpec().getBaseHullId());
+        return blacklist.has(ship.getHullSpec().getBaseHull().getHullName());
     }
 
     private void addToMilitary(CargoStackAPI stack) {
