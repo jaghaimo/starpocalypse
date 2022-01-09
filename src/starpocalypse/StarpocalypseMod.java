@@ -30,6 +30,7 @@ public class StarpocalypseMod extends BaseModPlugin {
         addGroundDefences(listener);
         addPatrolHq(listener);
         addStations(listener);
+        listener.register();
     }
 
     private void addDmodsToStartingFleet() {
@@ -74,6 +75,7 @@ public class StarpocalypseMod extends BaseModPlugin {
         militaryContraband(listener);
         combatAdjustedReputation();
         hostilityForSpecialItemRaid();
+        listener.register();
     }
 
     private void hostilityForSpecialItemRaid() {

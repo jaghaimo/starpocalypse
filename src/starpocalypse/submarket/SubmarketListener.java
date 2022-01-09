@@ -1,5 +1,6 @@
 package starpocalypse.submarket;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.PlayerMarketTransaction;
 import com.fs.starfarer.api.campaign.SubmarketPlugin;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
@@ -20,6 +21,12 @@ public class SubmarketListener implements ColonyInteractionListener {
     @Delegate
     private final List<SubmarketChanger> changers = new LinkedList<>();
 
+    public void register() {
+        if (!changers.isEmpty()) {
+            Global.getSector().getListenerManager().addListener(this, true);
+        }
+    }
+
     @Override
     public void reportPlayerOpenedMarket(MarketAPI market) {
         reportPlayerOpenedMarketAndCargoUpdated(market);
@@ -30,7 +37,7 @@ public class SubmarketListener implements ColonyInteractionListener {
 
     @Override
     public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {
-        log.info("Processing market " + market.getName());
+        log.debug("Processing market " + market.getName());
         processSubmarkets(market);
     }
 
@@ -44,30 +51,36 @@ public class SubmarketListener implements ColonyInteractionListener {
     }
 
     private void process(SubmarketAPI submarket) {
-        BaseSubmarketPlugin plugin = getPlugin(submarket);
-        if (plugin == null) {
-            return;
-        }
-        if (!plugin.okToUpdateShipsAndWeapons()) {
+        if (!okToUpdate(submarket)) {
             log.debug("Skipping already updated submarket " + submarket.getNameOneLine());
             return;
         }
-        plugin.updateCargoPrePlayerInteraction();
-        log.info("Processing submarket " + submarket.getNameOneLine());
+        update(submarket);
+        log.debug("Processing submarket " + submarket.getNameOneLine());
         for (SubmarketChanger changer : changers) {
             log.debug("Trying " + changer.getClass().getSimpleName());
             changer.change(submarket);
         }
     }
 
-    private BaseSubmarketPlugin getPlugin(SubmarketAPI submarket) {
-        SubmarketPlugin plugin = submarket.getPlugin();
+    private boolean okToUpdate(SubmarketAPI submarket) {
+        boolean okToUpdate = true;
         try {
-            return (BaseSubmarketPlugin) plugin;
+            SubmarketPlugin plugin = submarket.getPlugin();
+            okToUpdate = ((BaseSubmarketPlugin) plugin).okToUpdateShipsAndWeapons();
         } catch (ClassCastException exception) {
-            log.warn("Skipping incompatible plugin for submarket " + submarket.getNameOneLine());
+            log.warn("Incompatible plugin for submarket " + submarket.getNameOneLine());
         }
-        return null;
+        return okToUpdate;
+    }
+
+    private void update(SubmarketAPI submarket) {
+        SubmarketPlugin plugin = submarket.getPlugin();
+        if (plugin == null) {
+            log.warn("Found null plugin for submarket " + submarket.getNameOneLine());
+            return;
+        }
+        plugin.updateCargoPrePlayerInteraction();
     }
 
     private List<SubmarketAPI> getSortedSubmarkets(MarketAPI market) {

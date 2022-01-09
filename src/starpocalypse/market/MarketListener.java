@@ -22,6 +22,12 @@ public class MarketListener implements EconomyTickListener {
         reportEconomyTick(0);
     }
 
+    public void register() {
+        if (!changers.isEmpty()) {
+            Global.getSector().getListenerManager().addListener(this, true);
+        }
+    }
+
     @Override
     public void reportEconomyTick(int iterIndex) {
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {

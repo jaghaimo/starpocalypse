@@ -4,8 +4,7 @@
     "addDmodsToShipsInSubmarkets": true,
     # Damage pristine ships in player's starting fleet.
     "addDmodsToStartingFleet": true,
-    # Configure min and max of d-mods each should have. Ships with less than min d-mods will roll a new number of
-    # d-mods, and missing number of d-mods will be added. Ships with more that min (and more than max) are ignored.
+    # Configure min and max of d-mods each pristine ship should receive. Ships with less d-mods are ignored.
     # Used by both options above. Minimum is always at least 1, and maximum at most 5.
     "minimumDmods": 2,
     "maximumDmods": 4,
