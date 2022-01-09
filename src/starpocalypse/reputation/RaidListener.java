@@ -5,7 +5,7 @@ import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CargoStackAPI;
 import com.fs.starfarer.api.campaign.FactionAPI;
 import com.fs.starfarer.api.campaign.InteractionDialogAPI;
-import com.fs.starfarer.api.campaign.RepLevel;
+import com.fs.starfarer.api.campaign.SpecialItemSpecAPI;
 import com.fs.starfarer.api.campaign.econ.Industry;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.listeners.ColonyPlayerHostileActListener;
@@ -29,7 +29,7 @@ public class RaidListener implements ColonyPlayerHostileActListener {
     ) {
         CargoAPI raidLoot = actionData.raidLoot;
         for (CargoStackAPI stack : raidLoot.getStacksCopy()) {
-            String item = stack.getDisplayName();
+            String item = getSpecialStackId(stack);
             if (protectedItems.has(item)) {
                 setAtWar(market);
                 return;
@@ -55,8 +55,16 @@ public class RaidListener implements ColonyPlayerHostileActListener {
         TempData actionData
     ) {}
 
+    private String getSpecialStackId(CargoStackAPI stack) {
+        SpecialItemSpecAPI spec = stack.getSpecialItemSpecIfSpecial();
+        if (spec == null) {
+            return "";
+        }
+        return spec.getId();
+    }
+
     private void setAtWar(MarketAPI market) {
         FactionAPI faction = market.getFaction();
-        Global.getSector().getPlayerFaction().setRelationship(faction.getId(), RepLevel.VENGEFUL);
+        Global.getSector().getPlayerFaction().setRelationship(faction.getId(), -1);
     }
 }
