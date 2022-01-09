@@ -18,13 +18,10 @@ public class MarketListener implements EconomyTickListener {
     @Delegate
     private final List<MarketChanger> changers = new LinkedList<>();
 
-    public MarketListener() {
-        reportEconomyTick(0);
-    }
-
     public void register() {
         if (!changers.isEmpty()) {
             Global.getSector().getListenerManager().addListener(this, true);
+            reportEconomyTick(0);
         }
     }
 
