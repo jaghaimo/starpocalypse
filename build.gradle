@@ -28,6 +28,9 @@ java {
     targetCompatibility = JavaVersion.VERSION_1_7
 }
 
+// where to find sources
+sourceSets.main.java.srcDirs = ['src/']
+
 // build everything and make a jar
 build {
     doLast {

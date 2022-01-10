@@ -18,8 +18,6 @@ public abstract class FileReader {
     protected abstract void loadData(String column, String file) throws JSONException, IOException;
 
     protected JSONArray readCsv(String column, String file) throws JSONException, IOException {
-        return Global
-            .getSettings()
-            .getMergedSpreadsheetDataForMod(column, "data/starpocalypse/" + file, "starpocalypse");
+        return Global.getSettings().getMergedSpreadsheetDataForMod(column, "settings/" + file, "starpocalypse");
     }
 }

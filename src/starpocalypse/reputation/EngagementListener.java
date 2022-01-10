@@ -22,9 +22,12 @@ public class EngagementListener extends BaseCampaignEventListener {
 
     public SimpleSet factionBlacklist = new SimpleSet("faction", "reputationBlacklist.csv");
 
+    public static void register() {
+        Global.getSector().addTransientListener(new EngagementListener());
+    }
+
     public EngagementListener() {
         super(false);
-        Global.getSector().addTransientListener(this);
     }
 
     @Override

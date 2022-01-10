@@ -1,27 +1,28 @@
-package starpocalypse.industry;
+package starpocalypse.market;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.listeners.EconomyTickListener;
 import com.fs.starfarer.api.impl.campaign.ids.Factions;
+import java.util.LinkedList;
+import java.util.List;
+import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j;
 
-@Log4j
 /**
  * Changes to market industries are enforced periodically (every economy tick).
  */
-public class IndustryListener implements EconomyTickListener {
+@Log4j
+public class MarketListener implements EconomyTickListener {
 
-    protected final IndustryChanger[] changers;
+    @Delegate
+    private final List<MarketChanger> changers = new LinkedList<>();
 
-    public IndustryListener(IndustryChanger industryChanger) {
-        this(new IndustryChanger[] { industryChanger });
-    }
-
-    public IndustryListener(IndustryChanger[] industryChangers) {
-        changers = industryChangers;
-        Global.getSector().getListenerManager().addListener(this, true);
-        reportEconomyTick(0);
+    public void register() {
+        if (!changers.isEmpty()) {
+            Global.getSector().getListenerManager().addListener(this, true);
+            reportEconomyTick(0);
+        }
     }
 
     @Override
@@ -40,7 +41,7 @@ public class IndustryListener implements EconomyTickListener {
             log.debug("Skipping player market");
             return;
         }
-        for (IndustryChanger changer : changers) {
+        for (MarketChanger changer : changers) {
             changer.change(market);
         }
     }

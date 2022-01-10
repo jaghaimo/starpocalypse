@@ -4,6 +4,7 @@ import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CargoStackAPI;
 import com.fs.starfarer.api.campaign.FleetDataAPI;
 import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
+import com.fs.starfarer.api.combat.ShipHullSpecAPI.ShipTypeHints;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.HullMods;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
@@ -15,6 +16,7 @@ public class MilitaryRegulation extends SubmarketChanger {
 
     private final SimpleSet allowedFactions = new SimpleSet("faction", "militaryRegulationFaction.csv");
     private final SimpleSet allowedSubmarkets = new SimpleSet("submarket", "militaryRegulationSubmarket.csv");
+    private final SimpleSet blacklist = new SimpleSet("name", "militaryRegulationBlacklist.csv");
 
     private SubmarketAPI militaryMarket;
 
@@ -36,7 +38,7 @@ public class MilitaryRegulation extends SubmarketChanger {
             return;
         }
         cargo.removeStack(stack);
-        removeOrAddToMilitary(stack);
+        addToMilitary(stack);
     }
 
     @Override
@@ -45,27 +47,45 @@ public class MilitaryRegulation extends SubmarketChanger {
             return;
         }
         ships.removeFleetMember(ship);
-        removeOrAddToMilitary(ship);
+        addToMilitary(ship);
     }
 
     protected boolean isInvalid(CargoStackAPI stack) {
-        return stack.isModSpecStack() || stack.isMarineStack() || stack.isWeaponStack() || stack.isFighterWingStack();
+        if (isBlacklisted(blacklist, stack)) {
+            return false;
+        }
+        return stack.isModSpecStack() || stack.isWeaponStack() || stack.isFighterWingStack();
     }
 
     protected boolean isInvalid(FleetMemberAPI fleetMember) {
-        return !fleetMember.getVariant().hasHullMod(HullMods.CIVGRADE);
+        if (isBlacklisted(blacklist, fleetMember)) {
+            return false;
+        }
+        return !(
+            fleetMember.getVariant().hasHullMod(HullMods.CIVGRADE) ||
+            fleetMember.getVariant().getHints().contains(ShipTypeHints.CIVILIAN)
+        );
     }
 
-    private void removeOrAddToMilitary(CargoStackAPI stack) {
+    protected boolean isBlacklisted(SimpleSet blacklist, CargoStackAPI stack) {
+        return blacklist.has(stack.getDisplayName());
+    }
+
+    protected boolean isBlacklisted(SimpleSet blacklist, FleetMemberAPI ship) {
+        return blacklist.has(ship.getHullSpec().getBaseHull().getHullName());
+    }
+
+    private void addToMilitary(CargoStackAPI stack) {
+        String stackName = stack.getDisplayName();
         if (militaryMarket == null) {
-            log.info("Removing " + stack.getDisplayName());
+            log.info("Removing " + stackName);
         } else {
-            log.info("Moving to military " + stack.getDisplayName());
+            log.info("Moving to military " + stackName);
             militaryMarket.getCargo().addFromStack(stack);
         }
     }
 
-    private void removeOrAddToMilitary(FleetMemberAPI ship) {
+    private void addToMilitary(FleetMemberAPI ship) {
         String shipHullName = ship.getHullSpec().getHullName();
         if (militaryMarket == null) {
             log.info("Removing " + shipHullName);

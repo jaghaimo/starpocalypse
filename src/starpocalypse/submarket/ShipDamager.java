@@ -8,14 +8,18 @@ import com.fs.starfarer.api.combat.ShipVariantAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.DModManager;
 import java.util.Random;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleSet;
 
 @Log4j
+@RequiredArgsConstructor
 public class ShipDamager extends SubmarketChanger {
 
-    private SimpleSet allowedFactions = new SimpleSet("faction", "shipDamageFaction.csv");
-    private SimpleSet allowedSubmarkets = new SimpleSet("submarket", "shipDamageSubmarket.csv");
+    private final int minDmods;
+    private final int maxDmods;
+    private final SimpleSet allowedFactions = new SimpleSet("faction", "shipDamageFaction.csv");
+    private final SimpleSet allowedSubmarkets = new SimpleSet("submarket", "shipDamageSubmarket.csv");
 
     @Override
     protected void init(SubmarketAPI submarket) {}
@@ -36,7 +40,9 @@ public class ShipDamager extends SubmarketChanger {
         ShipVariantAPI variant = ship.getVariant();
         if (DModManager.setDHull(variant)) {
             log.info("Damaging " + hullName);
-            DModManager.addDMods(variant, true, 1, new Random());
+            Random random = new Random();
+            int numberOfDmods = random.nextInt(maxDmods - minDmods) + minDmods;
+            DModManager.addDMods(variant, true, numberOfDmods, random);
         }
     }
 }

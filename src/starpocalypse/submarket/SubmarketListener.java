@@ -7,24 +7,28 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.campaign.listeners.ColonyInteractionListener;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
+import com.fs.starfarer.api.impl.campaign.submarkets.BaseSubmarketPlugin;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
+import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class SubmarketListener implements ColonyInteractionListener {
 
-    private final SubmarketChanger[] changers;
+    @Delegate
+    private final List<SubmarketChanger> changers = new LinkedList<>();
 
-    public SubmarketListener(SubmarketChanger[] submarketChangers) {
-        changers = submarketChangers;
-        Global.getSector().getListenerManager().addListener(this, true);
+    public void register() {
+        if (!changers.isEmpty()) {
+            Global.getSector().getListenerManager().addListener(this, true);
+        }
     }
 
     @Override
     public void reportPlayerOpenedMarket(MarketAPI market) {
-        // This is a workaround for https://fractalsoftworks.com/forum/index.php?topic=23252.0
         reportPlayerOpenedMarketAndCargoUpdated(market);
     }
 
@@ -33,7 +37,7 @@ public class SubmarketListener implements ColonyInteractionListener {
 
     @Override
     public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {
-        log.info("Processing market " + market.getName());
+        log.debug("Processing market " + market.getName());
         processSubmarkets(market);
     }
 
@@ -42,22 +46,41 @@ public class SubmarketListener implements ColonyInteractionListener {
 
     private void processSubmarkets(MarketAPI market) {
         for (SubmarketAPI submarket : getSortedSubmarkets(market)) {
-            log.info("Processing submarket " + submarket.getNameOneLine());
-            prepare(submarket);
             process(submarket);
         }
     }
 
-    private void prepare(SubmarketAPI submarket) {
-        SubmarketPlugin plugin = submarket.getPlugin();
-        plugin.updateCargoPrePlayerInteraction();
-    }
-
     private void process(SubmarketAPI submarket) {
+        if (!okToUpdate(submarket)) {
+            log.debug("Skipping already updated submarket " + submarket.getNameOneLine());
+            return;
+        }
+        update(submarket);
+        log.debug("Processing submarket " + submarket.getNameOneLine());
         for (SubmarketChanger changer : changers) {
-            log.info("Trying " + changer.getClass().getSimpleName());
+            log.debug("Trying " + changer.getClass().getSimpleName());
             changer.change(submarket);
         }
+    }
+
+    private boolean okToUpdate(SubmarketAPI submarket) {
+        boolean okToUpdate = true;
+        try {
+            SubmarketPlugin plugin = submarket.getPlugin();
+            okToUpdate = ((BaseSubmarketPlugin) plugin).okToUpdateShipsAndWeapons();
+        } catch (ClassCastException exception) {
+            log.warn("Incompatible plugin for submarket " + submarket.getNameOneLine());
+        }
+        return okToUpdate;
+    }
+
+    private void update(SubmarketAPI submarket) {
+        SubmarketPlugin plugin = submarket.getPlugin();
+        if (plugin == null) {
+            log.warn("Found null plugin for submarket " + submarket.getNameOneLine());
+            return;
+        }
+        plugin.updateCargoPrePlayerInteraction();
     }
 
     private List<SubmarketAPI> getSortedSubmarkets(MarketAPI market) {
@@ -74,8 +97,8 @@ public class SubmarketListener implements ColonyInteractionListener {
                     if (submarketB.getSpecId().equals(Submarkets.GENERIC_MILITARY)) {
                         return -1;
                     }
-                    // Otherwise compare spec ids
-                    return submarketA.getSpecId().compareTo(submarketB.getSpecId());
+                    // Otherwise as they are
+                    return 0;
                 }
             }
         );

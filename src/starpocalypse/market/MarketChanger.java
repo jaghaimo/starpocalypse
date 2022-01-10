@@ -1,8 +1,8 @@
-package starpocalypse.industry;
+package starpocalypse.market;
 
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 
-public abstract class MarketChanger implements IndustryChanger {
+public abstract class MarketChanger {
 
     public void change(MarketAPI market) {
         if (canChange(market)) {
