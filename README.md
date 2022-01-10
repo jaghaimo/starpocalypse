@@ -13,7 +13,7 @@ This mod makes the following changes to the campaign layer of Starsector:
    HQ. Hidden bases (pirates and pathers raider bases) only get ground defences.
 1. Your actions have consequences. When defeating a fleet, your reputation with seemingly unrelated factions changes as
    well. Enemies of your enemy start to like you a bit, while their friends, less.
-1. Similarly, stealing a random Nanoforge or Synchrotron Core will be deemed as an act of war.
+1. Similarly, targetting a any Nanoforge or Synchrotron Core will be deemed as an act of war.
 
 All of these changes are optional, and can be disabled via `starpocalypse.json`.
 
@@ -29,7 +29,7 @@ Mods can apply changes and merges to default values by shipping the same folder 
 1. Add Ground Defences to all non-player markets, raider bases included.
 1. Additionally, add Orbital Station and Patrol HQ to all non-player, non-hidden markets that did not have them, or did
    not have any of their upgrades...
-1. And make sure that the above two are met throughout your playthrough (via a transient listener).
+1. And make sure that the above two are met at all times (via a transient listener).
 
 Two files regulate station additions (`station*.csv`): faction map which points which station tech to use depending on
 faction, and database file that is needed to prevent stations being added multiple times.
@@ -47,12 +47,13 @@ plan to use them in the faction map.
 1. Stealing a Nanoforge or Synchrotron instantly sets your reputation to -1 (0).
 
 The blacklist file `reputationBlacklist.csv` controls which factions will NOT adjust their reputation of the player.
+The list of raid-protected items (special item ids) is present in `raidProtectorItem.csv`.
 
 ### Submarket changes
 
 Main module:
 
-1. Remove all combat ships, weapons, LPCs, and modspecs from open markets if it is not a pirate or luddic path market,
+1. Remove all combat ships, weapons, LPCs, and modspecs from open markets if it is not a pirate or Luddic Path market,
    and...
 1. Add all removed items back to Military Market, if there is one, but...
 1. When the stability is low, some of them will leak back to Black Market.
@@ -62,7 +63,7 @@ Decision which factions and submarkets of that faction are regulated is made via
 Same submarkets and factions can additionally have contraband applied - see `militaryContrabandPool.csv` for details.
 Finally, exclusion lists can be applied to both `regulations` and `contraband` behaviour - see `military*Blacklist.csv`.
 
-Ship damager accepts faction and submarket, and is applied to all ships; see `shipDamage*.csv`.
+Ship damager accepts faction and submarket, and is applied to all ships. It is controlled by `shipDamage*.csv`.
 
 Both faction and submarket files work as whitelist and accept: faction or submarket (allow) id, negated faction or
 submarket id (disallow), "all" keyword (allow all except negated).

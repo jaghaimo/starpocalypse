@@ -29,6 +29,6 @@
     # After winning an egagement, the enemies of the beaten fleet will have a slighly better reputation of you.
     # Their allies will dislike you slighly more though.
     "combatAdjustedReputation": true,
-    # Raiding for special items instantly shatters player reputation with the owner of the item.
+    # Raiding for special items instantly ruins player reputation with the owner of the item.
     "hostilityForSpecialItemRaid": true,
 }
