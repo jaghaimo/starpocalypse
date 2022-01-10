@@ -10,10 +10,10 @@
     "maximumDmods": 4,
 
     ## MILITARY REGULATIONS AND CONTRABAND
-    # Buying or selling marines, weapons, LPCs, or combat ships is illegal unless you are commisioned with the owner
+    # Buying or selling marines, weapons, LPCs, or combat ships is illegal unless you are commissioned with the owner
     # of the market. All affected items and ships are moved to Military Market (if present) or removed.
     "militaryRegulation": true,
-    # Depending on the stability, some regulated items "magically" appear in the Black Market. The lower the stabiity
+    # Depending on the stability, some regulated items "magically" appear in the Black Market. The lower the stability
     # the bigger pool of items and ships gets leaked. Requires military regulations to work.
     "militaryContraband": true,
 
@@ -26,8 +26,8 @@
     "addPatrolHq": true,
 
     ## OTHER
-    # After winning an egagement, the enemies of the beaten fleet will have a slighly better reputation of you.
-    # Their allies will dislike you slighly more though.
+    # After winning an engagement, the enemies of the beaten fleet will have a slightly better reputation of you.
+    # Their allies will dislike you slightly more though.
     "combatAdjustedReputation": true,
     # Raiding for special items instantly ruins player reputation with the owner of the item.
     "hostilityForSpecialItemRaid": true,

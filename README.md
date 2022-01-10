@@ -26,7 +26,7 @@ Mods can apply changes and merges to default values by shipping the same folder 
 ### Changes to markets
 
 1. Ignore player owned markets altogether (do nothing). This also means autonomous colonies from Nexerelin.
-1. Add Ground Defences to all non-player markets, raider bases included.
+1. Add Ground Defenses to all non-player markets, raider bases included.
 1. Additionally, add Orbital Station and Patrol HQ to all non-player, non-hidden markets that did not have them, or did
    not have any of their upgrades...
 1. And make sure that the above two are met at all times (via a transient listener).

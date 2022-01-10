@@ -27,7 +27,7 @@ public class StarpocalypseMod extends BaseModPlugin {
     public void onNewGameAfterTimePass() {
         MarketListener listener = new MarketListener();
         addDmodsToStartingFleet();
-        addGroundDefences(listener);
+        addGroundDefenses(listener);
         addPatrolHq(listener);
         addStations(listener);
         listener.register();
@@ -39,8 +39,8 @@ public class StarpocalypseMod extends BaseModPlugin {
         }
     }
 
-    private void addGroundDefences(MarketListener listener) {
-        if (settings.optBoolean("addGroundDefences", true)) {
+    private void addGroundDefenses(MarketListener listener) {
+        if (settings.optBoolean("addGroundDefenses", true)) {
             listener.add(
                 new IndustryAdder(Industries.GROUNDDEFENSES, true, Industries.GROUNDDEFENSES, Industries.HEAVYBATTERIES)
             );
@@ -71,7 +71,7 @@ public class StarpocalypseMod extends BaseModPlugin {
     public void onGameLoad(boolean newGame) {
         SubmarketListener listener = new SubmarketListener();
         addDmodsToShipsInSubmarkets(listener);
-        militaryRegulations(listener);
+        militaryRegulation(listener);
         militaryContraband(listener);
         combatAdjustedReputation();
         hostilityForSpecialItemRaid();
@@ -98,7 +98,7 @@ public class StarpocalypseMod extends BaseModPlugin {
         }
     }
 
-    private void militaryRegulations(SubmarketListener listener) {
+    private void militaryRegulation(SubmarketListener listener) {
         if (settings.optBoolean("militaryRegulation", true)) {
             listener.add(new MilitaryRegulation());
         }
