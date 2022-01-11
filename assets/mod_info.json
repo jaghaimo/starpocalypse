@@ -3,7 +3,7 @@
     "name": "Starpocalypse",
     "author": "Jaghaimo",
     "utility": true,
-    "version": "2.1.0",
+    "version": "2.1.1",
     "description": "More apocalyptic settings for Starsector",
     "gameVersion": "0.95.1a-RC6",
     "modPlugin": "starpocalypse.StarpocalypseMod",

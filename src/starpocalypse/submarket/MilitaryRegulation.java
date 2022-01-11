@@ -4,6 +4,7 @@ import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CargoStackAPI;
 import com.fs.starfarer.api.campaign.FleetDataAPI;
 import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
+import com.fs.starfarer.api.combat.ShipHullSpecAPI;
 import com.fs.starfarer.api.combat.ShipHullSpecAPI.ShipTypeHints;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.HullMods;
@@ -72,7 +73,11 @@ public class MilitaryRegulation extends SubmarketChanger {
     }
 
     protected boolean isBlacklisted(SimpleSet blacklist, FleetMemberAPI ship) {
-        return blacklist.has(ship.getHullSpec().getBaseHull().getHullName());
+        ShipHullSpecAPI hullSpec = ship.getHullSpec().getBaseHull();
+        if (hullSpec == null) {
+            hullSpec = ship.getHullSpec();
+        }
+        return blacklist.has(hullSpec.getHullName());
     }
 
     private void addToMilitary(CargoStackAPI stack) {
