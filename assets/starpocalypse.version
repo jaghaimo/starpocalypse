@@ -6,5 +6,6 @@
         "major": 2,
         "minor": 1,
         "patch": 0
-    }
+    },
+    "directDownloadURL": "https://github.com/jaghaimo/starpocalypse/releases/download/2.1.0/starpocalypse-2.1.0.zip"
 }
