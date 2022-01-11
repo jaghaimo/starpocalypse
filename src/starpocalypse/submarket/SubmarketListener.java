@@ -7,7 +7,6 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.campaign.listeners.ColonyInteractionListener;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
-import com.fs.starfarer.api.impl.campaign.submarkets.BaseSubmarketPlugin;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
@@ -46,32 +45,17 @@ public class SubmarketListener implements ColonyInteractionListener {
 
     private void processSubmarkets(MarketAPI market) {
         for (SubmarketAPI submarket : getSortedSubmarkets(market)) {
+            update(submarket);
             process(submarket);
         }
     }
 
     private void process(SubmarketAPI submarket) {
-        if (!okToUpdate(submarket)) {
-            log.debug("Skipping already updated submarket " + submarket.getNameOneLine());
-            return;
-        }
-        update(submarket);
         log.debug("Processing submarket " + submarket.getNameOneLine());
         for (SubmarketChanger changer : changers) {
             log.debug("Trying " + changer.getClass().getSimpleName());
             changer.change(submarket);
         }
-    }
-
-    private boolean okToUpdate(SubmarketAPI submarket) {
-        boolean okToUpdate = true;
-        try {
-            SubmarketPlugin plugin = submarket.getPlugin();
-            okToUpdate = ((BaseSubmarketPlugin) plugin).okToUpdateShipsAndWeapons();
-        } catch (ClassCastException exception) {
-            log.warn("Incompatible plugin for submarket " + submarket.getNameOneLine());
-        }
-        return okToUpdate;
     }
 
     private void update(SubmarketAPI submarket) {
