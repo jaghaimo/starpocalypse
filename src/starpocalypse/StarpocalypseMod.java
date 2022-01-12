@@ -9,10 +9,6 @@ import starpocalypse.market.MarketListener;
 import starpocalypse.market.StationAdder;
 import starpocalypse.reputation.EngagementListener;
 import starpocalypse.reputation.RaidListener;
-import starpocalypse.submarket.MilitaryContraband;
-import starpocalypse.submarket.MilitaryRegulation;
-import starpocalypse.submarket.ShipDamager;
-import starpocalypse.submarket.SubmarketListener;
 
 public class StarpocalypseMod extends BaseModPlugin {
 
@@ -31,7 +27,6 @@ public class StarpocalypseMod extends BaseModPlugin {
     @Override
     public void onGameLoad(boolean newGame) {
         industryChanges();
-        submarketChanges();
         combatAdjustedReputation();
         hostilityForSpecialItemRaid();
     }
@@ -42,22 +37,6 @@ public class StarpocalypseMod extends BaseModPlugin {
         addPatrolHq(listener);
         addStations(listener);
         listener.register();
-    }
-
-    private void submarketChanges() {
-        SubmarketListener listener = new SubmarketListener();
-        addDmodsToShipsInSubmarkets(listener);
-        militaryRegulation(listener);
-        militaryContraband(listener);
-        listener.register();
-    }
-
-    private void addDmodsToShipsInSubmarkets(SubmarketListener listener) {
-        if (settings.optBoolean("addDmodsToShipsInSubmarkets", true)) {
-            int minDmods = settings.optInt("minimumDmods", 2);
-            int maxDmods = settings.optInt("maximumDmods", 4);
-            listener.add(new ShipDamager(minDmods, maxDmods));
-        }
     }
 
     private void addDmodsToStartingFleet() {
@@ -103,18 +82,6 @@ public class StarpocalypseMod extends BaseModPlugin {
     private void combatAdjustedReputation() {
         if (settings.optBoolean("combatAdjustedReputation", true)) {
             EngagementListener.register();
-        }
-    }
-
-    private void militaryRegulation(SubmarketListener listener) {
-        if (settings.optBoolean("militaryRegulation", true)) {
-            listener.add(new MilitaryRegulation());
-        }
-    }
-
-    private void militaryContraband(SubmarketListener listener) {
-        if (settings.optBoolean("militaryContraband", true)) {
-            listener.add(new MilitaryContraband());
         }
     }
 }

@@ -1,4 +1,4 @@
-package starpocalypse.submarket.plugin;
+package starpocalypse.submarket;
 
 import com.fs.starfarer.api.impl.campaign.submarkets.OpenMarketPlugin;
 
