@@ -4,19 +4,23 @@ import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
 import org.json.JSONObject;
+import starpocalypse.helper.ConfigUtils;
 import starpocalypse.market.IndustryAdder;
 import starpocalypse.market.MarketListener;
 import starpocalypse.market.StationAdder;
 import starpocalypse.reputation.EngagementListener;
 import starpocalypse.reputation.RaidListener;
+import starpocalypse.submarket.ShipDamager;
+import starpocalypse.submarket.SubmarketSwapper;
 
 public class StarpocalypseMod extends BaseModPlugin {
 
-    private JSONObject settings;
+    private static JSONObject settings;
 
     @Override
     public void onApplicationLoad() throws Exception {
         settings = Global.getSettings().loadJSON("starpocalypse.json");
+        ConfigUtils.init(settings);
     }
 
     @Override
@@ -26,6 +30,12 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
     public void onGameLoad(boolean newGame) {
+        if (settings.optBoolean("addDmodsToShipsInSubmarkets", true)) {
+            ShipDamager.register();
+        }
+        if (settings.optBoolean("militaryRegulation", true)) {
+            SubmarketSwapper.register();
+        }
         industryChanges();
         combatAdjustedReputation();
         hostilityForSpecialItemRaid();
@@ -41,7 +51,7 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     private void addDmodsToStartingFleet() {
         if (settings.optBoolean("addDmodsToStartingFleet", true)) {
-            StartingFleetDamager.apply(settings);
+            StartingFleetDamager.apply();
         }
     }
 
