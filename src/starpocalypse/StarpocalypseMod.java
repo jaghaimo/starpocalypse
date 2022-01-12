@@ -25,12 +25,39 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
     public void onNewGameAfterTimePass() {
-        MarketListener listener = new MarketListener();
         addDmodsToStartingFleet();
+    }
+
+    @Override
+    public void onGameLoad(boolean newGame) {
+        industryChanges();
+        submarketChanges();
+        combatAdjustedReputation();
+        hostilityForSpecialItemRaid();
+    }
+
+    private void industryChanges() {
+        MarketListener listener = new MarketListener();
         addGroundDefenses(listener);
         addPatrolHq(listener);
         addStations(listener);
         listener.register();
+    }
+
+    private void submarketChanges() {
+        SubmarketListener listener = new SubmarketListener();
+        addDmodsToShipsInSubmarkets(listener);
+        militaryRegulation(listener);
+        militaryContraband(listener);
+        listener.register();
+    }
+
+    private void addDmodsToShipsInSubmarkets(SubmarketListener listener) {
+        if (settings.optBoolean("addDmodsToShipsInSubmarkets", true)) {
+            int minDmods = settings.optInt("minimumDmods", 2);
+            int maxDmods = settings.optInt("maximumDmods", 4);
+            listener.add(new ShipDamager(minDmods, maxDmods));
+        }
     }
 
     private void addDmodsToStartingFleet() {
@@ -44,6 +71,12 @@ public class StarpocalypseMod extends BaseModPlugin {
             listener.add(
                 new IndustryAdder(Industries.GROUNDDEFENSES, true, Industries.GROUNDDEFENSES, Industries.HEAVYBATTERIES)
             );
+        }
+    }
+
+    private void addStations(MarketListener listener) {
+        if (settings.optBoolean("addStations", true)) {
+            listener.add(new StationAdder());
         }
     }
 
@@ -61,23 +94,6 @@ public class StarpocalypseMod extends BaseModPlugin {
         }
     }
 
-    private void addStations(MarketListener listener) {
-        if (settings.optBoolean("addStations", true)) {
-            listener.add(new StationAdder());
-        }
-    }
-
-    @Override
-    public void onGameLoad(boolean newGame) {
-        SubmarketListener listener = new SubmarketListener();
-        addDmodsToShipsInSubmarkets(listener);
-        militaryRegulation(listener);
-        militaryContraband(listener);
-        combatAdjustedReputation();
-        hostilityForSpecialItemRaid();
-        listener.register();
-    }
-
     private void hostilityForSpecialItemRaid() {
         if (settings.optBoolean("hostilityForSpecialItemRaid", true)) {
             RaidListener.register();
@@ -87,14 +103,6 @@ public class StarpocalypseMod extends BaseModPlugin {
     private void combatAdjustedReputation() {
         if (settings.optBoolean("combatAdjustedReputation", true)) {
             EngagementListener.register();
-        }
-    }
-
-    private void addDmodsToShipsInSubmarkets(SubmarketListener listener) {
-        if (settings.optBoolean("addDmodsToShipsInSubmarkets", true)) {
-            int minDmods = settings.optInt("minimumDmods", 2);
-            int maxDmods = settings.optInt("maximumDmods", 4);
-            listener.add(new ShipDamager(minDmods, maxDmods));
         }
     }
 
