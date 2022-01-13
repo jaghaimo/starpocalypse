@@ -12,8 +12,10 @@
     ## MILITARY REGULATIONS
     # Buying or selling military wares Open Market is illegal unless you are commissioned with the owner of the market.
     # Uses same logic as Military market except for:
-    # - Lower stability will cause some illegal items to become legal, and
-    # - Blacklist can be applied to make item or ship always legal.
+    # - Legal list is applied to make item or ship always legal,
+    # - Illegal list is applied to make item or ship always illegal,
+    # - Lower stability will cause some illegal items to become legal (unless made illegal via the list above), and
+    # - All civ-grade or civ-hint ships are always legal (unless made illegal via the list above).
     "militaryRegulations": true,
     # Suspicion level will grow even with transponder off. It is still useful to sell illegal wares.
     "transparentBlackMarket": true,
