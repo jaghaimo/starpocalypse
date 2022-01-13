@@ -27,13 +27,18 @@ public class SubmarketSwapper implements ColonyInteractionListener {
         if (!ConfigUtils.getRegulatedFaction().has(market.getFactionId())) {
             return;
         }
-        if (market.getSubmarket(Submarkets.SUBMARKET_OPEN) == null) {
-            return;
-        }
-        market.removeSubmarket(Submarkets.SUBMARKET_OPEN);
-        market.addSubmarket("regulated_open_market");
+        injectRegulatedMarket(market, Submarkets.SUBMARKET_OPEN, "regulated_open_market");
+        injectRegulatedMarket(market, Submarkets.SUBMARKET_BLACK, "regulated_black_market");
     }
 
     @Override
     public void reportPlayerMarketTransaction(PlayerMarketTransaction transaction) {}
+
+    private void injectRegulatedMarket(MarketAPI market, String oldSubmarket, String newSubmarket) {
+        if (market.getSubmarket(oldSubmarket) == null) {
+            return;
+        }
+        market.removeSubmarket(oldSubmarket);
+        market.addSubmarket(newSubmarket);
+    }
 }

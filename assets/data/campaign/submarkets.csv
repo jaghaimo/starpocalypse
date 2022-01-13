@@ -3,3 +3,11 @@ regulated_open_market,"Open
 Market",,"The open market. Only legal goods may be traded here, and transactions are subject to tariffs. More goods are available when stability is high.
 
 Selling enough of a commodity will temporarily resolve a shortage.",starpocalypse.submarket.RegulatedOpenMarket,,0
+regulated_black_market,"Black
+Market",pirates,"The black market. Anything and everything can be bought or sold, and there are no tariffs. More goods are available when stability is low.
+
+Selling a commodity will not resolve a shortage.
+
+Black market transactions may catch the eye of authorities, resulting in cargo scans and reduced faction standing, unless the trades are carried out with the transponder turned off.
+
+Engaging in legitimate trade as a ""cover"" also reduces the probability of attracting the attention of authorities.",starpocalypse.submarket.RegulatedBlackMarket,graphics/factions/black_market.png,999

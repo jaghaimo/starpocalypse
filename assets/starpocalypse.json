@@ -9,12 +9,19 @@
     "minimumDmods": 2,
     "maximumDmods": 4,
 
-    ## MILITARY REGULATIONS AND CONTRABAND
-    # Buying or selling marines, weapons, LPCs, or combat ships on Open Market is illegal unless you are commissioned
-    # with the owner of the market. Uses same logic as Military market with the exception of:
-    # 1. Lower stability will cause some illegal items to become legal, and
-    # 2. Blacklist can be applied to make item or ship always legal.
+    ## MILITARY REGULATIONS
+    # Buying or selling military wares Open Market is illegal unless you are commissioned with the owner of the market.
+    # Uses same logic as Military market except for:
+    # - Lower stability will cause some illegal items to become legal, and
+    # - Blacklist can be applied to make item or ship always legal.
     "militaryRegulation": true,
+    # Suspicion level will grow even with transponder off. It is still useful to sell illegal wares.
+    "transparentBlackMarket": true,
+    # Setting this to 0 essentially disabled the feature. Setting this to 1 makes it behave as if the transponder was on
+    # for suspicion calculations. Setting it above 1 will cause a penalty for trading with transponder off.
+    "transparentBlackMarketMult": 0.5,
+    # Accessing black market is only possible with transponder turned off.
+    "shyBlackMarket": false,
 
     ## BETTER MARKET DEFENCES
     # Adds a tier 1 station to all non-hidden markets that do not have a station.
@@ -23,9 +30,9 @@
     "addGroundDefenses": true,
     "addPatrolHq": true,
 
-    ## OTHER
+    ## REPUTATION CHANGES
     # After winning an engagement, the enemies of the beaten fleet will have a slightly better reputation of you.
-    # Their allies will dislike you slightly more though.
+    # Their allies will dislike you slightly more, though.
     "combatAdjustedReputation": true,
     # Raiding for special items instantly ruins player reputation with the owner of the item.
     "hostilityForSpecialItemRaid": true,
