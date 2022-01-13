@@ -2,7 +2,10 @@ package starpocalypse;
 
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
+import java.util.List;
+import lombok.extern.log4j.Log4j;
 import org.json.JSONObject;
 import starpocalypse.helper.ConfigUtils;
 import starpocalypse.market.IndustryAdder;
@@ -13,6 +16,7 @@ import starpocalypse.reputation.RaidListener;
 import starpocalypse.submarket.ShipDamager;
 import starpocalypse.submarket.SubmarketSwapper;
 
+@Log4j
 public class StarpocalypseMod extends BaseModPlugin {
 
     private static JSONObject settings;
@@ -30,12 +34,8 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
     public void onGameLoad(boolean newGame) {
-        if (settings.optBoolean("addDmodsToShipsInSubmarkets", true)) {
-            ShipDamager.register();
-        }
-        if (settings.optBoolean("militaryRegulation", true)) {
-            SubmarketSwapper.register();
-        }
+        addDmodsToShipsInSubmarkets();
+        militaryRegulations();
         industryChanges();
         combatAdjustedReputation();
         hostilityForSpecialItemRaid();
@@ -44,33 +44,38 @@ public class StarpocalypseMod extends BaseModPlugin {
     private void industryChanges() {
         MarketListener listener = new MarketListener();
         addGroundDefenses(listener);
-        addPatrolHq(listener);
+        addPatrolHqs(listener);
         addStations(listener);
         listener.register();
     }
 
+    private void addDmodsToShipsInSubmarkets() {
+        if (settings.optBoolean("addDmodsToShipsInSubmarkets", true)) {
+            log.info("Enabling ship damager in submarkets");
+            ShipDamager.register();
+        }
+    }
+
     private void addDmodsToStartingFleet() {
         if (settings.optBoolean("addDmodsToStartingFleet", true)) {
-            StartingFleetDamager.apply();
+            log.info("Damaging starting fleet");
+            List<FleetMemberAPI> members = Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy();
+            ShipDamager.apply(members);
         }
     }
 
     private void addGroundDefenses(MarketListener listener) {
         if (settings.optBoolean("addGroundDefenses", true)) {
+            log.info("Enabling ground defenses adder");
             listener.add(
                 new IndustryAdder(Industries.GROUNDDEFENSES, true, Industries.GROUNDDEFENSES, Industries.HEAVYBATTERIES)
             );
         }
     }
 
-    private void addStations(MarketListener listener) {
-        if (settings.optBoolean("addStations", true)) {
-            listener.add(new StationAdder());
-        }
-    }
-
-    private void addPatrolHq(MarketListener listener) {
-        if (settings.optBoolean("addPatrolHq", true)) {
+    private void addPatrolHqs(MarketListener listener) {
+        if (settings.optBoolean("addPatrolHqs", true)) {
+            log.info("Enabling patrol hq adder");
             listener.add(
                 new IndustryAdder(
                     Industries.PATROLHQ,
@@ -83,15 +88,31 @@ public class StarpocalypseMod extends BaseModPlugin {
         }
     }
 
-    private void hostilityForSpecialItemRaid() {
-        if (settings.optBoolean("hostilityForSpecialItemRaid", true)) {
-            RaidListener.register();
+    private void addStations(MarketListener listener) {
+        if (settings.optBoolean("addStations", true)) {
+            log.info("Enabling station adder");
+            listener.add(new StationAdder());
         }
     }
 
     private void combatAdjustedReputation() {
         if (settings.optBoolean("combatAdjustedReputation", true)) {
+            log.info("Enabling combat adjusted reputation");
             EngagementListener.register();
+        }
+    }
+
+    private void hostilityForSpecialItemRaid() {
+        if (settings.optBoolean("hostilityForSpecialItemRaid", true)) {
+            log.info("Enabling hostility for special item raid");
+            RaidListener.register();
+        }
+    }
+
+    private void militaryRegulations() {
+        if (settings.optBoolean("militaryRegulations", true)) {
+            log.info("Enabling military regulations");
+            SubmarketSwapper.register();
         }
     }
 }
