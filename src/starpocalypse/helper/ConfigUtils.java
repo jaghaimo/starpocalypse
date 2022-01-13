@@ -35,6 +35,7 @@ public class ConfigUtils {
         }
     }
 
+    @SuppressWarnings("PMD.AvoidReassigningParameters")
     private static int clamp(int value, int min, int max) {
         value = Math.max(value, min);
         value = Math.min(value, max);
