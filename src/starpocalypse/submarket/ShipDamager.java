@@ -27,12 +27,8 @@ public class ShipDamager implements SubmarketUpdateListener {
     }
 
     private boolean canDamageShips(SubmarketAPI submarket) {
-        if (!ConfigUtils.getShipDamageSubmarket().has(submarket.getSpecId())) {
-            return false;
-        }
-        if (!ConfigUtils.getShipDamageFaction().has(submarket.getMarket().getFactionId())) {
-            return false;
-        }
-        return true;
+        boolean hasSubmarket = ConfigUtils.getShipDamageSubmarket().has(submarket.getSpecId());
+        boolean hasFaction = ConfigUtils.getShipDamageFaction().has(submarket.getMarket().getFactionId());
+        return hasSubmarket && hasFaction;
     }
 }

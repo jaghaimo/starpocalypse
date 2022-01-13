@@ -6,7 +6,6 @@ import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.submarkets.MilitarySubmarketPlugin;
 import com.fs.starfarer.api.impl.campaign.submarkets.OpenMarketPlugin;
 import com.fs.starfarer.api.util.Highlights;
-import starpocalypse.helper.ConfigUtils;
 
 public class RegulatedOpenMarket extends OpenMarketPlugin {
 
@@ -21,26 +20,17 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(String commodityId, TransferAction action) {
-        if (canRegulateSubmarket()) {
-            return plugin.isIllegalOnSubmarket(commodityId, TransferAction.PLAYER_BUY);
-        }
-        return super.isIllegalOnSubmarket(commodityId, action);
+        return plugin.isIllegalOnSubmarket(commodityId, TransferAction.PLAYER_BUY);
     }
 
     @Override
     public boolean isIllegalOnSubmarket(CargoStackAPI stack, TransferAction action) {
-        if (canRegulateSubmarket()) {
-            return plugin.isIllegalOnSubmarket(stack, TransferAction.PLAYER_BUY);
-        }
-        return super.isIllegalOnSubmarket(stack, action);
+        return plugin.isIllegalOnSubmarket(stack, TransferAction.PLAYER_BUY);
     }
 
     @Override
     public boolean isIllegalOnSubmarket(FleetMemberAPI member, TransferAction action) {
-        if (canRegulateSubmarket()) {
-            return plugin.isIllegalOnSubmarket(member, TransferAction.PLAYER_BUY);
-        }
-        return super.isIllegalOnSubmarket(member, action);
+        return plugin.isIllegalOnSubmarket(member, TransferAction.PLAYER_BUY);
     }
 
     @Override
@@ -61,12 +51,5 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
     @Override
     public Highlights getIllegalTransferTextHighlights(FleetMemberAPI member, TransferAction action) {
         return plugin.getIllegalTransferTextHighlights(member, TransferAction.PLAYER_BUY);
-    }
-
-    private boolean canRegulateSubmarket() {
-        if (!ConfigUtils.getRegulatedFaction().has(submarket.getMarket().getFactionId())) {
-            return false;
-        }
-        return true;
     }
 }
