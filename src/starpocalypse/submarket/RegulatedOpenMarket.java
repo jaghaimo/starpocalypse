@@ -14,7 +14,6 @@ import com.fs.starfarer.api.impl.campaign.submarkets.OpenMarketPlugin;
 import com.fs.starfarer.api.loading.FighterWingSpecAPI;
 import com.fs.starfarer.api.loading.HullModSpecAPI;
 import com.fs.starfarer.api.loading.WeaponSpecAPI;
-import starpocalypse.config.SimpleMap;
 import starpocalypse.helper.ConfigUtils;
 
 public class RegulatedOpenMarket extends OpenMarketPlugin {
@@ -33,9 +32,6 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
         if (isAlwaysLegal(stack.getDisplayName())) {
             return false;
         }
-        if (isStabilityLegal(ConfigUtils.getRegulatedStabilityItem(), stack.getBaseValuePerUnit())) {
-            return false;
-        }
         if (stack.isCommodityStack()) {
             return isIllegalOnSubmarket((String) stack.getData(), action);
         }
@@ -50,9 +46,6 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
         if (isAlwaysLegal(member)) {
             return false;
         }
-        if (isStabilityLegal(ConfigUtils.getRegulatedStabilityShip(), member.getBaseValue())) {
-            return false;
-        }
         return isSignificant(member);
     }
 
@@ -60,7 +53,7 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
     public void updateCargoPrePlayerInteraction() {
         boolean okToUpdate = okToUpdateShipsAndWeapons();
         super.updateCargoPrePlayerInteraction();
-        if (okToUpdate && ConfigUtils.isLegacyMilitaryRegulations()) {
+        if (okToUpdate) {
             removeItems(submarket.getCargo());
             removeShips(submarket.getCargo().getMothballedShips());
         }
@@ -99,19 +92,6 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     private boolean isSignificant(FleetMemberAPI member) {
         return member.getFleetPointCost() > 5;
-    }
-
-    private boolean isStabilityLegal(SimpleMap stabilityMap, float baseValue) {
-        float stability = submarket.getMarket().getStabilityValue();
-        String stabilityKey = String.valueOf(stability);
-        if (stability <= 0) {
-            return true;
-        }
-        if (stability >= 10) {
-            return false;
-        }
-        float stabilityValue = Float.parseFloat(stabilityMap.get(stabilityKey));
-        return baseValue < stabilityValue;
     }
 
     private void removeItems(CargoAPI cargo) {

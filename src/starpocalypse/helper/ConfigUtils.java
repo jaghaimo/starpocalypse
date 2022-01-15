@@ -15,9 +15,6 @@ public class ConfigUtils {
     private static int maxDmods = 4;
 
     @Getter
-    private static boolean legacyMilitaryRegulations = false;
-
-    @Getter
     private static boolean shyBlackMarket = false;
 
     @Getter
@@ -49,7 +46,6 @@ public class ConfigUtils {
     public static void init(JSONObject settings) {
         minDmods = clamp(settings.optInt("minimumDmods", 2), 1, 5);
         maxDmods = clamp(settings.optInt("maximumDmods", 4), minDmods, 5);
-        legacyMilitaryRegulations = settings.optBoolean("legacyMilitaryRegulations", false);
         shyBlackMarket = settings.optBoolean("shyBlackMarket", false);
         if (settings.optBoolean("transparentBlackMarket", true)) {
             float mult = (float) settings.optDouble("transparentBlackMarketMult", 0.5);

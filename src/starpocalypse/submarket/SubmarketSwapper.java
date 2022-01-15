@@ -28,6 +28,7 @@ public class SubmarketSwapper implements ColonyInteractionListener {
             return;
         }
         injectRegulatedMarket(market, Submarkets.SUBMARKET_OPEN, "regulated_open_market");
+        injectRegulatedMarket(market, Submarkets.GENERIC_MILITARY, "regulated_generic_military");
         injectRegulatedMarket(market, Submarkets.SUBMARKET_BLACK, "regulated_black_market");
     }
 
