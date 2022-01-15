@@ -3,35 +3,29 @@ package starpocalypse.submarket;
 import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CargoStackAPI;
 import com.fs.starfarer.api.campaign.FleetDataAPI;
-import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
+import com.fs.starfarer.api.campaign.econ.CommodityOnMarketAPI;
 import com.fs.starfarer.api.combat.ShipHullSpecAPI;
 import com.fs.starfarer.api.combat.ShipHullSpecAPI.ShipTypeHints;
 import com.fs.starfarer.api.combat.ShipVariantAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
+import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.HullMods;
-import com.fs.starfarer.api.impl.campaign.submarkets.MilitarySubmarketPlugin;
 import com.fs.starfarer.api.impl.campaign.submarkets.OpenMarketPlugin;
-import com.fs.starfarer.api.util.Highlights;
+import com.fs.starfarer.api.loading.FighterWingSpecAPI;
+import com.fs.starfarer.api.loading.HullModSpecAPI;
+import com.fs.starfarer.api.loading.WeaponSpecAPI;
 import starpocalypse.config.SimpleMap;
 import starpocalypse.helper.ConfigUtils;
 
 public class RegulatedOpenMarket extends OpenMarketPlugin {
-
-    private MilitarySubmarketPlugin plugin;
-
-    @Override
-    public void init(SubmarketAPI submarket) {
-        super.init(submarket);
-        plugin = new MilitarySubmarketPlugin();
-        plugin.init(submarket);
-    }
 
     @Override
     public boolean isIllegalOnSubmarket(String commodityId, TransferAction action) {
         if (isAlwaysLegal(commodityId)) {
             return false;
         }
-        return plugin.isIllegalOnSubmarket(commodityId, TransferAction.PLAYER_BUY);
+        CommodityOnMarketAPI com = market.getCommodityData(commodityId);
+        return com.getCommodity().getTags().contains(Commodities.TAG_MILITARY);
     }
 
     @Override
@@ -42,7 +36,10 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
         if (isStabilityLegal(ConfigUtils.getRegulatedStabilityItem(), stack.getBaseValuePerUnit())) {
             return false;
         }
-        return plugin.isIllegalOnSubmarket(stack, TransferAction.PLAYER_BUY);
+        if (stack.isCommodityStack()) {
+            return isIllegalOnSubmarket((String) stack.getData(), action);
+        }
+        return isSignificant(stack);
     }
 
     @Override
@@ -56,27 +53,7 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
         if (isStabilityLegal(ConfigUtils.getRegulatedStabilityShip(), member.getBaseValue())) {
             return false;
         }
-        return plugin.isIllegalOnSubmarket(member, TransferAction.PLAYER_BUY);
-    }
-
-    @Override
-    public String getIllegalTransferText(CargoStackAPI stack, TransferAction action) {
-        return plugin.getIllegalTransferText(stack, TransferAction.PLAYER_BUY);
-    }
-
-    @Override
-    public String getIllegalTransferText(FleetMemberAPI member, TransferAction action) {
-        return plugin.getIllegalTransferText(member, TransferAction.PLAYER_BUY);
-    }
-
-    @Override
-    public Highlights getIllegalTransferTextHighlights(CargoStackAPI stack, TransferAction action) {
-        return plugin.getIllegalTransferTextHighlights(stack, TransferAction.PLAYER_BUY);
-    }
-
-    @Override
-    public Highlights getIllegalTransferTextHighlights(FleetMemberAPI member, TransferAction action) {
-        return plugin.getIllegalTransferTextHighlights(member, TransferAction.PLAYER_BUY);
+        return isSignificant(member);
     }
 
     @Override
@@ -103,6 +80,25 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     private boolean isCivilian(ShipVariantAPI variant) {
         return variant.hasHullMod(HullMods.CIVGRADE) || variant.getHints().contains(ShipTypeHints.CIVILIAN);
+    }
+
+    private boolean isSignificant(CargoStackAPI stack) {
+        int tier = 0;
+        if (stack.isWeaponStack()) {
+            WeaponSpecAPI spec = stack.getWeaponSpecIfWeapon();
+            tier = spec.getTier();
+        } else if (stack.isModSpecStack()) {
+            HullModSpecAPI spec = stack.getHullModSpecIfHullMod();
+            tier = spec.getTier();
+        } else if (stack.isFighterWingStack()) {
+            FighterWingSpecAPI spec = stack.getFighterWingSpecIfWing();
+            tier = spec.getTier();
+        }
+        return tier > 0;
+    }
+
+    private boolean isSignificant(FleetMemberAPI member) {
+        return member.getFleetPointCost() > 5;
     }
 
     private boolean isStabilityLegal(SimpleMap stabilityMap, float baseValue) {
