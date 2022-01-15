@@ -17,4 +17,4 @@ Weapons and other military hardware can be bought and sold here even if they're 
 
 Will buy locally illegal goods as part of a no-questions-asked buyback program. Will also sell normally illegal items while stability is low.
 
-Selling enough of a commodity will temporarily resolve a shortage.",com.fs.starfarer.api.impl.campaign.submarkets.MilitarySubmarketPlugin,,100
+Selling enough of a commodity will temporarily resolve a shortage.",starpocalypse.submarket.RegulatedMilitaryMarket,,100

@@ -4,18 +4,20 @@ import com.fs.starfarer.api.campaign.CargoStackAPI;
 import com.fs.starfarer.api.campaign.econ.CommodityOnMarketAPI;
 import com.fs.starfarer.api.campaign.econ.CommoditySpecAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
-import com.fs.starfarer.api.impl.campaign.submarkets.BlackMarketPlugin;
+import com.fs.starfarer.api.impl.campaign.submarkets.MilitarySubmarketPlugin;
+import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleMap;
 import starpocalypse.helper.ConfigUtils;
 
-public class RegulatedMilitaryMarket extends BlackMarketPlugin {
+@Log4j
+public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(String commodityId, TransferAction action) {
         CommodityOnMarketAPI com = market.getCommodityData(commodityId);
         CommoditySpecAPI csa = com.getCommodity();
         if (isStabilityLegal(ConfigUtils.getRegulatedStabilityItem(), csa.getBasePrice())) {
-            log.info("Making legal " + csa.getName());
+            log.info("Making legal due to low stability " + commodityId);
             return false;
         }
         return super.isIllegalOnSubmarket(commodityId, action);
@@ -24,7 +26,7 @@ public class RegulatedMilitaryMarket extends BlackMarketPlugin {
     @Override
     public boolean isIllegalOnSubmarket(CargoStackAPI stack, TransferAction action) {
         if (isStabilityLegal(ConfigUtils.getRegulatedStabilityItem(), stack.getBaseValuePerUnit())) {
-            log.info("Making legal " + stack.getDisplayName());
+            log.info("Making legal due to low stability " + stack.getDisplayName());
             return false;
         }
         return super.isIllegalOnSubmarket(stack, action);
@@ -33,7 +35,7 @@ public class RegulatedMilitaryMarket extends BlackMarketPlugin {
     @Override
     public boolean isIllegalOnSubmarket(FleetMemberAPI member, TransferAction action) {
         if (isStabilityLegal(ConfigUtils.getRegulatedStabilityShip(), member.getBaseValue())) {
-            log.info("Making legal " + member.getHullSpec().getHullName());
+            log.info("Making legal due to low stability " + member.getHullSpec().getHullName());
             return false;
         }
         return super.isIllegalOnSubmarket(member, action);

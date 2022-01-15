@@ -32,7 +32,7 @@ public class ConfigUtils {
     );
 
     @Getter
-    private static final SimpleSet regulatedLegal = new SimpleSet("faction", "militaryRegulationLegal.csv");
+    private static final SimpleSet regulatedLegal = new SimpleSet("name", "militaryRegulationLegal.csv");
 
     @Getter
     private static final SimpleSet regulatedFaction = new SimpleSet("faction", "militaryRegulationFaction.csv");

@@ -14,8 +14,10 @@ import com.fs.starfarer.api.impl.campaign.submarkets.OpenMarketPlugin;
 import com.fs.starfarer.api.loading.FighterWingSpecAPI;
 import com.fs.starfarer.api.loading.HullModSpecAPI;
 import com.fs.starfarer.api.loading.WeaponSpecAPI;
+import lombok.extern.log4j.Log4j;
 import starpocalypse.helper.ConfigUtils;
 
+@Log4j
 public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     @Override
@@ -97,6 +99,7 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
     private void removeItems(CargoAPI cargo) {
         for (CargoStackAPI stack : cargo.getStacksCopy()) {
             if (isIllegalOnSubmarket(stack, TransferAction.PLAYER_BUY)) {
+                log.info("Removing " + stack.getDisplayName());
                 cargo.removeStack(stack);
             }
         }
@@ -106,6 +109,7 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
     private void removeShips(FleetDataAPI ships) {
         for (FleetMemberAPI member : ships.getMembersListCopy()) {
             if (isIllegalOnSubmarket(member, TransferAction.PLAYER_BUY)) {
+                log.info("Removing " + member.getHullSpec().getHullName());
                 ships.removeFleetMember(member);
             }
         }
