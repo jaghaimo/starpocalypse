@@ -41,6 +41,11 @@ public class StarpocalypseMod extends BaseModPlugin {
         hostilityForSpecialItemRaid();
     }
 
+    @Override
+    public void beforeGameSave() {
+        SubmarketSwapper.uninstall();
+    }
+
     private void industryChanges() {
         MarketListener listener = new MarketListener();
         addGroundDefenses(listener);

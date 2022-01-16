@@ -14,6 +14,14 @@ public class SubmarketSwapper implements ColonyInteractionListener {
         Global.getSector().getListenerManager().addListener(swapper, true);
     }
 
+    public static void uninstall() {
+        for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
+            replaceSubmarket(market, "regulated_open_market", Submarkets.SUBMARKET_OPEN);
+            replaceSubmarket(market, "regulated_generic_military", Submarkets.GENERIC_MILITARY);
+            replaceSubmarket(market, "regulated_black_market", Submarkets.SUBMARKET_BLACK);
+        }
+    }
+
     @Override
     public void reportPlayerOpenedMarket(MarketAPI market) {
         reportPlayerOpenedMarketAndCargoUpdated(market);
@@ -27,15 +35,15 @@ public class SubmarketSwapper implements ColonyInteractionListener {
         if (!ConfigUtils.getRegulatedFaction().has(market.getFactionId())) {
             return;
         }
-        injectRegulatedMarket(market, Submarkets.SUBMARKET_OPEN, "regulated_open_market");
-        injectRegulatedMarket(market, Submarkets.GENERIC_MILITARY, "regulated_generic_military");
-        injectRegulatedMarket(market, Submarkets.SUBMARKET_BLACK, "regulated_black_market");
+        replaceSubmarket(market, Submarkets.SUBMARKET_OPEN, "regulated_open_market");
+        replaceSubmarket(market, Submarkets.GENERIC_MILITARY, "regulated_generic_military");
+        replaceSubmarket(market, Submarkets.SUBMARKET_BLACK, "regulated_black_market");
     }
 
     @Override
     public void reportPlayerMarketTransaction(PlayerMarketTransaction transaction) {}
 
-    private void injectRegulatedMarket(MarketAPI market, String oldSubmarket, String newSubmarket) {
+    private static void replaceSubmarket(MarketAPI market, String oldSubmarket, String newSubmarket) {
         if (market.getSubmarket(oldSubmarket) == null) {
             return;
         }

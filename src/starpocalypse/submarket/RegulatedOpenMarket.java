@@ -53,12 +53,9 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     @Override
     public void updateCargoPrePlayerInteraction() {
-        boolean okToUpdate = okToUpdateShipsAndWeapons();
         super.updateCargoPrePlayerInteraction();
-        if (okToUpdate) {
-            removeItems(submarket.getCargo());
-            removeShips(submarket.getCargo().getMothballedShips());
-        }
+        removeItems(submarket.getCargo());
+        removeShips(submarket.getCargo().getMothballedShips());
     }
 
     private boolean isAlwaysLegal(String name) {
