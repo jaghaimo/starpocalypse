@@ -43,6 +43,7 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
     public void beforeGameSave() {
+        log.info("Replacing regulated submarkets with vanilla variants");
         SubmarketSwapper.uninstall();
     }
 

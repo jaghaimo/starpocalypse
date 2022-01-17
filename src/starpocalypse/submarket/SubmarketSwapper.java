@@ -3,10 +3,15 @@ package starpocalypse.submarket;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.PlayerMarketTransaction;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
+import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.campaign.listeners.ColonyInteractionListener;
+import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
+import com.fs.starfarer.api.impl.campaign.submarkets.BaseSubmarketPlugin;
+import lombok.extern.log4j.Log4j;
 import starpocalypse.helper.ConfigUtils;
 
+@Log4j
 public class SubmarketSwapper implements ColonyInteractionListener {
 
     public static void register() {
@@ -43,11 +48,52 @@ public class SubmarketSwapper implements ColonyInteractionListener {
     @Override
     public void reportPlayerMarketTransaction(PlayerMarketTransaction transaction) {}
 
-    private static void replaceSubmarket(MarketAPI market, String oldSubmarket, String newSubmarket) {
-        if (market.getSubmarket(oldSubmarket) == null) {
+    private static void replaceSubmarket(MarketAPI market, String oldSubmarketId, String newSubmarketId) {
+        SubmarketAPI oldSubmarket = market.getSubmarket(oldSubmarketId);
+        if (oldSubmarket == null) {
+            log.debug("No old submarket on market " + market.getName());
             return;
         }
-        market.removeSubmarket(oldSubmarket);
-        market.addSubmarket(newSubmarket);
+        // swap markets
+        market.removeSubmarket(oldSubmarketId);
+        market.addSubmarket(newSubmarketId);
+        // preserve state
+        SubmarketAPI newSubmarket = market.getSubmarket(newSubmarketId);
+        transferState(oldSubmarket, newSubmarket);
+    }
+
+    private static void transferState(SubmarketAPI oldSubmarket, SubmarketAPI newSubmarket) {
+        BaseSubmarketPlugin oldPlugin = getBasePlugin(oldSubmarket);
+        BaseSubmarketPlugin newPlugin = getBasePlugin(newSubmarket);
+        if (oldPlugin == null || newPlugin == null) {
+            log.error("Incompatible submarket plugins, submarket state will not be preserved", new Throwable());
+            return;
+        }
+        log.info("Swapping " + oldSubmarket.getSpecId() + " with " + newSubmarket.getSpecId());
+        // update values
+        newPlugin.setMinSWUpdateInterval(oldPlugin.getMinSWUpdateInterval());
+        newPlugin.setSinceLastCargoUpdate(oldPlugin.getSinceLastCargoUpdate());
+        newPlugin.setSinceSWUpdate(oldPlugin.getSinceSWUpdate());
+        // transfer cargo
+        newPlugin.getCargo().clear();
+        newPlugin.getCargo().addAll(oldPlugin.getCargo());
+        // transfer ships
+        newPlugin.getCargo().getMothballedShips().clear();
+        for (FleetMemberAPI member : oldPlugin.getCargo().getMothballedShips().getMembersListCopy()) {
+            newPlugin.getCargo().getMothballedShips().addFleetMember(member);
+        }
+    }
+
+    private static BaseSubmarketPlugin getBasePlugin(SubmarketAPI submarket) {
+        if (submarket == null) {
+            log.error("Null submarket passed", new Throwable());
+            return null;
+        }
+        try {
+            return (BaseSubmarketPlugin) (submarket.getPlugin());
+        } catch (ClassCastException exception) {
+            log.warn("Cannot cast to BaseSubmarketPlugin " + submarket.getSpecId(), exception);
+        }
+        return null;
     }
 }
