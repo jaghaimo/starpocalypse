@@ -17,7 +17,7 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
         CommodityOnMarketAPI com = market.getCommodityData(commodityId);
         CommoditySpecAPI csa = com.getCommodity();
         if (isStabilityLegal(ConfigUtils.getRegulatedStabilityItem(), csa.getBasePrice())) {
-            log.info("Making legal due to low stability " + commodityId);
+            log.debug("Making legal due to low stability " + commodityId);
             return false;
         }
         return super.isIllegalOnSubmarket(commodityId, action);
@@ -26,7 +26,7 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
     @Override
     public boolean isIllegalOnSubmarket(CargoStackAPI stack, TransferAction action) {
         if (isStabilityLegal(ConfigUtils.getRegulatedStabilityItem(), stack.getBaseValuePerUnit())) {
-            log.info("Making legal due to low stability " + stack.getDisplayName());
+            log.debug("Making legal due to low stability " + stack.getDisplayName());
             return false;
         }
         return super.isIllegalOnSubmarket(stack, action);
@@ -35,7 +35,7 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
     @Override
     public boolean isIllegalOnSubmarket(FleetMemberAPI member, TransferAction action) {
         if (isStabilityLegal(ConfigUtils.getRegulatedStabilityShip(), member.getBaseValue())) {
-            log.info("Making legal due to low stability " + member.getHullSpec().getHullName());
+            log.debug("Making legal due to low stability " + member.getHullSpec().getHullName());
             return false;
         }
         return super.isIllegalOnSubmarket(member, action);

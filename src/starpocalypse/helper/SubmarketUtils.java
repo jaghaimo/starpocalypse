@@ -11,6 +11,10 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class SubmarketUtils {
 
+    public static String getLocation(SubmarketAPI submarket) {
+        return String.format("%s/%s", submarket.getMarket().getName(), submarket.getNameOneLine());
+    }
+
     public static void replaceSubmarkets(MarketAPI market, String oldSubmarketId, String newSubmarketId) {
         SubmarketAPI oldSubmarket = market.getSubmarket(oldSubmarketId);
         if (oldSubmarket == null) {

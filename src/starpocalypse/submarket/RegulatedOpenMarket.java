@@ -4,6 +4,7 @@ import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CargoStackAPI;
 import com.fs.starfarer.api.campaign.FleetDataAPI;
 import com.fs.starfarer.api.campaign.econ.CommodityOnMarketAPI;
+import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.combat.ShipHullSpecAPI;
 import com.fs.starfarer.api.combat.ShipHullSpecAPI.ShipTypeHints;
 import com.fs.starfarer.api.combat.ShipVariantAPI;
@@ -16,9 +17,18 @@ import com.fs.starfarer.api.loading.HullModSpecAPI;
 import com.fs.starfarer.api.loading.WeaponSpecAPI;
 import lombok.extern.log4j.Log4j;
 import starpocalypse.helper.ConfigUtils;
+import starpocalypse.helper.SubmarketUtils;
 
 @Log4j
 public class RegulatedOpenMarket extends OpenMarketPlugin {
+
+    private String location;
+
+    @Override
+    public void init(SubmarketAPI submarket) {
+        super.init(submarket);
+        location = SubmarketUtils.getLocation(submarket);
+    }
 
     @Override
     public boolean isIllegalOnSubmarket(String commodityId, TransferAction action) {
@@ -96,7 +106,7 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
     private void removeItems(CargoAPI cargo) {
         for (CargoStackAPI stack : cargo.getStacksCopy()) {
             if (isIllegalOnSubmarket(stack, TransferAction.PLAYER_BUY)) {
-                log.info("Removing " + stack.getDisplayName());
+                log.info(location + ": Removing " + stack.getDisplayName());
                 cargo.removeStack(stack);
             }
         }
@@ -106,7 +116,7 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
     private void removeShips(FleetDataAPI ships) {
         for (FleetMemberAPI member : ships.getMembersListCopy()) {
             if (isIllegalOnSubmarket(member, TransferAction.PLAYER_BUY)) {
-                log.info("Removing " + member.getHullSpec().getHullName());
+                log.info(location + ": Removing " + member.getHullSpec().getHullName());
                 ships.removeFleetMember(member);
             }
         }

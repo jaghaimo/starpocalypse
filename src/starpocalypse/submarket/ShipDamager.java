@@ -7,14 +7,15 @@ import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import java.util.List;
 import starpocalypse.helper.ConfigUtils;
 import starpocalypse.helper.ShipUtils;
+import starpocalypse.helper.SubmarketUtils;
 
 public class ShipDamager implements SubmarketUpdateListener {
 
-    public static void apply(List<FleetMemberAPI> members) {
+    public static void apply(String location, List<FleetMemberAPI> members) {
         int minDmods = ConfigUtils.getMinDmods();
         int maxDmods = ConfigUtils.getMaxDmods();
         for (FleetMemberAPI member : members) {
-            ShipUtils.damageShip(member, minDmods, maxDmods);
+            ShipUtils.damageShip(location, member, minDmods, maxDmods);
         }
     }
 
@@ -28,7 +29,8 @@ public class ShipDamager implements SubmarketUpdateListener {
         if (!canDamageShips(submarket)) {
             return;
         }
-        apply(submarket.getCargo().getMothballedShips().getMembersListCopy());
+        String location = SubmarketUtils.getLocation(submarket);
+        apply(location, submarket.getCargo().getMothballedShips().getMembersListCopy());
     }
 
     private static boolean canDamageShips(SubmarketAPI submarket) {

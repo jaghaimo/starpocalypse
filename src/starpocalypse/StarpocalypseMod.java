@@ -70,7 +70,7 @@ public class StarpocalypseMod extends BaseModPlugin {
         if (settings.optBoolean("addDmodsToStartingFleet", true)) {
             log.info("Damaging starting fleet");
             List<FleetMemberAPI> members = Global.getSector().getPlayerFleet().getFleetData().getMembersListCopy();
-            ShipDamager.apply(members);
+            ShipDamager.apply("player fleet", members);
         }
     }
 
