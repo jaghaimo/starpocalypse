@@ -2,7 +2,7 @@ id,name,faction,desc,script,icon,order
 regulated_open_market,"Open
 Market",,"The open market. Only legal goods may be traded here, and transactions are subject to tariffs. More goods are available when stability is high.
 
-Selling enough of a commodity will temporarily resolve a shortage.",starpocalypse.submarket.plugin.RegulatedOpenMarket,,0
+Selling enough of a commodity will temporarily resolve a shortage.",starpocalypse.submarket.RegulatedOpenMarket,,0
 regulated_black_market,"Black
 Market",pirates,"The black market. Anything and everything can be bought or sold, and there are no tariffs. More goods are available when stability is low.
 
@@ -10,11 +10,11 @@ Selling a commodity will not resolve a shortage.
 
 Black market transactions may catch the eye of authorities, resulting in cargo scans and reduced faction standing, unless the trades are carried out with the transponder turned off.
 
-Engaging in legitimate trade as a ""cover"" also reduces the probability of attracting the attention of authorities.",starpocalypse.submarket.plugin.RegulatedBlackMarket,graphics/factions/black_market.png,999
+Engaging in legitimate trade as a ""cover"" also reduces the probability of attracting the attention of authorities.",starpocalypse.submarket.RegulatedBlackMarket,graphics/factions/black_market.png,999
 regulated_generic_military,,,"Trade with $theFaction military base.
 
 Weapons and other military hardware can be bought and sold here even if they're illegal on the open market. A commission and better standing with $theFaction results in higher-grade hardware being available.
 
-Will buy locally illegal goods as part of a no-questions-asked buyback program.
+Will buy locally illegal goods as part of a no-questions-asked buyback program. Will also sell normally illegal items while stability is low.
 
-Selling enough of a commodity will temporarily resolve a shortage.",starpocalypse.submarket.plugin.RegulatedMilitaryMarket,,100
+Selling enough of a commodity will temporarily resolve a shortage.",starpocalypse.submarket.RegulatedMilitaryMarket,,100
