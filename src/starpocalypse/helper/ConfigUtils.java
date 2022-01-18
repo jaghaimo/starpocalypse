@@ -2,10 +2,12 @@ package starpocalypse.helper;
 
 import com.fs.starfarer.api.Global;
 import lombok.Getter;
+import lombok.extern.log4j.Log4j;
 import org.json.JSONObject;
 import starpocalypse.config.SimpleMap;
 import starpocalypse.config.SimpleSet;
 
+@Log4j
 public class ConfigUtils {
 
     @Getter
@@ -51,8 +53,9 @@ public class ConfigUtils {
         minDmods = clamp(settings.optInt("minimumDmods", 2), 1, 5);
         maxDmods = clamp(settings.optInt("maximumDmods", 4), minDmods, 5);
         shyBlackMarket = settings.optBoolean("shyBlackMarket", false);
-        if (settings.optBoolean("transparentBlackMarket", true)) {
-            float mult = (float) settings.optDouble("transparentBlackMarketMult", 0.5);
+        if (settings.optBoolean("transparentMarket", true)) {
+            float mult = (float) settings.optDouble("transparentMarketMult", 0.5);
+            log.info("Setting transponder off market awareness mult to " + mult);
             Global.getSettings().setFloat("transponderOffMarketAwarenessMult", mult);
         }
     }

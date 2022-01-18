@@ -29,10 +29,10 @@
     # - All civ-grade or civ-hint ships are always legal.
     "militaryRegulations": true,
     # Suspicion level will grow even with transponder off. It is still useful to sell illegal wares.
-    "transparentBlackMarket": true,
+    "transparentMarket": true,
     # Setting this to 0 essentially disabled the feature. Setting this to 1 makes it behave as if the transponder was on
     # for suspicion calculations. Setting it above 1 will cause a penalty for trading with transponder off.
-    "transparentBlackMarketMult": 0.5,
+    "transparentMarketMult": 0.5,
     # Accessing black market is only possible with transponder turned off.
     "shyBlackMarket": false,
 
