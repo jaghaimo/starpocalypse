@@ -2,12 +2,11 @@ package starpocalypse.helper;
 
 import com.fs.starfarer.api.Global;
 import lombok.Getter;
-import lombok.extern.log4j.Log4j;
+import org.apache.log4j.Logger;
 import org.json.JSONObject;
 import starpocalypse.config.SimpleMap;
 import starpocalypse.config.SimpleSet;
 
-@Log4j
 public class ConfigUtils {
 
     @Getter
@@ -48,7 +47,7 @@ public class ConfigUtils {
     @Getter
     private static final SimpleSet shipDamageSubmarket = new SimpleSet("submarket", "shipDamageSubmarket.csv");
 
-    public static void init(JSONObject settings) {
+    public static void init(JSONObject settings, Logger log) {
         isUtility = settings.optBoolean("isUtility", false);
         minDmods = clamp(settings.optInt("minimumDmods", 2), 1, 5);
         maxDmods = clamp(settings.optInt("maximumDmods", 4), minDmods, 5);

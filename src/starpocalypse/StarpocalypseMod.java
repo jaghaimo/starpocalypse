@@ -25,7 +25,7 @@ public class StarpocalypseMod extends BaseModPlugin {
     @Override
     public void onApplicationLoad() throws Exception {
         settings = Global.getSettings().loadJSON("starpocalypse.json");
-        ConfigUtils.init(settings);
+        ConfigUtils.init(settings, log);
     }
 
     @Override
