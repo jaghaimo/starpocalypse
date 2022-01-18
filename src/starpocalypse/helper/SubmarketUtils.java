@@ -11,7 +11,7 @@ import lombok.extern.log4j.Log4j;
 @Log4j
 public class SubmarketUtils {
 
-    public static void replaceSubmarket(MarketAPI market, String oldSubmarketId, String newSubmarketId) {
+    public static void replaceSubmarkets(MarketAPI market, String oldSubmarketId, String newSubmarketId) {
         SubmarketAPI oldSubmarket = market.getSubmarket(oldSubmarketId);
         if (oldSubmarket == null) {
             log.debug("No old submarket on market " + market.getName());
@@ -22,7 +22,12 @@ public class SubmarketUtils {
         SubmarketAPI newSubmarket = market.getSubmarket(newSubmarketId);
         transferCargo(oldSubmarket, newSubmarket);
         transferState(oldSubmarket, newSubmarket);
-        updateState(newSubmarket);
+    }
+
+    public static void updateSubmarkets(MarketAPI market) {
+        for (SubmarketAPI submarket : market.getSubmarketsCopy()) {
+            updateSubmarket(submarket);
+        }
     }
 
     private static BaseSubmarketPlugin getBasePlugin(SubmarketAPI submarket) {
@@ -63,7 +68,7 @@ public class SubmarketUtils {
         newPlugin.setSinceSWUpdate(oldPlugin.getSinceSWUpdate());
     }
 
-    private static void updateState(SubmarketAPI submarket) {
+    private static void updateSubmarket(SubmarketAPI submarket) {
         submarket.getPlugin().updateCargoPrePlayerInteraction();
         ListenerUtil.reportSubmarketCargoAndShipsUpdated(submarket);
     }
