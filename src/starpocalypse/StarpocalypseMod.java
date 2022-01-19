@@ -34,6 +34,7 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
     public void onGameLoad(boolean newGame) {
+        SubmarketSwapper.uninstallLegacy();
         addDmodsToShipsInSubmarkets();
         militaryRegulations();
         industryChanges();

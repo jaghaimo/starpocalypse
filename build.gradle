@@ -62,27 +62,13 @@ dependencies {
 }
 
 // custom tasks
-task releaseMod(type: Zip) {
+task release(type: Zip) {
     dependsOn build
     archiveFileName = "${project.name}-${readModInfoJson().version}.zip"
     destinationDirectory = file(rootDir)
-    from ('assets') {
-        excludes = ['data/uninstaller/']
-    }
+    from 'assets'
     from jar
     into project.name
-}
-task releaseUninstaller(type: Zip) {
-    dependsOn build
-    archiveFileName = "${project.name}-uninstaller-${readModInfoJson().version}.zip"
-    destinationDirectory = file(rootDir)
-    from 'assets/uninstaller'
-    from jar
-    into project.name
-}
-task release() {
-    dependsOn releaseMod
-    dependsOn releaseUninstaller
 }
 
 // methods
