@@ -23,7 +23,7 @@ public class SubmarketSwapper implements ColonyInteractionListener {
         }
     }
 
-    public static void uninstall() {
+    public static void reinstall() {
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
             SubmarketUtils.replaceSubmarkets(market);
         }
