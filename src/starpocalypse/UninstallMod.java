@@ -1,6 +1,7 @@
 package starpocalypse;
 
 import com.fs.starfarer.api.BaseModPlugin;
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.impl.campaign.shared.SharedData;
 import starpocalypse.submarket.SubmarketSwapper;
 
@@ -23,5 +24,13 @@ public class UninstallMod extends BaseModPlugin {
         SubmarketSwapper.uninstallLegacy();
         SubmarketSwapper.uninstall();
         SharedData.getData().getPlayerActivityTracker().advance(0);
+    }
+
+    @Override
+    public void afterGameSave() {
+        Global
+            .getSector()
+            .getCampaignUI()
+            .showMessageDialog("You can now safely install new version of Starpocalypse.");
     }
 }
