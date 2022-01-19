@@ -1,6 +1,7 @@
 package starpocalypse;
 
 import com.fs.starfarer.api.BaseModPlugin;
+import com.fs.starfarer.api.impl.campaign.shared.SharedData;
 import starpocalypse.submarket.SubmarketSwapper;
 
 /*
@@ -21,5 +22,6 @@ public class UninstallMod extends BaseModPlugin {
     public void onGameLoad(boolean newGame) {
         SubmarketSwapper.uninstallLegacy();
         SubmarketSwapper.uninstall();
+        SharedData.getData().getPlayerActivityTracker().advance(0);
     }
 }

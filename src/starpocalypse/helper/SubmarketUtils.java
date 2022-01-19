@@ -5,6 +5,7 @@ import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.campaign.listeners.ListenerUtil;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
+import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
 import com.fs.starfarer.api.impl.campaign.submarkets.BaseSubmarketPlugin;
 import lombok.extern.log4j.Log4j;
 
@@ -15,11 +16,17 @@ public class SubmarketUtils {
         return String.format("%s/%s", submarket.getMarket().getName(), submarket.getNameOneLine());
     }
 
-    public static void replaceSubmarkets(MarketAPI market, String submarketId) {
-        replaceSubmarkets(market, submarketId, submarketId);
+    public static void replaceSubmarkets(MarketAPI market) {
+        replaceSubmarket(market, Submarkets.SUBMARKET_OPEN);
+        replaceSubmarket(market, Submarkets.GENERIC_MILITARY);
+        replaceSubmarket(market, Submarkets.SUBMARKET_BLACK);
     }
 
-    public static void replaceSubmarkets(MarketAPI market, String oldSubmarketId, String newSubmarketId) {
+    public static void replaceSubmarket(MarketAPI market, String submarketId) {
+        replaceSubmarket(market, submarketId, submarketId);
+    }
+
+    public static void replaceSubmarket(MarketAPI market, String oldSubmarketId, String newSubmarketId) {
         SubmarketAPI oldSubmarket = market.getSubmarket(oldSubmarketId);
         if (oldSubmarket == null) {
             log.debug("No old submarket on market " + market.getName());

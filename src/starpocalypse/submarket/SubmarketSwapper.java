@@ -17,17 +17,15 @@ public class SubmarketSwapper implements ColonyInteractionListener {
 
     public static void uninstallLegacy() {
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
-            SubmarketUtils.replaceSubmarkets(market, "regulated_open_market", Submarkets.SUBMARKET_OPEN);
-            SubmarketUtils.replaceSubmarkets(market, "regulated_generic_military", Submarkets.GENERIC_MILITARY);
-            SubmarketUtils.replaceSubmarkets(market, "regulated_black_market", Submarkets.SUBMARKET_BLACK);
+            SubmarketUtils.replaceSubmarket(market, "regulated_open_market", Submarkets.SUBMARKET_OPEN);
+            SubmarketUtils.replaceSubmarket(market, "regulated_generic_military", Submarkets.GENERIC_MILITARY);
+            SubmarketUtils.replaceSubmarket(market, "regulated_black_market", Submarkets.SUBMARKET_BLACK);
         }
     }
 
     public static void uninstall() {
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
-            SubmarketUtils.replaceSubmarkets(market, Submarkets.SUBMARKET_OPEN);
-            SubmarketUtils.replaceSubmarkets(market, Submarkets.GENERIC_MILITARY);
-            SubmarketUtils.replaceSubmarkets(market, Submarkets.SUBMARKET_BLACK);
+            SubmarketUtils.replaceSubmarkets(market);
         }
     }
 
@@ -42,9 +40,7 @@ public class SubmarketSwapper implements ColonyInteractionListener {
     @Override
     public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {
         if (ConfigUtils.getRegulatedFaction().has(market.getFactionId())) {
-            SubmarketUtils.replaceSubmarkets(market, Submarkets.SUBMARKET_OPEN, Submarkets.SUBMARKET_OPEN);
-            SubmarketUtils.replaceSubmarkets(market, Submarkets.GENERIC_MILITARY, Submarkets.GENERIC_MILITARY);
-            SubmarketUtils.replaceSubmarkets(market, Submarkets.SUBMARKET_BLACK, Submarkets.SUBMARKET_BLACK);
+            SubmarketUtils.replaceSubmarkets(market);
         }
         SubmarketUtils.updateSubmarkets(market);
     }
