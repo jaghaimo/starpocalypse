@@ -31,6 +31,6 @@ public class UninstallMod extends BaseModPlugin {
         Global
             .getSector()
             .getCampaignUI()
-            .showMessageDialog("You can now safely install new version of Starpocalypse.");
+            .showMessageDialog("You can now safely remove or install new version of Starpocalypse.");
     }
 }
