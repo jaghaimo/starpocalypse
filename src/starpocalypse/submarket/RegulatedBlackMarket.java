@@ -12,7 +12,7 @@ public class RegulatedBlackMarket extends BlackMarketPlugin {
     protected void createTooltipAfterDescription(TooltipMakerAPI tooltip, boolean expanded) {
         if (doesWantShyBlackMarket()) {
             tooltip.addPara(
-                "\n\nDue to the heavy military presence, trading on Black Market " +
+                "Due to the heavy military presence, trading on Black Market " +
                 " is only possible with the transponder turned off.",
                 10
             );

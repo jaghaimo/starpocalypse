@@ -21,7 +21,7 @@
     # for suspicion calculations. Setting it above 1 will cause a penalty for trading with transponder off.
     "transparentMarketMult": 0.5,
     # Accessing black market is only possible with transponder turned off.
-    "shyBlackMarket": false,
+    "shyBlackMarket": true,
 
     ## BETTER MARKET DEFENCES
     # Adds a tier 1 station to all non-hidden markets that do not have a station.
