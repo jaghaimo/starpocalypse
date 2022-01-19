@@ -3,10 +3,11 @@
 This mod makes the following changes to the campaign layer of Starsector:
 
 1. Weapons and combat ships are scarce and highly regulated. As such, only Military Markets (and those pesky Black
-   Markets) sell weapons, LPCs, modspecs, and combat ships. Open Markets still sell civilian grade ships.
+   Markets) sell higher tier weapons, LPCs, modspecs, and combat ships. Open Markets still sell civilian grade ships
+   and low tier combat ships and items.
 1. Lawless factions (e.g. pirates and pathers) and independents do not submit to this rule of law. You can still find
-   weapons and combat ships at their bases (both core and raider).
-1. There are no pristine ships any more, everything is d-modded. Including starting fleet.
+   high tier weapons and combat ships at their bases (both core and raider).
+1. There are no pristine ships any more, everything is d-modded. Including your starting fleet.
 1. Contraband can happen, and when stability is low, some weapons and ships "disappear" from Military Market and
    "magically" show up in the Black Market instead.
 1. Factions are armed to the teeth. Any non-hidden market has at least an orbiting station, ground defences, and patrol
@@ -44,7 +45,7 @@ plan to use them in the faction map.
 1. Maximum reputation adjustment is 1 for factions that are vengeful (or -1 for factions that are cooperative) to the
    owner of the fleet you have beaten.
 1. For commissioned faction the max adjustment is +/-3.
-1. Stealing a Nanoforge or Synchrotron instantly sets your reputation to -1 (0).
+1. Stealing a colony item instantly sets your reputation to -1 (hostile).
 
 The blacklist file `reputationBlacklist.csv` controls which factions will NOT adjust their reputation of the player.
 The list of raid-protected items (special item ids) is present in `raidProtectorItem.csv`.
@@ -53,15 +54,15 @@ The list of raid-protected items (special item ids) is present in `raidProtector
 
 Main module:
 
-1. Remove all combat ships, weapons, LPCs, and modspecs from open markets if it is not a pirate or Luddic Path market,
-   and...
-1. Add all removed items back to Military Market, if there is one, but...
-1. When the stability is low, some of them will leak back to Black Market.
+1. Remove larger combat ships (>5 FP), and high tier (>0) weapons, LPCs, and modspecs from open markets if it is not a
+   pirate or Luddic Path market.
+1. When the stability is low, some of the initially illegal items and ships on Military Market will become legal.
 1. Finally, damage all pristine ships by putting a random number of d-mods.
 
-Decision which factions and submarkets of that faction are regulated is made via `militaryRegulation*.csv` files.
-Same submarkets and factions can additionally have contraband applied - see `militaryContrabandPool.csv` for details.
-Finally, exclusion lists can be applied to both `regulations` and `contraband` behaviour - see `military*Blacklist.csv`.
+Decision which factions have their Open Market regulated regulated is made via `militaryRegulationFaction.csv` file.
+Same submarkets and factions can additionally have contraband applied to their Military Market in
+`militaryRegulationsStability.csv`.
+Finally, exclusion lists can be applied to regulations - see `militaryRegulationsLegal.csv`.
 
 Ship damager accepts faction and submarket, and is applied to all ships. It is controlled by `shipDamage*.csv`.
 
