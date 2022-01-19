@@ -32,6 +32,9 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(String commodityId, TransferAction action) {
+        if (!doesWantRegulatedMarket()) {
+            return super.isIllegalOnSubmarket(commodityId, action);
+        }
         if (isAlwaysLegal(commodityId)) {
             return false;
         }
@@ -41,6 +44,9 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(CargoStackAPI stack, TransferAction action) {
+        if (!doesWantRegulatedMarket()) {
+            return super.isIllegalOnSubmarket(stack, action);
+        }
         if (isAlwaysLegal(stack.getDisplayName())) {
             return false;
         }
@@ -52,6 +58,9 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(FleetMemberAPI member, TransferAction action) {
+        if (!doesWantRegulatedMarket()) {
+            return super.isIllegalOnSubmarket(member, action);
+        }
         if (isCivilian(member.getVariant())) {
             return false;
         }
@@ -64,8 +73,10 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
     @Override
     public void updateCargoPrePlayerInteraction() {
         super.updateCargoPrePlayerInteraction();
-        removeItems(submarket.getCargo());
-        removeShips(submarket.getCargo().getMothballedShips());
+        if (doesWantRegulatedMarket()) {
+            removeItems(submarket.getCargo());
+            removeShips(submarket.getCargo().getMothballedShips());
+        }
     }
 
     private boolean isAlwaysLegal(String name) {
@@ -101,6 +112,10 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     private boolean isSignificant(FleetMemberAPI member) {
         return member.getFleetPointCost() > 5;
+    }
+
+    private boolean doesWantRegulatedMarket() {
+        return ConfigUtils.getRegulatedFaction().has(market.getFactionId());
     }
 
     private void removeItems(CargoAPI cargo) {

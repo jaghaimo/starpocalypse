@@ -39,6 +39,9 @@ public class ConfigUtils {
     private static final SimpleSet regulatedFaction = new SimpleSet("faction", "militaryRegulationFaction.csv");
 
     @Getter
+    private static final SimpleSet shyBlackMarketFaction = new SimpleSet("faction", "shyBlackMarketFaction.csv");
+
+    @Getter
     private static final SimpleSet shipDamageFaction = new SimpleSet("faction", "shipDamageFaction.csv");
 
     @Getter

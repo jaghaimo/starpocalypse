@@ -10,7 +10,7 @@ public class RegulatedBlackMarket extends BlackMarketPlugin {
 
     @Override
     protected void createTooltipAfterDescription(TooltipMakerAPI tooltip, boolean expanded) {
-        if (ConfigUtils.isShyBlackMarket()) {
+        if (doesWantShyBlackMarket()) {
             tooltip.addPara(
                 "\n\nDue to the heavy military presence, trading on Black Market " +
                 " is only possible with the transponder turned off.",
@@ -22,10 +22,18 @@ public class RegulatedBlackMarket extends BlackMarketPlugin {
 
     @Override
     public boolean isEnabled(CoreUIAPI ui) {
-        if (ConfigUtils.isShyBlackMarket()) {
+        if (doesWantShyBlackMarket()) {
             return !getTransponderState();
         }
         return true;
+    }
+
+    private boolean doesWantShyBlackMarket() {
+        if (!ConfigUtils.isShyBlackMarket()) {
+            return false;
+        }
+        String faction = market.getFactionId();
+        return ConfigUtils.getShyBlackMarketFaction().has(faction);
     }
 
     private boolean getTransponderState() {

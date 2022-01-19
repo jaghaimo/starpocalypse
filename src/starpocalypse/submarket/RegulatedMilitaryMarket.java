@@ -42,6 +42,9 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
     }
 
     private boolean isStabilityLegal(SimpleMap stabilityMap, float baseValue) {
+        if (ConfigUtils.getRegulatedFaction().has(market.getFactionId())) {
+            return false;
+        }
         float stability = submarket.getMarket().getStabilityValue();
         String stabilityKey = String.valueOf(stability);
         if (stability <= 0) {

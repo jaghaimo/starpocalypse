@@ -5,7 +5,6 @@ import com.fs.starfarer.api.campaign.PlayerMarketTransaction;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.listeners.ColonyInteractionListener;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
-import starpocalypse.helper.ConfigUtils;
 import starpocalypse.helper.SubmarketUtils;
 
 public class SubmarketSwapper implements ColonyInteractionListener {
@@ -39,9 +38,7 @@ public class SubmarketSwapper implements ColonyInteractionListener {
 
     @Override
     public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {
-        if (ConfigUtils.getRegulatedFaction().has(market.getFactionId())) {
-            SubmarketUtils.replaceSubmarkets(market);
-        }
+        SubmarketUtils.replaceSubmarkets(market);
         SubmarketUtils.updateSubmarkets(market);
     }
 
