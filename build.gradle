@@ -62,11 +62,22 @@ dependencies {
 }
 
 // custom tasks
+task releaseUninstaller(type: Zip) {
+    dependsOn build
+    archiveFileName = "${project.name}-uninstaller-${readModInfoJson().version}.zip"
+    destinationDirectory = file(rootDir)
+    from 'assets/uninstaller'
+    from jar
+    into project.name
+}
 task release(type: Zip) {
     dependsOn build
+    dependsOn releaseUninstaller
     archiveFileName = "${project.name}-${readModInfoJson().version}.zip"
     destinationDirectory = file(rootDir)
-    from 'assets'
+     from ('assets') {
+        excludes = ['data/uninstaller/']
+    }
     from jar
     into project.name
 }

@@ -1,11 +1,11 @@
 {
     "id": "starpocalypse",
-    "name": "Starpocalypse",
+    "name": "Starpocalypse Uninstaller",
     "author": "Jaghaimo",
     "utility": true,
     "version": "2.2.1",
-    "description": "More apocalyptic settings",
+    "description": "Uninstaller for Starpocalypse",
     "gameVersion": "0.95.1a-RC6",
-    "modPlugin": "starpocalypse.StarpocalypseMod",
+    "modPlugin": "starpocalypse.UninstallMod",
     "jars": ["starpocalypse.jar"]
 }

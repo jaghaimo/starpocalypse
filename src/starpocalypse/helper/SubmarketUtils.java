@@ -15,6 +15,10 @@ public class SubmarketUtils {
         return String.format("%s/%s", submarket.getMarket().getName(), submarket.getNameOneLine());
     }
 
+    public static void replaceSubmarkets(MarketAPI market, String submarketId) {
+        replaceSubmarkets(market, submarketId, submarketId);
+    }
+
     public static void replaceSubmarkets(MarketAPI market, String oldSubmarketId, String newSubmarketId) {
         SubmarketAPI oldSubmarket = market.getSubmarket(oldSubmarketId);
         if (oldSubmarket == null) {

@@ -15,11 +15,19 @@ public class SubmarketSwapper implements ColonyInteractionListener {
         Global.getSector().getListenerManager().addListener(swapper, true);
     }
 
-    public static void uninstall() {
+    public static void uninstallLegacy() {
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
             SubmarketUtils.replaceSubmarkets(market, "regulated_open_market", Submarkets.SUBMARKET_OPEN);
             SubmarketUtils.replaceSubmarkets(market, "regulated_generic_military", Submarkets.GENERIC_MILITARY);
             SubmarketUtils.replaceSubmarkets(market, "regulated_black_market", Submarkets.SUBMARKET_BLACK);
+        }
+    }
+
+    public static void uninstall() {
+        for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
+            SubmarketUtils.replaceSubmarkets(market, Submarkets.SUBMARKET_OPEN);
+            SubmarketUtils.replaceSubmarkets(market, Submarkets.GENERIC_MILITARY);
+            SubmarketUtils.replaceSubmarkets(market, Submarkets.SUBMARKET_BLACK);
         }
     }
 
@@ -34,9 +42,9 @@ public class SubmarketSwapper implements ColonyInteractionListener {
     @Override
     public void reportPlayerOpenedMarketAndCargoUpdated(MarketAPI market) {
         if (ConfigUtils.getRegulatedFaction().has(market.getFactionId())) {
-            SubmarketUtils.replaceSubmarkets(market, Submarkets.SUBMARKET_OPEN, "regulated_open_market");
-            SubmarketUtils.replaceSubmarkets(market, Submarkets.GENERIC_MILITARY, "regulated_generic_military");
-            SubmarketUtils.replaceSubmarkets(market, Submarkets.SUBMARKET_BLACK, "regulated_black_market");
+            SubmarketUtils.replaceSubmarkets(market, Submarkets.SUBMARKET_OPEN, Submarkets.SUBMARKET_OPEN);
+            SubmarketUtils.replaceSubmarkets(market, Submarkets.GENERIC_MILITARY, Submarkets.GENERIC_MILITARY);
+            SubmarketUtils.replaceSubmarkets(market, Submarkets.SUBMARKET_BLACK, Submarkets.SUBMARKET_BLACK);
         }
         SubmarketUtils.updateSubmarkets(market);
     }
