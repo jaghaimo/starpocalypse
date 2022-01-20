@@ -13,11 +13,21 @@ public class RegulatedBlackMarket extends BlackMarketPlugin {
         if (doesWantShyBlackMarket()) {
             tooltip.addPara(
                 "Due to the heavy military presence, trading on Black Market " +
-                " is only possible with the transponder turned off.",
+                "is only possible with the transponder turned off.",
                 10
             );
         }
         super.createTooltipAfterDescription(tooltip, expanded);
+    }
+
+    @Override
+    public float getTariff() {
+        return ConfigUtils.getBlackMarketFenceCut();
+    }
+
+    @Override
+    public String getTariffTextOverride() {
+        return "Fence Cut";
     }
 
     @Override

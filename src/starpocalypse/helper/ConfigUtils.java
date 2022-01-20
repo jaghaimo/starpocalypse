@@ -10,6 +10,9 @@ import starpocalypse.config.SimpleSet;
 public class ConfigUtils {
 
     @Getter
+    private static float blackMarketFenceCut;
+
+    @Getter
     private static int minDmods = 2;
 
     @Getter
@@ -48,6 +51,7 @@ public class ConfigUtils {
     private static final SimpleSet shipDamageSubmarket = new SimpleSet("submarket", "shipDamageSubmarket.csv");
 
     public static void init(JSONObject settings, Logger log) {
+        blackMarketFenceCut = (float) settings.optDouble("blackMarketFenceCut", 0.1);
         minDmods = clamp(settings.optInt("minimumDmods", 2), 1, 5);
         maxDmods = clamp(settings.optInt("maximumDmods", 4), minDmods, 5);
         shyBlackMarket = settings.optBoolean("shyBlackMarket", false);
