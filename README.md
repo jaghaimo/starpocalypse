@@ -10,6 +10,8 @@ This mod makes the following changes to the campaign layer of Starsector:
 1. There are no pristine ships any more, everything is d-modded. Including your starting fleet.
 1. Contraband can happen, and when stability is low, some weapons and ships "disappear" from Military Market and
    "magically" show up in the Black Market instead.
+1. Access to most Black Markets is impossible while legally docked at the station. Speaking of access, you will need to
+   use a fence who will ask for a cut.
 1. Factions are armed to the teeth. Any non-hidden market has at least an orbiting station, ground defences, and patrol
    HQ. Hidden bases (pirates and pathers raider bases) only get ground defences.
 1. Your actions have consequences. When defeating a fleet, your reputation with seemingly unrelated factions changes as
@@ -20,7 +22,7 @@ All of these changes are optional, and can be disabled via `starpocalypse.json`.
 
 ## Implementation details
 
-Every module can be disabled at will, see `starpocalypse.json`.
+Every change can be disabled at will, see `starpocalypse.json`.
 Additional configuration files can be found in `settings/` folder.
 Mods can apply changes and merges to default values by shipping the same folder with their version of CSV files.
 
@@ -52,8 +54,6 @@ The list of raid-protected items (special item ids) is present in `raidProtector
 
 ### Submarket changes
 
-Main module:
-
 1. Remove larger combat ships (>5 FP), and high tier (>0) weapons, LPCs, and modspecs from open markets if it is not a
    pirate or Luddic Path market.
 1. When the stability is low, some of the initially illegal items and ships on Military Market will become legal.
@@ -68,3 +68,10 @@ Ship damager accepts faction and submarket, and is applied to all ships. It is c
 
 Both faction and submarket files work as whitelist and accept: faction or submarket (allow) id, negated faction or
 submarket id (disallow), "all" keyword (allow all except negated).
+
+#### Black Market
+
+Black Market mechanics are slightly tweaked to make it less of a go-to market for everything.
+Factions that regulate their open markets, and independents, will not allow you to trade on Black Market.
+As such, you will have to illegally dock at those stations (transponder off).
+On top of that, a fence fee (1/3rd of the market default tariff) will be required to pay for any transactions.

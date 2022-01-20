@@ -22,7 +22,7 @@ public class RegulatedBlackMarket extends BlackMarketPlugin {
 
     @Override
     public float getTariff() {
-        return ConfigUtils.getBlackMarketFenceCut();
+        return ConfigUtils.getBlackMarketFenceCut() * market.getTariff().getModifiedValue();
     }
 
     @Override

@@ -52,7 +52,8 @@ public class StarpocalypseMod extends BaseModPlugin {
                 .getCampaignUI()
                 .showMessageDialog(
                     "Starpocalypse has been removed from this save. You can now quit the game and disable this mod." +
-                    "\n\nThank you for playing with Starpocalypse. We hope you had a bad day."
+                    "\n\nThank you for playing with Starpocalypse. I hope you had a bad day." +
+                    "\n\nYours, Jaghaimo."
                 );
         }
     }
