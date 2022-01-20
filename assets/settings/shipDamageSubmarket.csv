@@ -1,3 +1,9 @@
 submarket
 all
 !storage
+!IndEvo_tempStorage
+!IndEvo_DeconstStorage
+!IndEvo_EngStorage
+!IndEvo_RepairStorage
+!IndEvo_ReqCenterMarket
+!IndEvo_SharedStore
