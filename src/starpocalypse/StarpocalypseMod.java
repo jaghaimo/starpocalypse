@@ -43,6 +43,20 @@ public class StarpocalypseMod extends BaseModPlugin {
         hostilityForSpecialItemRaid();
     }
 
+    @Override
+    public void afterGameSave() {
+        JSONObject globalSettings = Global.getSettings().getSettingsJSON();
+        if (!globalSettings.optBoolean("hasStarpocalypse", false)) {
+            Global
+                .getSector()
+                .getCampaignUI()
+                .showMessageDialog(
+                    "Starpocalypse has been removed from this save. You can now quit the game and disable this mod." +
+                    "\n\nThank you for playing with Starpocalypse. We hope you had a bad day."
+                );
+        }
+    }
+
     private void industryChanges() {
         MarketListener listener = new MarketListener();
         addGroundDefenses(listener);
