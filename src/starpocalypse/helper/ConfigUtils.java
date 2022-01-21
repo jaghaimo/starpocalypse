@@ -10,7 +10,7 @@ import starpocalypse.config.SimpleSet;
 public class ConfigUtils {
 
     @Getter
-    private static float blackMarketFenceCut;
+    private static float blackMarketFenceCut = 0.5f;
 
     @Getter
     private static int minDmods = 2;
@@ -52,16 +52,8 @@ public class ConfigUtils {
     private static final SimpleSet shipDamageSubmarket = new SimpleSet("submarket", "shipDamageSubmarket.csv");
 
     public static void init(JSONObject settings, Logger log) {
-        blackMarketFenceCut = (float) settings.optDouble("blackMarketFenceCut", 0.5);
-        minDmods = clamp(settings.optInt("minimumDmods", 2), 1, 5);
-        maxDmods = clamp(settings.optInt("maximumDmods", 4), minDmods, 5);
-        regulation = settings.optBoolean("militaryRegulations", true);
-        shyBlackMarket = settings.optBoolean("shyBlackMarket", false);
-        if (settings.optBoolean("transparentMarket", true)) {
-            float mult = (float) settings.optDouble("transparentMarketMult", 0.5);
-            log.info("Setting transponder off market awareness mult to " + mult);
-            Global.getSettings().setFloat("transponderOffMarketAwarenessMult", mult);
-        }
+        loadConfig(settings);
+        transparentMarket(settings, log);
     }
 
     public static boolean wantsRegulation(String factionId) {
@@ -73,5 +65,21 @@ public class ConfigUtils {
         value = Math.max(value, min);
         value = Math.min(value, max);
         return value;
+    }
+
+    private static void loadConfig(JSONObject settings) {
+        blackMarketFenceCut = (float) settings.optDouble("blackMarketFenceCut", 0.5);
+        minDmods = clamp(settings.optInt("minimumDmods", 2), 1, 5);
+        maxDmods = clamp(settings.optInt("maximumDmods", 4), minDmods, 5);
+        regulation = settings.optBoolean("militaryRegulations", true);
+        shyBlackMarket = settings.optBoolean("shyBlackMarket", false);
+    }
+
+    private static void transparentMarket(JSONObject settings, Logger log) {
+        if (settings.optBoolean("transparentMarket", true)) {
+            float mult = (float) settings.optDouble("transparentMarketMult", 0.5);
+            log.info("Setting transponder off market awareness mult to " + mult);
+            Global.getSettings().setFloat("transponderOffMarketAwarenessMult", mult);
+        }
     }
 }
