@@ -18,7 +18,7 @@ This mod makes the following changes to the campaign layer of Starsector:
    well. Enemies of your enemy start to like you a bit, while their friends, less.
 1. Similarly, targetting a any colony item will be deemed as an act of war.
 
-All of these changes are optional, and can be disabled via `starpocalypse.json`.
+All changes are optional, and can be disabled via `starpocalypse.json`.
 
 _Important!_ As of Starpocalypse 2.2.0, the mod is no longer save to disable. In order to remove Starpocalypse from
 a save game, delete `starpocalypse/data` folder, load, and finally save the game.
