@@ -20,6 +20,9 @@ This mod makes the following changes to the campaign layer of Starsector:
 
 All of these changes are optional, and can be disabled via `starpocalypse.json`.
 
+_Important!_ As of Starpocalypse 2.2.0, the mod is no longer save to disable. In order to remove Starpocalypse from
+a save game, delete `starpocalypse/data` folder, load, and finally save the game.
+
 ## Implementation details
 
 Every change can be disabled at will, see `starpocalypse.json`.
