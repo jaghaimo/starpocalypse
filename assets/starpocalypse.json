@@ -23,7 +23,7 @@
     # Accessing Black Market is only possible with transponder turned off.
     "shyBlackMarket": true,
     # Black Market handling fee as a fraction of Open Market tariff. If tariff is 30%, Black Market fee will be 15%.
-    "blackMarketFenceCut": 0.5
+    "blackMarketFenceCut": 0.5,
 
     ## BETTER MARKET DEFENCES
     # Adds a tier 1 station to all non-hidden markets that do not have a station.
