@@ -4,6 +4,7 @@ import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
+import com.fs.starfarer.api.impl.campaign.shared.SharedData;
 import java.util.List;
 import lombok.extern.log4j.Log4j;
 import org.json.JSONObject;
@@ -47,6 +48,7 @@ public class StarpocalypseMod extends BaseModPlugin {
     public void afterGameSave() {
         JSONObject globalSettings = Global.getSettings().getSettingsJSON();
         if (!globalSettings.optBoolean("hasStarpocalypse", false)) {
+            SharedData.getData().getPlayerActivityTracker().advance(0);
             Global
                 .getSector()
                 .getCampaignUI()
