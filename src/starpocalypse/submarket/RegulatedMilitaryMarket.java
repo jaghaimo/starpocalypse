@@ -5,11 +5,9 @@ import com.fs.starfarer.api.campaign.econ.CommodityOnMarketAPI;
 import com.fs.starfarer.api.campaign.econ.CommoditySpecAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.submarkets.MilitarySubmarketPlugin;
-import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleMap;
 import starpocalypse.helper.ConfigUtils;
 
-@Log4j
 public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
 
     @Override
@@ -46,11 +44,15 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
             return false;
         }
         float stability = submarket.getMarket().getStabilityValue();
-        String stabilityKey = String.valueOf(stability);
+        String stabilityKey = String.format("%.0f", stability);
         if (stability <= 0) {
             return true;
         }
         if (stability >= 10) {
+            return false;
+        }
+        if (!stabilityMap.containsKey(stabilityKey)) {
+            log.error("Missing stability mapping for key " + stabilityKey);
             return false;
         }
         float stabilityValue = Float.parseFloat(stabilityMap.get(stabilityKey));
