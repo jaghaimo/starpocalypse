@@ -44,13 +44,13 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
             return false;
         }
         float stability = submarket.getMarket().getStabilityValue();
-        String stabilityKey = String.format("%.0f", stability);
         if (stability <= 0) {
             return true;
         }
         if (stability >= 10) {
             return false;
         }
+        String stabilityKey = String.format("%.0f", stability);
         if (!stabilityMap.containsKey(stabilityKey)) {
             log.error("Missing stability mapping for key " + stabilityKey);
             return false;
