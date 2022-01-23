@@ -1,18 +1,20 @@
 item
-corrupted_nanoforge
-pristine_nanoforge
-synchrotron
-orbital_fusion_lamp
-coronal_portal
-mantle_bore
-catalytic_core
-soil_nanites
+# vanilla
 biofactory_embryo
-fullerene_spool
-plasma_dynamo
+catalytic_core
+coronal_portal
+corrupted_nanoforge
 cryoarithmetic_engine
-drone_replicator
 dealmaker_holosuite
+drone_replicator
+fullerene_spool
+mantle_bore
+orbital_fusion_lamp
+plasma_dynamo
+pristine_nanoforge
+soil_nanites
+synchrotron
+# mods
 IndEvo_DegForgeTemplate
 IndEvo_EmptForgeTemplate
 IndEvo_ForgeTemplate_1
