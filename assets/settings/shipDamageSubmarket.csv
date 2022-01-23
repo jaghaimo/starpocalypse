@@ -1,6 +1,8 @@
 submarket
+# vanilla
 all
 !storage
+# mods
 !IndEvo_tempStorage
 !IndEvo_DeconstStorage
 !IndEvo_EngStorage

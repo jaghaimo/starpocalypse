@@ -5,9 +5,11 @@ import com.fs.starfarer.api.campaign.econ.CommodityOnMarketAPI;
 import com.fs.starfarer.api.campaign.econ.CommoditySpecAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.submarkets.MilitarySubmarketPlugin;
+import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleMap;
 import starpocalypse.helper.ConfigUtils;
 
+@Log4j
 public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
 
     @Override
