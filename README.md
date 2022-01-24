@@ -26,7 +26,7 @@ a save game, delete `starpocalypse/data` folder, load, and finally save the game
 ## Implementation details
 
 Every change can be disabled at will, see `starpocalypse.json`.
-Additional configuration files can be found in `settings/` folder.
+Additional configuration files can be found in `data/starpocalypse/` folder.
 Mods can apply changes and merges to default values by shipping the same folder with their version of CSV files.
 
 ### Changes to markets

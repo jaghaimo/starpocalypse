@@ -18,6 +18,5 @@ package-lock.json
 # Local copies of mod structure (dev env)
 /data
 /graphics
-/settings
 /starpocalypse*
 /mod_info.json
