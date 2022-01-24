@@ -10,7 +10,7 @@ import starpocalypse.config.SimpleSet;
 public class ConfigUtils {
 
     @Getter
-    private static boolean isUtility = false;
+    private static float blackMarketFenceCut = 0.5f;
 
     @Getter
     private static int minDmods = 2;
@@ -18,28 +18,32 @@ public class ConfigUtils {
     @Getter
     private static int maxDmods = 4;
 
-    @Getter
-    private static boolean shyBlackMarket = false;
+    private static boolean regulation = true;
+
+    private static final SimpleSet regulationFaction = new SimpleSet("faction", "militaryRegulationFaction.csv");
 
     @Getter
-    private static final SimpleMap regulatedStabilityItem = new SimpleMap(
+    private static final SimpleSet regulationLegal = new SimpleSet("name", "militaryRegulationLegal.csv");
+
+    @Getter
+    private static final SimpleMap regulationStabilityItem = new SimpleMap(
         "stability",
         "item",
         "militaryRegulationStability.csv"
     );
 
     @Getter
-    private static final SimpleMap regulatedStabilityShip = new SimpleMap(
+    private static final SimpleMap regulationStabilityShip = new SimpleMap(
         "stability",
         "ship",
         "militaryRegulationStability.csv"
     );
 
     @Getter
-    private static final SimpleSet regulatedLegal = new SimpleSet("name", "militaryRegulationLegal.csv");
+    private static boolean shyBlackMarket = false;
 
     @Getter
-    private static final SimpleSet regulatedFaction = new SimpleSet("faction", "militaryRegulationFaction.csv");
+    private static final SimpleSet shyBlackMarketFaction = new SimpleSet("faction", "shyBlackMarketFaction.csv");
 
     @Getter
     private static final SimpleSet shipDamageFaction = new SimpleSet("faction", "shipDamageFaction.csv");
@@ -48,15 +52,12 @@ public class ConfigUtils {
     private static final SimpleSet shipDamageSubmarket = new SimpleSet("submarket", "shipDamageSubmarket.csv");
 
     public static void init(JSONObject settings, Logger log) {
-        isUtility = settings.optBoolean("isUtility", false);
-        minDmods = clamp(settings.optInt("minimumDmods", 2), 1, 5);
-        maxDmods = clamp(settings.optInt("maximumDmods", 4), minDmods, 5);
-        shyBlackMarket = settings.optBoolean("shyBlackMarket", false);
-        if (settings.optBoolean("transparentMarket", true)) {
-            float mult = (float) settings.optDouble("transparentMarketMult", 0.5);
-            log.info("Setting transponder off market awareness mult to " + mult);
-            Global.getSettings().setFloat("transponderOffMarketAwarenessMult", mult);
-        }
+        loadConfig(settings);
+        transparentMarket(settings, log);
+    }
+
+    public static boolean wantsRegulation(String factionId) {
+        return regulation && regulationFaction.has(factionId);
     }
 
     @SuppressWarnings("PMD.AvoidReassigningParameters")
@@ -64,5 +65,21 @@ public class ConfigUtils {
         value = Math.max(value, min);
         value = Math.min(value, max);
         return value;
+    }
+
+    private static void loadConfig(JSONObject settings) {
+        blackMarketFenceCut = (float) settings.optDouble("blackMarketFenceCut", 0.5);
+        minDmods = clamp(settings.optInt("minimumDmods", 2), 1, 5);
+        maxDmods = clamp(settings.optInt("maximumDmods", 4), minDmods, 5);
+        regulation = settings.optBoolean("militaryRegulations", true);
+        shyBlackMarket = settings.optBoolean("shyBlackMarket", false);
+    }
+
+    private static void transparentMarket(JSONObject settings, Logger log) {
+        if (settings.optBoolean("transparentMarket", true)) {
+            float mult = (float) settings.optDouble("transparentMarketMult", 0.5);
+            log.info("Setting transponder off market awareness mult to " + mult);
+            Global.getSettings().setFloat("transponderOffMarketAwarenessMult", mult);
+        }
     }
 }

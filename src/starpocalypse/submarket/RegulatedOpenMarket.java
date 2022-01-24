@@ -32,6 +32,9 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(String commodityId, TransferAction action) {
+        if (!ConfigUtils.wantsRegulation(market.getFactionId())) {
+            return super.isIllegalOnSubmarket(commodityId, action);
+        }
         if (isAlwaysLegal(commodityId)) {
             return false;
         }
@@ -41,6 +44,9 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(CargoStackAPI stack, TransferAction action) {
+        if (!ConfigUtils.wantsRegulation(market.getFactionId())) {
+            return super.isIllegalOnSubmarket(stack, action);
+        }
         if (isAlwaysLegal(stack.getDisplayName())) {
             return false;
         }
@@ -52,6 +58,9 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(FleetMemberAPI member, TransferAction action) {
+        if (!ConfigUtils.wantsRegulation(market.getFactionId())) {
+            return super.isIllegalOnSubmarket(member, action);
+        }
         if (isCivilian(member.getVariant())) {
             return false;
         }
@@ -64,12 +73,14 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
     @Override
     public void updateCargoPrePlayerInteraction() {
         super.updateCargoPrePlayerInteraction();
-        removeItems(submarket.getCargo());
-        removeShips(submarket.getCargo().getMothballedShips());
+        if (ConfigUtils.wantsRegulation(market.getFactionId())) {
+            removeItems(submarket.getCargo());
+            removeShips(submarket.getCargo().getMothballedShips());
+        }
     }
 
     private boolean isAlwaysLegal(String name) {
-        return ConfigUtils.getRegulatedLegal().has(name);
+        return ConfigUtils.getRegulationLegal().has(name);
     }
 
     protected boolean isAlwaysLegal(FleetMemberAPI ship) {

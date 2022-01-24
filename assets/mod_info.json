@@ -1,10 +1,10 @@
 {
     "id": "starpocalypse",
-    "name": "Starpocalypse",
+    "name": " Starpocalypse",
     "author": "Jaghaimo",
     "utility": true,
-    "version": "2.2.0",
-    "description": "More apocalyptic settings for Starsector",
+    "version": "2.2.1",
+    "description": "More apocalyptic settings",
     "gameVersion": "0.95.1a-RC6",
     "modPlugin": "starpocalypse.StarpocalypseMod",
     "jars": ["starpocalypse.jar"]

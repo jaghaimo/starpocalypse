@@ -1,4 +1,5 @@
 faction
+# vanilla
 derelict
 knights_of_ludd
 lions_guard
@@ -10,3 +11,10 @@ poor
 remnant
 scavengers
 sleeper
+# mods
+agni
+blade_breakers
+cabal
+domres
+hmi_nightmare
+plague

@@ -16,7 +16,7 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
     public boolean isIllegalOnSubmarket(String commodityId, TransferAction action) {
         CommodityOnMarketAPI com = market.getCommodityData(commodityId);
         CommoditySpecAPI csa = com.getCommodity();
-        if (isStabilityLegal(ConfigUtils.getRegulatedStabilityItem(), csa.getBasePrice())) {
+        if (isStabilityLegal(ConfigUtils.getRegulationStabilityItem(), csa.getBasePrice())) {
             log.debug("Making legal due to low stability " + commodityId);
             return false;
         }
@@ -25,7 +25,7 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(CargoStackAPI stack, TransferAction action) {
-        if (isStabilityLegal(ConfigUtils.getRegulatedStabilityItem(), stack.getBaseValuePerUnit())) {
+        if (isStabilityLegal(ConfigUtils.getRegulationStabilityItem(), stack.getBaseValuePerUnit())) {
             log.debug("Making legal due to low stability " + stack.getDisplayName());
             return false;
         }
@@ -34,7 +34,7 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(FleetMemberAPI member, TransferAction action) {
-        if (isStabilityLegal(ConfigUtils.getRegulatedStabilityShip(), member.getBaseValue())) {
+        if (isStabilityLegal(ConfigUtils.getRegulationStabilityShip(), member.getBaseValue())) {
             log.debug("Making legal due to low stability " + member.getHullSpec().getHullName());
             return false;
         }
@@ -42,12 +42,19 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
     }
 
     private boolean isStabilityLegal(SimpleMap stabilityMap, float baseValue) {
+        if (!ConfigUtils.wantsRegulation(market.getFactionId())) {
+            return false;
+        }
         float stability = submarket.getMarket().getStabilityValue();
-        String stabilityKey = String.valueOf(stability);
         if (stability <= 0) {
             return true;
         }
         if (stability >= 10) {
+            return false;
+        }
+        String stabilityKey = String.format("%.0f", stability);
+        if (!stabilityMap.containsKey(stabilityKey)) {
+            log.error("Missing stability mapping for key " + stabilityKey);
             return false;
         }
         float stabilityValue = Float.parseFloat(stabilityMap.get(stabilityKey));

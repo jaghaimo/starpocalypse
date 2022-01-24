@@ -35,6 +35,8 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
     public void onGameLoad(boolean newGame) {
+        SubmarketSwapper.uninstallLegacy();
+        SubmarketSwapper.reinstall();
         addDmodsToShipsInSubmarkets();
         militaryRegulations();
         industryChanges();
@@ -43,11 +45,18 @@ public class StarpocalypseMod extends BaseModPlugin {
     }
 
     @Override
-    public void beforeGameSave() {
-        if (ConfigUtils.isUtility()) {
-            log.info("Replacing regulated submarkets with vanilla variants");
-            SubmarketSwapper.uninstall();
+    public void afterGameSave() {
+        JSONObject globalSettings = Global.getSettings().getSettingsJSON();
+        if (!globalSettings.optBoolean("hasStarpocalypse", false)) {
             SharedData.getData().getPlayerActivityTracker().advance(0);
+            Global
+                .getSector()
+                .getCampaignUI()
+                .showMessageDialog(
+                    "Starpocalypse has been removed from this save. You can now quit the game and disable this mod." +
+                    "\n\nThank you for playing with Starpocalypse. I hope you had a bad day." +
+                    "\n\nYours, Jaghaimo."
+                );
         }
     }
 
