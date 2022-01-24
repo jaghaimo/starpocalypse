@@ -26,11 +26,6 @@ public class RegulatedBlackMarket extends BlackMarketPlugin {
     }
 
     @Override
-    public String getTariffTextOverride() {
-        return "Fence Cut";
-    }
-
-    @Override
     public boolean isEnabled(CoreUIAPI ui) {
         if (doesWantShyBlackMarket()) {
             return !getTransponderState();
