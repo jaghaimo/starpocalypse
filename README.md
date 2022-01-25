@@ -16,7 +16,7 @@ This mod makes the following changes to the campaign layer of Starsector:
    HQ. Hidden bases (pirates and pathers raider bases) only get ground defences.
 1. Your actions have consequences. When defeating a fleet, your reputation with seemingly unrelated factions changes as
    well. Enemies of your enemy start to like you a bit, while their friends, less.
-1. Similarly, targetting a any colony item will be deemed as an act of war.
+1. Similarly, targetting any colony item will be deemed as an act of war.
 
 All changes are optional, and can be disabled via `starpocalypse.json`.
 
