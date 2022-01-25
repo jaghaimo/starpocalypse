@@ -7,7 +7,6 @@ import com.fs.starfarer.api.campaign.listeners.ListenerUtil;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
 import com.fs.starfarer.api.impl.campaign.submarkets.BaseSubmarketPlugin;
-
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -62,7 +61,7 @@ public class SubmarketUtils {
         }
         return null;
     }
-    
+
     private static boolean isRegulated(SubmarketAPI submarket) {
         String simpleName = submarket.getPlugin().getClass().getSimpleName();
         return simpleName.startsWith("Regulated");
