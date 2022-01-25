@@ -12,10 +12,8 @@ import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.HullMods;
 import com.fs.starfarer.api.impl.campaign.submarkets.OpenMarketPlugin;
-import com.fs.starfarer.api.loading.FighterWingSpecAPI;
-import com.fs.starfarer.api.loading.HullModSpecAPI;
-import com.fs.starfarer.api.loading.WeaponSpecAPI;
 import lombok.extern.log4j.Log4j;
+import starpocalypse.helper.CargoUtils;
 import starpocalypse.helper.ConfigHelper;
 import starpocalypse.helper.SubmarketUtils;
 
@@ -111,18 +109,7 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
     }
 
     private boolean isSignificant(CargoStackAPI stack) {
-        int tier = 0;
-        if (stack.isWeaponStack()) {
-            WeaponSpecAPI spec = stack.getWeaponSpecIfWeapon();
-            tier = spec.getTier();
-        } else if (stack.isModSpecStack()) {
-            HullModSpecAPI spec = stack.getHullModSpecIfHullMod();
-            tier = spec.getTier();
-        } else if (stack.isFighterWingStack()) {
-            FighterWingSpecAPI spec = stack.getFighterWingSpecIfWing();
-            tier = spec.getTier();
-        }
-        return tier >= ConfigHelper.getRegulationMinTier();
+        return CargoUtils.getTier(stack) >= ConfigHelper.getRegulationMinTier();
     }
 
     private boolean isSignificant(FleetMemberAPI member) {

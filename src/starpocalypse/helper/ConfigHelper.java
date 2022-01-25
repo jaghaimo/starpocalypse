@@ -49,6 +49,12 @@ public class ConfigHelper {
     );
 
     @Getter
+    private static boolean removeEndgameCargo = true;
+
+    @Getter
+    private static boolean removeEndgameShips = true;
+
+    @Getter
     private static boolean shyBlackMarket = false;
 
     @Getter
@@ -84,7 +90,9 @@ public class ConfigHelper {
         regulation = settings.optBoolean("militaryRegulations", true);
         regulationMinFP = settings.optInt("regulationMinIllegalTier", 0);
         regulationMinTier = settings.optInt("regulationMinIllegalFP", 0);
-        shyBlackMarket = settings.optBoolean("shyBlackMarket", false);
+        removeEndgameCargo = settings.optBoolean("removeMilitaryEndgameCargo", true);
+        removeEndgameShips = settings.optBoolean("removeMilitaryEndgameShips", true);
+        shyBlackMarket = settings.optBoolean("shyBlackMarket", true);
     }
 
     private static void transparentMarket(JSONObject settings, Logger log) {

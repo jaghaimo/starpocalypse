@@ -1,16 +1,29 @@
 package starpocalypse.submarket;
 
+import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CargoStackAPI;
+import com.fs.starfarer.api.campaign.FleetDataAPI;
 import com.fs.starfarer.api.campaign.econ.CommodityOnMarketAPI;
 import com.fs.starfarer.api.campaign.econ.CommoditySpecAPI;
+import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.submarkets.MilitarySubmarketPlugin;
 import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleMap;
+import starpocalypse.helper.CargoUtils;
 import starpocalypse.helper.ConfigHelper;
+import starpocalypse.helper.SubmarketUtils;
 
 @Log4j
 public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
+
+    private String location;
+
+    @Override
+    public void init(SubmarketAPI submarket) {
+        super.init(submarket);
+        location = SubmarketUtils.getLocation(submarket);
+    }
 
     @Override
     public boolean isIllegalOnSubmarket(String commodityId, TransferAction action) {
@@ -41,6 +54,17 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
         return super.isIllegalOnSubmarket(member, action);
     }
 
+    @Override
+    public void updateCargoPrePlayerInteraction() {
+        super.updateCargoPrePlayerInteraction();
+        if (ConfigHelper.isRemoveEndgameCargo()) {
+            removeItems(submarket.getCargo());
+        }
+        if (ConfigHelper.isRemoveEndgameShips()) {
+            removeShips(submarket.getCargo().getMothballedShips());
+        }
+    }
+
     private boolean isStabilityLegal(SimpleMap stabilityMap, float baseValue) {
         if (!ConfigHelper.wantsRegulation(market.getFactionId())) {
             return false;
@@ -59,5 +83,25 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
         }
         float stabilityValue = Float.parseFloat(stabilityMap.get(stabilityKey));
         return baseValue < stabilityValue;
+    }
+
+    private void removeItems(CargoAPI cargo) {
+        for (CargoStackAPI stack : cargo.getStacksCopy()) {
+            if (CargoUtils.getTier(stack) >= 3) {
+                log.info(location + ": Removing " + stack.getDisplayName());
+                cargo.removeStack(stack);
+            }
+        }
+        cargo.sort();
+    }
+
+    private void removeShips(FleetDataAPI ships) {
+        for (FleetMemberAPI member : ships.getMembersListCopy()) {
+            if (member.isCapital()) {
+                log.info(location + ": Removing " + member.getHullSpec().getHullName());
+                ships.removeFleetMember(member);
+            }
+        }
+        ships.sort();
     }
 }

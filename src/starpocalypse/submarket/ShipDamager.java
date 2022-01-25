@@ -5,8 +5,8 @@ import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.campaign.listeners.SubmarketUpdateListener;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import java.util.List;
+import starpocalypse.helper.CargoUtils;
 import starpocalypse.helper.ConfigHelper;
-import starpocalypse.helper.ShipUtils;
 import starpocalypse.helper.SubmarketUtils;
 
 public class ShipDamager implements SubmarketUpdateListener {
@@ -15,7 +15,7 @@ public class ShipDamager implements SubmarketUpdateListener {
         int minDmods = ConfigHelper.getMinDmods();
         int maxDmods = ConfigHelper.getMaxDmods();
         for (FleetMemberAPI member : members) {
-            ShipUtils.damageShip(location, member, minDmods, maxDmods);
+            CargoUtils.damageShip(location, member, minDmods, maxDmods);
         }
     }
 
