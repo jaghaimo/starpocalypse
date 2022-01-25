@@ -9,7 +9,8 @@ import starpocalypse.helper.ConfigUtils;
 public class RegulatedBlackMarket extends BlackMarketPlugin {
 
     @Override
-    protected void createTooltipAfterDescription(TooltipMakerAPI tooltip, boolean expanded) {
+    public void createTooltip(CoreUIAPI ui, TooltipMakerAPI tooltip, boolean expanded) {
+        super.createTooltip(ui, tooltip, expanded);
         if (doesWantShyBlackMarket()) {
             tooltip.addPara(
                 "Due to the heavy military presence, trading on Black Market " +
@@ -17,7 +18,6 @@ public class RegulatedBlackMarket extends BlackMarketPlugin {
                 10
             );
         }
-        super.createTooltipAfterDescription(tooltip, expanded);
     }
 
     @Override
