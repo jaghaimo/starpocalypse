@@ -38,6 +38,9 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
         if (isAlwaysLegal(commodityId)) {
             return false;
         }
+        if (isAlwaysIllegal(commodityId)) {
+            return true;
+        }
         CommodityOnMarketAPI com = market.getCommodityData(commodityId);
         return com.getCommodity().getTags().contains(Commodities.TAG_MILITARY);
     }
@@ -47,8 +50,12 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
         if (!ConfigUtils.wantsRegulation(market.getFactionId())) {
             return super.isIllegalOnSubmarket(stack, action);
         }
-        if (isAlwaysLegal(stack.getDisplayName())) {
+        String stackName = stack.getDisplayName();
+        if (isAlwaysLegal(stackName)) {
             return false;
+        }
+        if (isAlwaysIllegal(stackName)) {
+            return true;
         }
         if (stack.isCommodityStack()) {
             return isIllegalOnSubmarket((String) stack.getData(), action);
@@ -64,8 +71,12 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
         if (isCivilian(member.getVariant())) {
             return false;
         }
-        if (isAlwaysLegal(member)) {
+        String hullName = getHullName(member);
+        if (isAlwaysLegal(hullName)) {
             return false;
+        }
+        if (isAlwaysIllegal(hullName)) {
+            return true;
         }
         return isSignificant(member);
     }
@@ -79,16 +90,20 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
         }
     }
 
-    private boolean isAlwaysLegal(String name) {
-        return ConfigUtils.getRegulationLegal().has(name);
-    }
-
-    protected boolean isAlwaysLegal(FleetMemberAPI ship) {
+    private String getHullName(FleetMemberAPI ship) {
         ShipHullSpecAPI hullSpec = ship.getHullSpec().getBaseHull();
         if (hullSpec == null) {
             hullSpec = ship.getHullSpec();
         }
-        return isAlwaysLegal(hullSpec.getHullName());
+        return hullSpec.getHullName();
+    }
+
+    private boolean isAlwaysIllegal(String name) {
+        return ConfigUtils.getRegulationLegal().hasNot(name);
+    }
+
+    private boolean isAlwaysLegal(String name) {
+        return ConfigUtils.getRegulationLegal().has(name);
     }
 
     private boolean isCivilian(ShipVariantAPI variant) {
