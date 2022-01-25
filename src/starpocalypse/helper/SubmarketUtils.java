@@ -7,6 +7,7 @@ import com.fs.starfarer.api.campaign.listeners.ListenerUtil;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
 import com.fs.starfarer.api.impl.campaign.submarkets.BaseSubmarketPlugin;
+
 import lombok.extern.log4j.Log4j;
 
 @Log4j
@@ -30,6 +31,10 @@ public class SubmarketUtils {
         SubmarketAPI oldSubmarket = market.getSubmarket(oldSubmarketId);
         if (oldSubmarket == null) {
             log.debug("No old submarket on market " + market.getName());
+            return;
+        }
+        if (isRegulated(oldSubmarket)) {
+            log.debug("Skipping already regulated submarket " + oldSubmarket.getNameOneLine());
             return;
         }
         market.removeSubmarket(oldSubmarketId);
@@ -56,6 +61,11 @@ public class SubmarketUtils {
             log.warn("Cannot cast to BaseSubmarketPlugin " + submarket.getSpecId(), exception);
         }
         return null;
+    }
+    
+    private static boolean isRegulated(SubmarketAPI submarket) {
+        String simpleName = submarket.getPlugin().getClass().getSimpleName();
+        return simpleName.startsWith("Regulated");
     }
 
     private static void transferCargo(SubmarketAPI oldSubmarket, SubmarketAPI newSubmarket) {
