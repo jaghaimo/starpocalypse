@@ -5,7 +5,7 @@ import com.fs.starfarer.api.campaign.PlayerMarketTransaction;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.listeners.ColonyInteractionListener;
 import com.fs.starfarer.api.impl.campaign.ids.Submarkets;
-import starpocalypse.helper.ConfigUtils;
+import starpocalypse.helper.ConfigHelper;
 import starpocalypse.helper.SubmarketUtils;
 
 public class SubmarketSwapper implements ColonyInteractionListener {
@@ -25,7 +25,7 @@ public class SubmarketSwapper implements ColonyInteractionListener {
 
     public static void reinstall() {
         for (MarketAPI market : Global.getSector().getEconomy().getMarketsCopy()) {
-            SubmarketUtils.replaceSubmarkets(market, ConfigUtils.isUninstall());
+            SubmarketUtils.replaceSubmarkets(market, ConfigHelper.isUninstall());
         }
     }
 

@@ -7,7 +7,7 @@ import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.submarkets.MilitarySubmarketPlugin;
 import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleMap;
-import starpocalypse.helper.ConfigUtils;
+import starpocalypse.helper.ConfigHelper;
 
 @Log4j
 public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
@@ -16,7 +16,7 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
     public boolean isIllegalOnSubmarket(String commodityId, TransferAction action) {
         CommodityOnMarketAPI com = market.getCommodityData(commodityId);
         CommoditySpecAPI csa = com.getCommodity();
-        if (isStabilityLegal(ConfigUtils.getRegulationStabilityItem(), csa.getBasePrice())) {
+        if (isStabilityLegal(ConfigHelper.getRegulationStabilityItem(), csa.getBasePrice())) {
             log.debug("Making legal due to low stability " + commodityId);
             return false;
         }
@@ -25,7 +25,7 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(CargoStackAPI stack, TransferAction action) {
-        if (isStabilityLegal(ConfigUtils.getRegulationStabilityItem(), stack.getBaseValuePerUnit())) {
+        if (isStabilityLegal(ConfigHelper.getRegulationStabilityItem(), stack.getBaseValuePerUnit())) {
             log.debug("Making legal due to low stability " + stack.getDisplayName());
             return false;
         }
@@ -34,7 +34,7 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(FleetMemberAPI member, TransferAction action) {
-        if (isStabilityLegal(ConfigUtils.getRegulationStabilityShip(), member.getBaseValue())) {
+        if (isStabilityLegal(ConfigHelper.getRegulationStabilityShip(), member.getBaseValue())) {
             log.debug("Making legal due to low stability " + member.getHullSpec().getHullName());
             return false;
         }
@@ -42,7 +42,7 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
     }
 
     private boolean isStabilityLegal(SimpleMap stabilityMap, float baseValue) {
-        if (!ConfigUtils.wantsRegulation(market.getFactionId())) {
+        if (!ConfigHelper.wantsRegulation(market.getFactionId())) {
             return false;
         }
         float stability = submarket.getMarket().getStabilityValue();

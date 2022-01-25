@@ -16,7 +16,7 @@ import com.fs.starfarer.api.loading.FighterWingSpecAPI;
 import com.fs.starfarer.api.loading.HullModSpecAPI;
 import com.fs.starfarer.api.loading.WeaponSpecAPI;
 import lombok.extern.log4j.Log4j;
-import starpocalypse.helper.ConfigUtils;
+import starpocalypse.helper.ConfigHelper;
 import starpocalypse.helper.SubmarketUtils;
 
 @Log4j
@@ -32,7 +32,7 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(String commodityId, TransferAction action) {
-        if (!ConfigUtils.wantsRegulation(market.getFactionId())) {
+        if (!ConfigHelper.wantsRegulation(market.getFactionId())) {
             return super.isIllegalOnSubmarket(commodityId, action);
         }
         if (isAlwaysLegal(commodityId)) {
@@ -47,7 +47,7 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(CargoStackAPI stack, TransferAction action) {
-        if (!ConfigUtils.wantsRegulation(market.getFactionId())) {
+        if (!ConfigHelper.wantsRegulation(market.getFactionId())) {
             return super.isIllegalOnSubmarket(stack, action);
         }
         String stackName = stack.getDisplayName();
@@ -65,7 +65,7 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(FleetMemberAPI member, TransferAction action) {
-        if (!ConfigUtils.wantsRegulation(market.getFactionId())) {
+        if (!ConfigHelper.wantsRegulation(market.getFactionId())) {
             return super.isIllegalOnSubmarket(member, action);
         }
         if (isCivilian(member.getVariant())) {
@@ -84,7 +84,7 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
     @Override
     public void updateCargoPrePlayerInteraction() {
         super.updateCargoPrePlayerInteraction();
-        if (ConfigUtils.wantsRegulation(market.getFactionId())) {
+        if (ConfigHelper.wantsRegulation(market.getFactionId())) {
             removeItems(submarket.getCargo());
             removeShips(submarket.getCargo().getMothballedShips());
         }
@@ -99,11 +99,11 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
     }
 
     private boolean isAlwaysIllegal(String name) {
-        return ConfigUtils.getRegulationLegal().hasNot(name);
+        return ConfigHelper.getRegulationLegal().hasNot(name);
     }
 
     private boolean isAlwaysLegal(String name) {
-        return ConfigUtils.getRegulationLegal().has(name);
+        return ConfigHelper.getRegulationLegal().has(name);
     }
 
     private boolean isCivilian(ShipVariantAPI variant) {
@@ -122,11 +122,11 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
             FighterWingSpecAPI spec = stack.getFighterWingSpecIfWing();
             tier = spec.getTier();
         }
-        return tier > 0;
+        return tier >= ConfigHelper.getRegulationMinTier();
     }
 
     private boolean isSignificant(FleetMemberAPI member) {
-        return member.getFleetPointCost() > 5;
+        return member.getFleetPointCost() >= ConfigHelper.getRegulationMinFP();
     }
 
     private void removeItems(CargoAPI cargo) {

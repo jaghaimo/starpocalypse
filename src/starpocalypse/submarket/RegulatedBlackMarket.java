@@ -4,7 +4,7 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CoreUIAPI;
 import com.fs.starfarer.api.impl.campaign.submarkets.BlackMarketPlugin;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
-import starpocalypse.helper.ConfigUtils;
+import starpocalypse.helper.ConfigHelper;
 
 public class RegulatedBlackMarket extends BlackMarketPlugin {
 
@@ -22,7 +22,7 @@ public class RegulatedBlackMarket extends BlackMarketPlugin {
 
     @Override
     public float getTariff() {
-        return ConfigUtils.getBlackMarketFenceCut() * market.getTariff().getModifiedValue();
+        return ConfigHelper.getBlackMarketFenceCut() * market.getTariff().getModifiedValue();
     }
 
     @Override
@@ -34,11 +34,11 @@ public class RegulatedBlackMarket extends BlackMarketPlugin {
     }
 
     private boolean doesWantShyBlackMarket() {
-        if (!ConfigUtils.isShyBlackMarket()) {
+        if (!ConfigHelper.isShyBlackMarket()) {
             return false;
         }
         String faction = market.getFactionId();
-        return ConfigUtils.getShyBlackMarketFaction().has(faction);
+        return ConfigHelper.getShyBlackMarketFaction().has(faction);
     }
 
     private boolean getTransponderState() {

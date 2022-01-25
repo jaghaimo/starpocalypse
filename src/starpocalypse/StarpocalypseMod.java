@@ -8,7 +8,7 @@ import com.fs.starfarer.api.impl.campaign.shared.SharedData;
 import java.util.List;
 import lombok.extern.log4j.Log4j;
 import org.json.JSONObject;
-import starpocalypse.helper.ConfigUtils;
+import starpocalypse.helper.ConfigHelper;
 import starpocalypse.market.IndustryAdder;
 import starpocalypse.market.MarketListener;
 import starpocalypse.market.StationAdder;
@@ -25,7 +25,7 @@ public class StarpocalypseMod extends BaseModPlugin {
     @Override
     public void onApplicationLoad() throws Exception {
         settings = Global.getSettings().loadJSON("starpocalypse.json");
-        ConfigUtils.init(settings, log);
+        ConfigHelper.init(settings, log);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
     public void afterGameSave() {
-        if (ConfigUtils.isUninstall()) {
+        if (ConfigHelper.isUninstall()) {
             SharedData.getData().getPlayerActivityTracker().advance(0);
             Global
                 .getSector()
