@@ -46,8 +46,7 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
     public void afterGameSave() {
-        JSONObject globalSettings = Global.getSettings().getSettingsJSON();
-        if (!globalSettings.optBoolean("hasStarpocalypse", false)) {
+        if (ConfigUtils.isUninstall()) {
             SharedData.getData().getPlayerActivityTracker().advance(0);
             Global
                 .getSector()

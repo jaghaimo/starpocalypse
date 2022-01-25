@@ -13,6 +13,9 @@ public class ConfigUtils {
     private static float blackMarketFenceCut = 0.5f;
 
     @Getter
+    private static boolean isUninstall = false;
+
+    @Getter
     private static int minDmods = 2;
 
     @Getter
@@ -69,6 +72,7 @@ public class ConfigUtils {
 
     private static void loadConfig(JSONObject settings) {
         blackMarketFenceCut = (float) settings.optDouble("blackMarketFenceCut", 0.5);
+        isUninstall = !settings.optBoolean("hasStarpocalypse", false);
         minDmods = clamp(settings.optInt("minimumDmods", 2), 1, 5);
         maxDmods = clamp(settings.optInt("maximumDmods", 4), minDmods, 5);
         regulation = settings.optBoolean("militaryRegulations", true);
