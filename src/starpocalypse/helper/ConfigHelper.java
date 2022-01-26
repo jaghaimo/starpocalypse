@@ -13,9 +13,6 @@ public class ConfigHelper {
     private static float blackMarketFenceCut = 0.5f;
 
     @Getter
-    private static boolean isUninstall = false;
-
-    @Getter
     private static int minDmods = 2;
 
     @Getter
@@ -71,6 +68,11 @@ public class ConfigHelper {
         transparentMarket(settings, log);
     }
 
+    public static boolean isUninstall() {
+        JSONObject settings = Global.getSettings().getSettingsJSON();
+        return !settings.optBoolean("hasStarpocalypse", false);
+    }
+
     public static boolean wantsRegulation(String factionId) {
         return regulation && regulationFaction.has(factionId);
     }
@@ -84,7 +86,6 @@ public class ConfigHelper {
 
     private static void loadConfig(JSONObject settings) {
         blackMarketFenceCut = (float) settings.optDouble("blackMarketFenceCut", 0.5);
-        isUninstall = !settings.optBoolean("hasStarpocalypse", false);
         minDmods = clamp(settings.optInt("minimumDmods", 2), 1, 5);
         maxDmods = clamp(settings.optInt("maximumDmods", 4), minDmods, 5);
         regulation = settings.optBoolean("militaryRegulations", true);
