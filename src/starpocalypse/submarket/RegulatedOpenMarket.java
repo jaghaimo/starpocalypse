@@ -66,15 +66,15 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
         if (!ConfigHelper.wantsRegulation(market.getFactionId())) {
             return super.isIllegalOnSubmarket(member, action);
         }
-        if (isCivilian(member.getVariant())) {
-            return false;
-        }
         String hullName = getHullName(member);
         if (isAlwaysLegal(hullName)) {
             return false;
         }
         if (isAlwaysIllegal(hullName)) {
             return true;
+        }
+        if (isCivilian(member.getVariant())) {
+            return false;
         }
         return isSignificant(member);
     }
