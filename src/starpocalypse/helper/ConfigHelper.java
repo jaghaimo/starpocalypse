@@ -89,8 +89,8 @@ public class ConfigHelper {
         minDmods = clamp(settings.optInt("minimumDmods", 2), 1, 5);
         maxDmods = clamp(settings.optInt("maximumDmods", 4), minDmods, 5);
         regulation = settings.optBoolean("militaryRegulations", true);
-        regulationMinFP = settings.optInt("regulationMinIllegalTier", 0);
-        regulationMinTier = settings.optInt("regulationMinIllegalFP", 0);
+        regulationMinFP = settings.optInt("regulationMinIllegalFP", 0);
+        regulationMinTier = settings.optInt("regulationMinIllegalTier", 0);
         removeEndgameCargo = settings.optBoolean("removeMilitaryEndgameCargo", true);
         removeEndgameShips = settings.optBoolean("removeMilitaryEndgameShips", true);
         shyBlackMarket = settings.optBoolean("shyBlackMarket", true);
