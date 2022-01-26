@@ -109,11 +109,11 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
     }
 
     private boolean isSignificant(CargoStackAPI stack) {
-        return CargoUtils.getTier(stack) >= ConfigHelper.getRegulationMinTier();
+        return CargoUtils.getTier(stack) > ConfigHelper.getRegulationMaxTier();
     }
 
     private boolean isSignificant(FleetMemberAPI member) {
-        return member.getFleetPointCost() >= ConfigHelper.getRegulationMinFP();
+        return member.getFleetPointCost() > ConfigHelper.getRegulationMaxFP();
     }
 
     private void removeItems(CargoAPI cargo) {

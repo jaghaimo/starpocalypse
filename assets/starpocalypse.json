@@ -15,9 +15,9 @@
     # - Legal list is applied to make item or ship always legal (or illegal, if !negated),
     # - All civ-grade or civ-hint ships are always legal.
     "militaryRegulations": true,
-    # LPC, weapon, and modspec tier and combat ship FP at which they become illegal.
-    "regulationMinIllegalTier": 0, # easy mode: 1
-    "regulationMinIllegalFP": 0, # easy mode: 5
+    # LPC, weapon, and modspec tier and combat ship FP at which they are still legal.
+    "regulationMaxLegalTier": 0, # easy mode: 1
+    "regulationMaxLegalFP": 0, # easy mode: 5
     # Remove endgame ships (all capitals) and items (tier3 LPC, modspecs, and weapons) from Military Markets.
     "removeMilitaryEndgameCargo": true,
     "removeMilitaryEndgameShips": true,

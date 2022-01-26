@@ -21,10 +21,10 @@ public class ConfigHelper {
     private static boolean regulation = true;
 
     @Getter
-    private static float regulationMinTier = 0;
+    private static float regulationMaxTier = 0;
 
     @Getter
-    private static float regulationMinFP = 0;
+    private static float regulationMaxFP = 0;
 
     private static final SimpleSet regulationFaction = new SimpleSet("faction", "militaryRegulationFaction.csv");
 
@@ -89,8 +89,8 @@ public class ConfigHelper {
         minDmods = clamp(settings.optInt("minimumDmods", 2), 1, 5);
         maxDmods = clamp(settings.optInt("maximumDmods", 4), minDmods, 5);
         regulation = settings.optBoolean("militaryRegulations", true);
-        regulationMinFP = settings.optInt("regulationMinIllegalFP", 0);
-        regulationMinTier = settings.optInt("regulationMinIllegalTier", 0);
+        regulationMaxFP = settings.optInt("regulationMaxLegalFP", 0);
+        regulationMaxTier = settings.optInt("regulationMaxLegalTier", 0);
         removeEndgameCargo = settings.optBoolean("removeMilitaryEndgameCargo", true);
         removeEndgameShips = settings.optBoolean("removeMilitaryEndgameShips", true);
         shyBlackMarket = settings.optBoolean("shyBlackMarket", true);
