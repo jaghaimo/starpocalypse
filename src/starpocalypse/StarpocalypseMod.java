@@ -2,6 +2,7 @@ package starpocalypse;
 
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.CampaignUIAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
 import com.fs.starfarer.api.impl.campaign.shared.SharedData;
@@ -48,14 +49,7 @@ public class StarpocalypseMod extends BaseModPlugin {
     public void afterGameSave() {
         if (ConfigHelper.isUninstall()) {
             SharedData.getData().getPlayerActivityTracker().advance(0);
-            Global
-                .getSector()
-                .getCampaignUI()
-                .showMessageDialog(
-                    "Starpocalypse has been removed from this save. You can now quit the game and disable this mod." +
-                    "\n\nThank you for playing with Starpocalypse. I hope you had a bad day." +
-                    "\n\nYours, Jaghaimo."
-                );
+            showUninstalledDialog();
         }
     }
 
@@ -132,5 +126,17 @@ public class StarpocalypseMod extends BaseModPlugin {
             log.info("Enabling military regulations");
             SubmarketSwapper.register();
         }
+    }
+
+    private void showUninstalledDialog() {
+        CampaignUIAPI campaignUi = Global.getSector().getCampaignUI();
+        if (campaignUi == null) {
+            return;
+        }
+        campaignUi.showMessageDialog(
+            "Starpocalypse has been removed from this save. You can now quit the game and disable this mod." +
+            "\n\nThank you for playing with Starpocalypse. I hope you had a bad day." +
+            "\n\nYours, Jaghaimo."
+        );
     }
 }
