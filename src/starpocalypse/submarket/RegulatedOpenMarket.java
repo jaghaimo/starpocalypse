@@ -39,8 +39,10 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
         if (isAlwaysIllegal(commodityId)) {
             return true;
         }
-        CommodityOnMarketAPI com = market.getCommodityData(commodityId);
-        return com.getCommodity().getTags().contains(Commodities.TAG_MILITARY);
+        if (isSignificant(commodityId)) {
+            return true;
+        }
+        return super.isIllegalOnSubmarket(commodityId, action);
     }
 
     @Override
@@ -58,7 +60,10 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
         if (stack.isCommodityStack()) {
             return isIllegalOnSubmarket((String) stack.getData(), action);
         }
-        return isSignificant(stack);
+        if (isSignificant(stack)) {
+            return true;
+        }
+        return super.isIllegalOnSubmarket(stack, action);
     }
 
     @Override
@@ -76,7 +81,10 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
         if (isCivilian(member.getVariant())) {
             return false;
         }
-        return isSignificant(member);
+        if (isSignificant(member)) {
+            return true;
+        }
+        return super.isIllegalOnSubmarket(member, action);
     }
 
     @Override
@@ -106,6 +114,11 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     private boolean isCivilian(ShipVariantAPI variant) {
         return variant.hasHullMod(HullMods.CIVGRADE) || variant.getHints().contains(ShipTypeHints.CIVILIAN);
+    }
+
+    private boolean isSignificant(String commodityId) {
+        CommodityOnMarketAPI com = market.getCommodityData(commodityId);
+        return com.getCommodity().getTags().contains(Commodities.TAG_MILITARY);
     }
 
     private boolean isSignificant(CargoStackAPI stack) {
