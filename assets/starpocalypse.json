@@ -44,4 +44,8 @@
     "combatAdjustedReputation": true,
     # Raiding for special items instantly ruins player reputation with the owner of the item.
     "hostilityForSpecialItemRaid": true,
+    
+    ## OTHER CHANGES
+    # Do not drop blueprint packages
+    "blueprintPackageNoDrop": true,
 }
