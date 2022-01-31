@@ -12,11 +12,9 @@ import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Commodities;
 import com.fs.starfarer.api.impl.campaign.ids.HullMods;
 import com.fs.starfarer.api.impl.campaign.submarkets.OpenMarketPlugin;
-import com.fs.starfarer.api.loading.FighterWingSpecAPI;
-import com.fs.starfarer.api.loading.HullModSpecAPI;
-import com.fs.starfarer.api.loading.WeaponSpecAPI;
 import lombok.extern.log4j.Log4j;
-import starpocalypse.helper.ConfigUtils;
+import starpocalypse.helper.CargoUtils;
+import starpocalypse.helper.ConfigHelper;
 import starpocalypse.helper.SubmarketUtils;
 
 @Log4j
@@ -32,86 +30,103 @@ public class RegulatedOpenMarket extends OpenMarketPlugin {
 
     @Override
     public boolean isIllegalOnSubmarket(String commodityId, TransferAction action) {
-        if (!ConfigUtils.wantsRegulation(market.getFactionId())) {
+        if (!ConfigHelper.wantsRegulation(market.getFactionId())) {
             return super.isIllegalOnSubmarket(commodityId, action);
         }
         if (isAlwaysLegal(commodityId)) {
             return false;
         }
-        CommodityOnMarketAPI com = market.getCommodityData(commodityId);
-        return com.getCommodity().getTags().contains(Commodities.TAG_MILITARY);
+        if (isAlwaysIllegal(commodityId)) {
+            return true;
+        }
+        if (isSignificant(commodityId)) {
+            return true;
+        }
+        return super.isIllegalOnSubmarket(commodityId, action);
     }
 
     @Override
     public boolean isIllegalOnSubmarket(CargoStackAPI stack, TransferAction action) {
-        if (!ConfigUtils.wantsRegulation(market.getFactionId())) {
+        if (!ConfigHelper.wantsRegulation(market.getFactionId())) {
             return super.isIllegalOnSubmarket(stack, action);
         }
-        if (isAlwaysLegal(stack.getDisplayName())) {
+        String stackName = stack.getDisplayName();
+        if (isAlwaysLegal(stackName)) {
             return false;
+        }
+        if (isAlwaysIllegal(stackName)) {
+            return true;
         }
         if (stack.isCommodityStack()) {
             return isIllegalOnSubmarket((String) stack.getData(), action);
         }
-        return isSignificant(stack);
+        if (isSignificant(stack)) {
+            return true;
+        }
+        return super.isIllegalOnSubmarket(stack, action);
     }
 
     @Override
     public boolean isIllegalOnSubmarket(FleetMemberAPI member, TransferAction action) {
-        if (!ConfigUtils.wantsRegulation(market.getFactionId())) {
+        if (!ConfigHelper.wantsRegulation(market.getFactionId())) {
             return super.isIllegalOnSubmarket(member, action);
+        }
+        String hullName = getHullName(member);
+        if (isAlwaysLegal(hullName)) {
+            return false;
+        }
+        if (isAlwaysIllegal(hullName)) {
+            return true;
         }
         if (isCivilian(member.getVariant())) {
             return false;
         }
-        if (isAlwaysLegal(member)) {
-            return false;
+        if (isSignificant(member)) {
+            return true;
         }
-        return isSignificant(member);
+        return super.isIllegalOnSubmarket(member, action);
     }
 
     @Override
     public void updateCargoPrePlayerInteraction() {
         super.updateCargoPrePlayerInteraction();
-        if (ConfigUtils.wantsRegulation(market.getFactionId())) {
+        if (ConfigHelper.wantsRegulation(market.getFactionId())) {
             removeItems(submarket.getCargo());
             removeShips(submarket.getCargo().getMothballedShips());
         }
     }
 
-    private boolean isAlwaysLegal(String name) {
-        return ConfigUtils.getRegulationLegal().has(name);
-    }
-
-    protected boolean isAlwaysLegal(FleetMemberAPI ship) {
+    private String getHullName(FleetMemberAPI ship) {
         ShipHullSpecAPI hullSpec = ship.getHullSpec().getBaseHull();
         if (hullSpec == null) {
             hullSpec = ship.getHullSpec();
         }
-        return isAlwaysLegal(hullSpec.getHullName());
+        return hullSpec.getHullName();
+    }
+
+    private boolean isAlwaysIllegal(String name) {
+        return ConfigHelper.getRegulationLegal().hasNot(name);
+    }
+
+    private boolean isAlwaysLegal(String name) {
+        return ConfigHelper.getRegulationLegal().has(name);
     }
 
     private boolean isCivilian(ShipVariantAPI variant) {
         return variant.hasHullMod(HullMods.CIVGRADE) || variant.getHints().contains(ShipTypeHints.CIVILIAN);
     }
 
+    private boolean isSignificant(String commodityId) {
+        CommodityOnMarketAPI com = market.getCommodityData(commodityId);
+        return com.getCommodity().getTags().contains(Commodities.TAG_MILITARY);
+    }
+
     private boolean isSignificant(CargoStackAPI stack) {
-        int tier = 0;
-        if (stack.isWeaponStack()) {
-            WeaponSpecAPI spec = stack.getWeaponSpecIfWeapon();
-            tier = spec.getTier();
-        } else if (stack.isModSpecStack()) {
-            HullModSpecAPI spec = stack.getHullModSpecIfHullMod();
-            tier = spec.getTier();
-        } else if (stack.isFighterWingStack()) {
-            FighterWingSpecAPI spec = stack.getFighterWingSpecIfWing();
-            tier = spec.getTier();
-        }
-        return tier > 0;
+        return CargoUtils.getTier(stack) > ConfigHelper.getRegulationMaxTier();
     }
 
     private boolean isSignificant(FleetMemberAPI member) {
-        return member.getFleetPointCost() > 5;
+        return member.getFleetPointCost() > ConfigHelper.getRegulationMaxFP();
     }
 
     private void removeItems(CargoAPI cargo) {

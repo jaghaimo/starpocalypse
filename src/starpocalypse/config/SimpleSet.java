@@ -27,13 +27,21 @@ public class SimpleSet extends FileReader {
         if (set.contains(value)) {
             return true;
         }
-        if (set.contains(NOT + value)) {
+        if (hasNot(value)) {
             return false;
         }
-        if (set.contains(ALL)) {
+        if (hasAll()) {
             return true;
         }
         return false;
+    }
+
+    public boolean hasAll() {
+        return set.contains(ALL);
+    }
+
+    public boolean hasNot(String value) {
+        return set.contains(NOT + value);
     }
 
     @Override

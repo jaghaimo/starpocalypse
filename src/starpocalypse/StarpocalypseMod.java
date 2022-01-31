@@ -2,13 +2,14 @@ package starpocalypse;
 
 import com.fs.starfarer.api.BaseModPlugin;
 import com.fs.starfarer.api.Global;
+import com.fs.starfarer.api.campaign.CampaignUIAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
 import com.fs.starfarer.api.impl.campaign.shared.SharedData;
 import java.util.List;
 import lombok.extern.log4j.Log4j;
 import org.json.JSONObject;
-import starpocalypse.helper.ConfigUtils;
+import starpocalypse.helper.ConfigHelper;
 import starpocalypse.market.IndustryAdder;
 import starpocalypse.market.MarketListener;
 import starpocalypse.market.StationAdder;
@@ -25,7 +26,7 @@ public class StarpocalypseMod extends BaseModPlugin {
     @Override
     public void onApplicationLoad() throws Exception {
         settings = Global.getSettings().loadJSON("starpocalypse.json");
-        ConfigUtils.init(settings, log);
+        ConfigHelper.init(settings, log);
     }
 
     @Override
@@ -46,17 +47,9 @@ public class StarpocalypseMod extends BaseModPlugin {
 
     @Override
     public void afterGameSave() {
-        JSONObject globalSettings = Global.getSettings().getSettingsJSON();
-        if (!globalSettings.optBoolean("hasStarpocalypse", false)) {
+        if (ConfigHelper.isUninstall()) {
             SharedData.getData().getPlayerActivityTracker().advance(0);
-            Global
-                .getSector()
-                .getCampaignUI()
-                .showMessageDialog(
-                    "Starpocalypse has been removed from this save. You can now quit the game and disable this mod." +
-                    "\n\nThank you for playing with Starpocalypse. I hope you had a bad day." +
-                    "\n\nYours, Jaghaimo."
-                );
+            showUninstalledDialog();
         }
     }
 
@@ -133,5 +126,17 @@ public class StarpocalypseMod extends BaseModPlugin {
             log.info("Enabling military regulations");
             SubmarketSwapper.register();
         }
+    }
+
+    private void showUninstalledDialog() {
+        CampaignUIAPI campaignUi = Global.getSector().getCampaignUI();
+        if (campaignUi == null) {
+            return;
+        }
+        campaignUi.showMessageDialog(
+            "Starpocalypse has been removed from this save. You can now quit the game and disable this mod." +
+            "\n\nThank you for playing with Starpocalypse. I hope you had a bad day." +
+            "\n\nYours, Jaghaimo."
+        );
     }
 }

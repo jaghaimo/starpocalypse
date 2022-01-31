@@ -16,20 +16,29 @@ public class SubmarketUtils {
         return String.format("%s/%s", submarket.getMarket().getName(), submarket.getNameOneLine());
     }
 
-    public static void replaceSubmarkets(MarketAPI market) {
-        replaceSubmarket(market, Submarkets.SUBMARKET_OPEN);
-        replaceSubmarket(market, Submarkets.GENERIC_MILITARY);
-        replaceSubmarket(market, Submarkets.SUBMARKET_BLACK);
+    public static void replaceSubmarkets(MarketAPI market, boolean forceReplace) {
+        replaceSubmarket(market, Submarkets.SUBMARKET_OPEN, forceReplace);
+        replaceSubmarket(market, Submarkets.GENERIC_MILITARY, forceReplace);
+        replaceSubmarket(market, Submarkets.SUBMARKET_BLACK, forceReplace);
     }
 
-    public static void replaceSubmarket(MarketAPI market, String submarketId) {
-        replaceSubmarket(market, submarketId, submarketId);
+    public static void replaceSubmarket(MarketAPI market, String submarketId, boolean forceReplace) {
+        replaceSubmarket(market, submarketId, submarketId, forceReplace);
     }
 
-    public static void replaceSubmarket(MarketAPI market, String oldSubmarketId, String newSubmarketId) {
+    public static void replaceSubmarket(
+        MarketAPI market,
+        String oldSubmarketId,
+        String newSubmarketId,
+        boolean forceReplace
+    ) {
         SubmarketAPI oldSubmarket = market.getSubmarket(oldSubmarketId);
         if (oldSubmarket == null) {
             log.debug("No old submarket on market " + market.getName());
+            return;
+        }
+        if (isRegulated(oldSubmarket) && !forceReplace) {
+            log.debug("Skipping already regulated submarket " + oldSubmarket.getNameOneLine());
             return;
         }
         market.removeSubmarket(oldSubmarketId);
@@ -56,6 +65,11 @@ public class SubmarketUtils {
             log.warn("Cannot cast to BaseSubmarketPlugin " + submarket.getSpecId(), exception);
         }
         return null;
+    }
+
+    private static boolean isRegulated(SubmarketAPI submarket) {
+        String simpleName = submarket.getPlugin().getClass().getSimpleName();
+        return simpleName.startsWith("Regulated");
     }
 
     private static void transferCargo(SubmarketAPI oldSubmarket, SubmarketAPI newSubmarket) {

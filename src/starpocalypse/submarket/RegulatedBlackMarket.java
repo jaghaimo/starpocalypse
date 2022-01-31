@@ -4,12 +4,13 @@ import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CoreUIAPI;
 import com.fs.starfarer.api.impl.campaign.submarkets.BlackMarketPlugin;
 import com.fs.starfarer.api.ui.TooltipMakerAPI;
-import starpocalypse.helper.ConfigUtils;
+import starpocalypse.helper.ConfigHelper;
 
 public class RegulatedBlackMarket extends BlackMarketPlugin {
 
     @Override
-    protected void createTooltipAfterDescription(TooltipMakerAPI tooltip, boolean expanded) {
+    public void createTooltip(CoreUIAPI ui, TooltipMakerAPI tooltip, boolean expanded) {
+        super.createTooltip(ui, tooltip, expanded);
         if (doesWantShyBlackMarket()) {
             tooltip.addPara(
                 "Due to the heavy military presence, trading on Black Market " +
@@ -17,12 +18,11 @@ public class RegulatedBlackMarket extends BlackMarketPlugin {
                 10
             );
         }
-        super.createTooltipAfterDescription(tooltip, expanded);
     }
 
     @Override
     public float getTariff() {
-        return ConfigUtils.getBlackMarketFenceCut() * market.getTariff().getModifiedValue();
+        return ConfigHelper.getBlackMarketFenceCut() * market.getTariff().getModifiedValue();
     }
 
     @Override
@@ -34,11 +34,11 @@ public class RegulatedBlackMarket extends BlackMarketPlugin {
     }
 
     private boolean doesWantShyBlackMarket() {
-        if (!ConfigUtils.isShyBlackMarket()) {
+        if (!ConfigHelper.isShyBlackMarket()) {
             return false;
         }
         String faction = market.getFactionId();
-        return ConfigUtils.getShyBlackMarketFaction().has(faction);
+        return ConfigHelper.getShyBlackMarketFaction().has(faction);
     }
 
     private boolean getTransponderState() {

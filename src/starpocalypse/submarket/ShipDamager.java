@@ -5,17 +5,17 @@ import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.campaign.listeners.SubmarketUpdateListener;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import java.util.List;
-import starpocalypse.helper.ConfigUtils;
-import starpocalypse.helper.ShipUtils;
+import starpocalypse.helper.CargoUtils;
+import starpocalypse.helper.ConfigHelper;
 import starpocalypse.helper.SubmarketUtils;
 
 public class ShipDamager implements SubmarketUpdateListener {
 
     public static void apply(String location, List<FleetMemberAPI> members) {
-        int minDmods = ConfigUtils.getMinDmods();
-        int maxDmods = ConfigUtils.getMaxDmods();
+        int minDmods = ConfigHelper.getMinDmods();
+        int maxDmods = ConfigHelper.getMaxDmods();
         for (FleetMemberAPI member : members) {
-            ShipUtils.damageShip(location, member, minDmods, maxDmods);
+            CargoUtils.damageShip(location, member, minDmods, maxDmods);
         }
     }
 
@@ -34,8 +34,8 @@ public class ShipDamager implements SubmarketUpdateListener {
     }
 
     private static boolean canDamageShips(SubmarketAPI submarket) {
-        boolean hasSubmarket = ConfigUtils.getShipDamageSubmarket().has(submarket.getSpecId());
-        boolean hasFaction = ConfigUtils.getShipDamageFaction().has(submarket.getMarket().getFactionId());
+        boolean hasSubmarket = ConfigHelper.getShipDamageSubmarket().has(submarket.getSpecId());
+        boolean hasFaction = ConfigHelper.getShipDamageFaction().has(submarket.getMarket().getFactionId());
         return hasSubmarket && hasFaction;
     }
 }
