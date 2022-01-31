@@ -8,8 +8,7 @@ This mod makes the following changes to the campaign layer of Starsector:
 1. Lawless factions (e.g. pirates and pathers) and independents do not submit to this rule of law. You can still find
    high tier weapons and combat ships at their bases (both core and raider).
 1. There are no pristine ships any more, everything is d-modded. Including your starting fleet.
-1. Contraband can happen, and when stability is low, some weapons and ships "disappear" from Military Market and
-   "magically" show up in the Black Market instead.
+1. Contraband can happen, and when stability is low, some weapons and ships from Military Market can become "legal".
 1. Access to most Black Markets is impossible while legally docked at the station. Speaking of access, you will need to
    use a fence who will ask for a cut (displayed as tariff for now).
 1. Factions are armed to the teeth. Any non-hidden market has at least an orbiting station, ground defences, and patrol
@@ -57,10 +56,10 @@ The list of raid-protected items (special item ids) is present in `raidProtector
 
 ### Submarket changes
 
-1. Remove larger combat ships (>5 FP), and high tier (>0) weapons, LPCs, and modspecs from open markets if it is not a
-   pirate or Luddic Path market.
+1. Remove combat ships, and high tier weapons, LPCs, and modspecs from open markets if it is not a pirate or Luddic
+   Path market.
 1. When the stability is low, some of the initially illegal items and ships on Military Market will become legal.
-1. Finally, damage all pristine ships by putting a random number of d-mods.
+1. Finally, damage all pristine ships by putting a random number of d-mods on them.
 
 Decision which factions have their Open Market regulated regulated is made via `militaryRegulationFaction.csv` file.
 Same submarkets and factions can additionally have contraband applied to their Military Market in
