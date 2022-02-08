@@ -66,27 +66,13 @@ dependencies {
 }
 
 // custom tasks
-task releaseVanilla(type: Zip) {
+task release(type: Zip) {
     dependsOn build
-    archiveFileName = "${project.name}-${readModInfoJson().version}-vanilla.zip"
+    archiveFileName = "${project.name}-${readModInfoJson().version}.zip"
     destinationDirectory = file(rootDir)
     from 'assets'
-    from 'assets-conditional/vanilla'
     from jar
     into project.name
-}
-task releaseNexerelin(type: Zip) {
-    dependsOn build
-    archiveFileName = "${project.name}-${readModInfoJson().version}-nexerelin.zip"
-    destinationDirectory = file(rootDir)
-    from 'assets'
-    from 'assets-conditional/nexerelin'
-    from jar
-    into project.name
-}
-task release() {
-    dependsOn releaseVanilla
-    dependsOn releaseNexerelin
 }
 
 // methods
