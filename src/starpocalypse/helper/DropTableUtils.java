@@ -1,4 +1,4 @@
-package starpocalypse;
+package starpocalypse.helper;
 
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.SpecialItemPlugin;
@@ -8,7 +8,7 @@ import com.fs.starfarer.api.impl.campaign.ids.Tags;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class DropTableChanger {
+public class DropTableUtils {
 
     public static void removeBlueprintPackages() {
         for (SpecialItemSpecAPI specialItemSpec : Global.getSettings().getAllSpecialItemSpecs()) {

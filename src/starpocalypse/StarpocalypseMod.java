@@ -10,6 +10,7 @@ import java.util.List;
 import lombok.extern.log4j.Log4j;
 import org.json.JSONObject;
 import starpocalypse.helper.ConfigHelper;
+import starpocalypse.helper.DropTableUtils;
 import starpocalypse.market.IndustryAdder;
 import starpocalypse.market.MarketListener;
 import starpocalypse.market.StationAdder;
@@ -118,7 +119,7 @@ public class StarpocalypseMod extends BaseModPlugin {
     private void disableBlueprintDrop() {
         if (settings.optBoolean("blueprintPackageNoDrop", true)) {
             log.info("Removing blueprint packages from drop lists");
-            DropTableChanger.removeBlueprintPackages();
+            DropTableUtils.removeBlueprintPackages();
         }
     }
 
