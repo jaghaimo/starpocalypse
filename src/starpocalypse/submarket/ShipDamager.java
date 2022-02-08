@@ -33,7 +33,7 @@ public class ShipDamager implements SubmarketUpdateListener {
         apply(location, submarket.getCargo().getMothballedShips().getMembersListCopy());
     }
 
-    private static boolean canDamageShips(SubmarketAPI submarket) {
+    private boolean canDamageShips(SubmarketAPI submarket) {
         boolean hasSubmarket = ConfigHelper.getShipDamageSubmarket().has(submarket.getSpecId());
         boolean hasFaction = ConfigHelper.getShipDamageFaction().has(submarket.getMarket().getFactionId());
         return hasSubmarket && hasFaction;
