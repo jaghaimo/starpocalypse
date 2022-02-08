@@ -43,9 +43,10 @@ public class CargoUtils {
     }
 
     private static int getNumberOfDmods(Random random, int minDmods, int maxDmods) {
-        if (minDmods == maxDmods) {
-            return 0;
+        int numDmods = 0;
+        if (maxDmods > minDmods) {
+            numDmods += random.nextInt(maxDmods - minDmods);
         }
-        return random.nextInt(maxDmods - minDmods) + minDmods;
+        return numDmods + minDmods;
     }
 }
