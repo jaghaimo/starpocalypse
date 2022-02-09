@@ -10,7 +10,6 @@ import java.util.List;
 import lombok.extern.log4j.Log4j;
 import org.json.JSONObject;
 import starpocalypse.helper.ConfigHelper;
-import starpocalypse.helper.DropTableUtils;
 import starpocalypse.market.IndustryAdder;
 import starpocalypse.market.MarketListener;
 import starpocalypse.market.StationAdder;
@@ -28,7 +27,6 @@ public class StarpocalypseMod extends BaseModPlugin {
     public void onApplicationLoad() throws Exception {
         settings = Global.getSettings().loadJSON("starpocalypse.json");
         ConfigHelper.init(settings, log);
-        disableBlueprintDrop();
     }
 
     @Override
@@ -113,13 +111,6 @@ public class StarpocalypseMod extends BaseModPlugin {
         if (settings.optBoolean("combatAdjustedReputation", true)) {
             log.info("Enabling combat adjusted reputation");
             EngagementListener.register();
-        }
-    }
-
-    private void disableBlueprintDrop() {
-        if (settings.optBoolean("blueprintPackageNoDrop", true)) {
-            log.info("Removing blueprint packages from drop lists");
-            DropTableUtils.removeBlueprintPackages();
         }
     }
 

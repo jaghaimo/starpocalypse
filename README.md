@@ -16,7 +16,6 @@ This mod makes the following changes to the campaign layer of Starsector:
 1. Your actions have consequences. When defeating a fleet, your reputation with seemingly unrelated factions changes as
    well. Enemies of your enemy start to like you a bit, while their friends, less.
 1. Similarly, targetting any colony item will be deemed as an act of war.
-1. Finally, blueprint packages are no longer lootable. You will have to collect blueprints one by one.
 
 All changes are optional, and can be disabled via `starpocalypse.json`.
 
