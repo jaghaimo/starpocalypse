@@ -22,7 +22,7 @@ public class CargoUtils {
         Random random = new Random();
         if (DModManager.setDHull(variant)) {
             log.info(location + ": Damaging " + hullName);
-            int numberOfDmods = random.nextInt(maxDmods - minDmods) + minDmods;
+            int numberOfDmods = getNumberOfDmods(random, minDmods, maxDmods);
             DModManager.addDMods(variant, true, numberOfDmods, random);
         }
     }
@@ -40,5 +40,13 @@ public class CargoUtils {
             tier = spec.getTier();
         }
         return tier;
+    }
+
+    private static int getNumberOfDmods(Random random, int minDmods, int maxDmods) {
+        int numDmods = minDmods;
+        if (maxDmods > minDmods) {
+            numDmods += random.nextInt(maxDmods - minDmods);
+        }
+        return numDmods;
     }
 }

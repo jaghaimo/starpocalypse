@@ -1,5 +1,6 @@
 package starpocalypse.submarket;
 
+import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CargoStackAPI;
 import com.fs.starfarer.api.campaign.FleetDataAPI;
@@ -8,6 +9,9 @@ import com.fs.starfarer.api.campaign.econ.CommoditySpecAPI;
 import com.fs.starfarer.api.campaign.econ.SubmarketAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.submarkets.MilitarySubmarketPlugin;
+import exerelin.campaign.AllianceManager;
+import exerelin.campaign.PlayerFactionStore;
+import exerelin.utilities.NexUtilsFaction;
 import lombok.extern.log4j.Log4j;
 import starpocalypse.config.SimpleMap;
 import starpocalypse.helper.CargoUtils;
@@ -63,6 +67,32 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
         if (ConfigHelper.isRemoveEndgameShips()) {
             removeShips(submarket.getCargo().getMothballedShips());
         }
+    }
+
+    @Override
+    protected boolean hasCommission() {
+        if (Global.getSettings().getModManager().isModEnabled("nexerelin")) {
+            return hasCommissionNex();
+        }
+        return super.hasCommission();
+    }
+
+    private boolean hasCommissionNex() {
+        String commissionFaction = NexUtilsFaction.getCommissionFactionId();
+        if (hasCommissionNex(commissionFaction)) {
+            return true;
+        }
+        if (hasCommissionNex(PlayerFactionStore.getPlayerFactionId())) {
+            return true;
+        }
+        return submarket.getFaction().getId().equals(commissionFaction);
+    }
+
+    private boolean hasCommissionNex(String factionId) {
+        if (factionId == null) {
+            return false;
+        }
+        return AllianceManager.areFactionsAllied(factionId, submarket.getFaction().getId());
     }
 
     private boolean isStabilityLegal(SimpleMap stabilityMap, float baseValue) {

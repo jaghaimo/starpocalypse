@@ -15,6 +15,15 @@ repositories {
             artifact()
         }
     }
+    ivy {
+        url 'https://github.com/'
+        patternLayout {
+            artifact '/[organization]/[module]/raw/master/jars/[revision]'
+        }
+        metadataSources {
+            artifact()
+        }
+    }
 }
 
 // project level config
@@ -40,6 +49,7 @@ build {
 // compile time dependencies
 dependencies {
     implementation "jaghaimo:starsector-api:0.95.1a-RC6@starfarer.api.jar"
+    implementation "Histidine91:Nexerelin:ExerelinCore.jar"
 
     // game dependencies
     implementation group: 'com.thoughtworks.xstream', name: 'xstream', version: '1.4.10'
