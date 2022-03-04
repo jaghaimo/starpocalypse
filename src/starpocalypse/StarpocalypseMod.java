@@ -6,6 +6,7 @@ import com.fs.starfarer.api.campaign.CampaignUIAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
 import com.fs.starfarer.api.impl.campaign.shared.SharedData;
+import com.fs.starfarer.api.util.Misc;
 import java.util.List;
 import lombok.extern.log4j.Log4j;
 import org.json.JSONObject;
@@ -29,6 +30,7 @@ public class StarpocalypseMod extends BaseModPlugin {
         settings = Global.getSettings().loadJSON("starpocalypse.json");
         ConfigHelper.init(settings, log);
         disableBlueprintDrop();
+        setMaxPermaMods();
     }
 
     @Override
@@ -136,6 +138,11 @@ public class StarpocalypseMod extends BaseModPlugin {
             log.info("Enabling military regulations");
             SubmarketSwapper.register();
         }
+    }
+
+    private void setMaxPermaMods() {
+        int maxPermaMods = settings.optInt("maxPermaMods", 0);
+        Misc.MAX_PERMA_MODS = maxPermaMods;
     }
 
     private void stingyRecoveries() {

@@ -25,11 +25,11 @@
     "transparentMarket": true,
     # Setting this to 0 essentially disabled the feature. Setting this to 1 makes it behave as if the transponder was on
     # for suspicion calculations. Setting it above 1 will cause a penalty for trading with transponder off.
-    "transparentMarketMult": 0.5,
+    "transparentMarketMult": 0.5,# vanilla: 0
     # Accessing Black Market is only possible with transponder turned off.
     "shyBlackMarket": true,
     # Black Market handling fee as a fraction of Open Market tariff. If tariff is 30%, Black Market tariff will be 15%.
-    "blackMarketFenceCut": 0.5,
+    "blackMarketFenceCut": 0.5,# vanilla: 0
 
     ## BETTER MARKET DEFENCES
     # Adds a tier 1 station to all non-hidden markets that do not have a station.
@@ -49,7 +49,10 @@
     # Do not drop blueprint packages. Player will have to collect blueprints one by one.
     "blueprintPackageNoDrop": true,
 
-    # Remove any ships from salvageable debris fields and always require a story point to recover a ship (both derelict
-    # ships found randomly, and post battle recoveries).
+    # Number of s-mods available to player (without skill).
+    "maximumPermaMods": 0, # easy mode: 1, vanilla: 2
+
+    # Remove all ships from salvageable debris fields and always require a story point to recover a ship (both derelict
+    # ships found across the sector, and post battle recoveries).
     "stingyRecoveries": true,
 }
