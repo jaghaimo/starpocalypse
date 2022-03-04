@@ -45,6 +45,7 @@ public class StarpocalypseMod extends BaseModPlugin {
         industryChanges();
         combatAdjustedReputation();
         hostilityForSpecialItemRaid();
+        stingyRecoveries();
     }
 
     @Override
@@ -134,6 +135,13 @@ public class StarpocalypseMod extends BaseModPlugin {
         if (settings.optBoolean("militaryRegulations", true)) {
             log.info("Enabling military regulations");
             SubmarketSwapper.register();
+        }
+    }
+
+    private void stingyRecoveries() {
+        if (settings.optBoolean("stingyRecoveries", true)) {
+            log.info("Enabling stingy recoveries");
+            DropTableUtils.makeRecoveryRequireStoryPoint();
         }
     }
 

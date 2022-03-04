@@ -46,6 +46,10 @@
     "hostilityForSpecialItemRaid": true,
     
     ## OTHER CHANGES
-    # Do not drop blueprint packages
+    # Do not drop blueprint packages. Player will have to collect blueprints one by one.
     "blueprintPackageNoDrop": true,
+
+    # Remove any ships from salvageable debris fields and always require a story point to recover a ship (both derelict
+    # ships found randomly, and post battle recoveries).
+    "stingyRecoveries": true,
 }

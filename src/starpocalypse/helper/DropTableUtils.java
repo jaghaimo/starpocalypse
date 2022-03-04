@@ -6,6 +6,8 @@ import com.fs.starfarer.api.campaign.SpecialItemSpecAPI;
 import com.fs.starfarer.api.campaign.impl.items.MultiBlueprintItemPlugin;
 import com.fs.starfarer.api.impl.campaign.ids.Tags;
 import lombok.extern.log4j.Log4j;
+import starpocalypse.salvage.DerelictModifyingScript;
+import starpocalypse.salvage.StarpocalypseCampaignPlugin;
 
 @Log4j
 public class DropTableUtils {
@@ -18,5 +20,10 @@ public class DropTableUtils {
                 specialItemSpec.getTags().add(Tags.NO_DROP);
             }
         }
+    }
+
+    public static void makeRecoveryRequireStoryPoint() {
+        Global.getSector().registerPlugin(new StarpocalypseCampaignPlugin());
+        Global.getSector().addScript(new DerelictModifyingScript());
     }
 }
