@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class IndustryModifier implements DropListModifier {
 
-    private final List<String> weaponList;
+    private final List<String> industryList;
 
     @Override
     public void modify() {}
