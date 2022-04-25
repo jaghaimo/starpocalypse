@@ -12,6 +12,7 @@ This mod makes the following changes to the campaign layer of Starsector:
     1. Similarly, targetting any colony item will be deemed as an act of war.
 1. Blueprint packages are no longer lootable. You will have to collect blueprints one by one.
 1. And speaking of salvage, everything needs a story point.
+1. Finally, a skill is needed to use s-mods at all (no skill = 0 s-mods, with skill = 1 s-mod).
 
 All changes are optional, and can be disabled via `starpocalypse.json`.
 
