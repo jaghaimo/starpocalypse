@@ -2,20 +2,17 @@
 
 This mod makes the following changes to the campaign layer of Starsector:
 
-1. Weapons and combat ships are scarce and highly regulated. As such, only Military Markets (and those pesky Black
-   Markets) sell higher tier weapons, LPCs, modspecs, and combat ships. Open Markets still sell civilian grade ships
-   and low tier combat ships and items.
-1. Lawless factions (e.g. pirates and pathers) and independents do not submit to this rule of law. You can still find
-   high tier weapons and combat ships at their bases (both core and raider).
+1. Weapons and combat ships are scarce and highly regulated. As such, only Military Markets (and those pesky Black Markets) will sell higher tier weapons, LPCs, modspecs, and combat ships. Open Markets still sell civilian grade ships and low tier combat ships and items.
+    1. Lawless factions (e.g. pirates and pathers) and independents do not submit to this rule of law. You can still find high tier weapons and combat ships at their bases (both core and raider).
+    1. Contraband can happen, and when stability is low, some weapons and ships from Military Market can become "legal".
 1. There are no pristine ships any more, everything is d-modded. Including your starting fleet.
-1. Contraband can happen, and when stability is low, some weapons and ships from Military Market can become "legal".
-1. Access to most Black Markets is impossible while legally docked at the station. Speaking of access, you will need to
-   use a fence who will ask for a cut (displayed as tariff for now).
-1. Factions are armed to the teeth. Any non-hidden market has at least an orbiting station, ground defences, and patrol
-   HQ. Hidden bases (pirates and pathers raider bases) only get ground defences.
-1. Your actions have consequences. When defeating a fleet, your reputation with seemingly unrelated factions changes as
-   well. Enemies of your enemy start to like you a bit, while their friends, less.
-1. Similarly, targetting any colony item will be deemed as an act of war.
+1. Access to most Black Markets is impossible while legally docked at the station. Speaking of access, you will need to use a fence who will ask for a cut (displayed as tariff for now).
+1. Factions are armed to the teeth. Any non-hidden market has at least an orbiting station, ground defences, and patrol HQ. Hidden bases (pirates and pathers raider bases) only get ground defences.
+1. Your actions have consequences. When defeating a fleet, your reputation with seemingly unrelated factions changes as well. Enemies of your enemy start to like you a bit, while their friends, less.
+    1. Similarly, targetting any colony item will be deemed as an act of war.
+1. Blueprint packages are no longer lootable. You will have to collect blueprints one by one.
+1. And speaking of salvage, everything needs a story point.
+1. Finally, a skill is needed to use s-mods at all (no skill = 0 s-mods, with skill = 1 s-mod).
 
 All changes are optional, and can be disabled via `starpocalypse.json`.
 
@@ -77,3 +74,8 @@ Black Market mechanics are slightly tweaked to make it less of a go-to market fo
 Factions that regulate their open markets will not allow you to trade on Black Market.
 As such, you will have to illegally dock at those stations (transponder off).
 On top of that, a fence fee equal half of the market tariff will be required to pay for any transactions.
+
+### Other changes
+
+On game load, all blueprint packages are given "no drop" tag.
+On recovery (salvage or post battle) all recoverable ships are made into story-recoverable (even own lost ships).

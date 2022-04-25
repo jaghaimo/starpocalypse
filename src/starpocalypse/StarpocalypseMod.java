@@ -6,10 +6,12 @@ import com.fs.starfarer.api.campaign.CampaignUIAPI;
 import com.fs.starfarer.api.fleet.FleetMemberAPI;
 import com.fs.starfarer.api.impl.campaign.ids.Industries;
 import com.fs.starfarer.api.impl.campaign.shared.SharedData;
+import com.fs.starfarer.api.util.Misc;
 import java.util.List;
 import lombok.extern.log4j.Log4j;
 import org.json.JSONObject;
 import starpocalypse.helper.ConfigHelper;
+import starpocalypse.helper.DropTableUtils;
 import starpocalypse.market.IndustryAdder;
 import starpocalypse.market.MarketListener;
 import starpocalypse.market.StationAdder;
@@ -27,6 +29,8 @@ public class StarpocalypseMod extends BaseModPlugin {
     public void onApplicationLoad() throws Exception {
         settings = Global.getSettings().loadJSON("starpocalypse.json");
         ConfigHelper.init(settings, log);
+        disableBlueprintDrop();
+        setMaxPermaMods();
     }
 
     @Override
@@ -43,6 +47,7 @@ public class StarpocalypseMod extends BaseModPlugin {
         industryChanges();
         combatAdjustedReputation();
         hostilityForSpecialItemRaid();
+        stingyRecoveries();
     }
 
     @Override
@@ -114,6 +119,13 @@ public class StarpocalypseMod extends BaseModPlugin {
         }
     }
 
+    private void disableBlueprintDrop() {
+        if (settings.optBoolean("blueprintPackageNoDrop", true)) {
+            log.info("Removing blueprint packages from drop lists");
+            DropTableUtils.removeBlueprintPackages();
+        }
+    }
+
     private void hostilityForSpecialItemRaid() {
         if (settings.optBoolean("hostilityForSpecialItemRaid", true)) {
             log.info("Enabling hostility for special item raid");
@@ -125,6 +137,18 @@ public class StarpocalypseMod extends BaseModPlugin {
         if (settings.optBoolean("militaryRegulations", true)) {
             log.info("Enabling military regulations");
             SubmarketSwapper.register();
+        }
+    }
+
+    private void setMaxPermaMods() {
+        int maxPermaMods = settings.optInt("maxPermaMods", 0);
+        Misc.MAX_PERMA_MODS = maxPermaMods;
+    }
+
+    private void stingyRecoveries() {
+        if (settings.optBoolean("stingyRecoveries", true)) {
+            log.info("Enabling stingy recoveries");
+            DropTableUtils.makeRecoveryRequireStoryPoint();
         }
     }
 
