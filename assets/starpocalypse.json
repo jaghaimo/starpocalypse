@@ -50,7 +50,7 @@
     "blueprintPackageNoDrop": true,
 
     # Number of s-mods available to player (without skill).
-    "maximumPermaMods": 0, # easy mode: 1, vanilla: 2
+    "maxPermaMods": 0, # easy mode: 1, vanilla: 2
 
     # Remove all ships from salvageable debris fields and always require a story point to recover a ship (both derelict
     # ships found across the sector, and post battle recoveries - including own ships).
