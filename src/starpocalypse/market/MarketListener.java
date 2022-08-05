@@ -3,7 +3,6 @@ package starpocalypse.market;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.listeners.EconomyTickListener;
-import com.fs.starfarer.api.impl.campaign.ids.Factions;
 import java.util.LinkedList;
 import java.util.List;
 import lombok.experimental.Delegate;
@@ -37,7 +36,7 @@ public class MarketListener implements EconomyTickListener {
     public void reportEconomyMonthEnd() {}
 
     private void process(MarketAPI market) {
-        if (Factions.PLAYER.equals(market.getFactionId())) {
+        if (market.isPlayerOwned()) {
             log.debug("Skipping player market");
             return;
         }
