@@ -54,5 +54,6 @@
 
     # Remove all ships from salvageable debris fields and always require a story point to recover a ship (both derelict
     # ships found across the sector, and post battle recoveries - including own ships).
+    # Also remove all cryopods with officers, and other "items" (like survey data).
     "stingyRecoveries": true,
 }

@@ -79,3 +79,4 @@ On top of that, a fence fee equal half of the market tariff will be required to 
 
 On game load, all blueprint packages are given "no drop" tag.
 On recovery (salvage or post battle) all recoverable ships are made into story-recoverable (even own lost ships).
+Finally, all other findable "items" are removed from salvageable debris (cryopod officers or survey data).
