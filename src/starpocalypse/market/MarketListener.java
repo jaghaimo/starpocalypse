@@ -3,10 +3,13 @@ package starpocalypse.market;
 import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.econ.MarketAPI;
 import com.fs.starfarer.api.campaign.listeners.EconomyTickListener;
+import com.fs.starfarer.api.impl.campaign.ids.Factions;
+import com.fs.starfarer.api.impl.campaign.rulecmd.Nex_IsFactionRuler;
 import java.util.LinkedList;
 import java.util.List;
 import lombok.experimental.Delegate;
 import lombok.extern.log4j.Log4j;
+import starpocalypse.helper.ConfigHelper;
 
 /**
  * Changes to market industries are enforced periodically (every economy tick).
@@ -36,12 +39,26 @@ public class MarketListener implements EconomyTickListener {
     public void reportEconomyMonthEnd() {}
 
     private void process(MarketAPI market) {
-        if (market.isPlayerOwned()) {
+        if (isPlayerOwned(market)) {
             log.debug("Skipping player market");
             return;
         }
         for (MarketChanger changer : changers) {
             changer.change(market);
         }
+    }
+
+    private boolean isPlayerOwned(MarketAPI market) {
+        if (market.isPlayerOwned()) {
+            return true;
+        }
+        boolean isRuler = false;
+        if (ConfigHelper.hasNexerelin()) {
+            isRuler = Nex_IsFactionRuler.isRuler(market.getFactionId());
+        }
+        if (isRuler) {
+            return true;
+        }
+        return Factions.PLAYER.equals(market.getFactionId());
     }
 }

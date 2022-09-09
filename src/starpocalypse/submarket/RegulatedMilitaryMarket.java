@@ -1,6 +1,5 @@
 package starpocalypse.submarket;
 
-import com.fs.starfarer.api.Global;
 import com.fs.starfarer.api.campaign.CargoAPI;
 import com.fs.starfarer.api.campaign.CargoStackAPI;
 import com.fs.starfarer.api.campaign.FleetDataAPI;
@@ -71,7 +70,7 @@ public class RegulatedMilitaryMarket extends MilitarySubmarketPlugin {
 
     @Override
     protected boolean hasCommission() {
-        if (Global.getSettings().getModManager().isModEnabled("nexerelin")) {
+        if (ConfigHelper.hasNexerelin()) {
             return hasCommissionNex();
         }
         return super.hasCommission();

@@ -63,6 +63,10 @@ public class ConfigHelper {
     @Getter
     private static final SimpleSet shipDamageSubmarket = new SimpleSet("submarket", "shipDamageSubmarket.csv");
 
+    public static boolean hasNexerelin() {
+        return Global.getSettings().getModManager().isModEnabled("nexerelin");
+    }
+
     public static void init(JSONObject settings, Logger log) {
         loadConfig(settings);
         transparentMarket(settings, log);
