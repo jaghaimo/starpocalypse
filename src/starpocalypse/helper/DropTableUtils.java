@@ -24,6 +24,6 @@ public class DropTableUtils {
 
     public static void makeRecoveryRequireStoryPoint() {
         Global.getSector().registerPlugin(new StarpocalypseCampaignPlugin());
-        Global.getSector().addScript(new DerelictModifyingScript());
+        Global.getSector().addTransientScript(new DerelictModifyingScript());
     }
 }
